@@ -1,0 +1,12 @@
+{
+  "name": "zahnarzt-design-system",
+  "version": "1.0.0",
+  "description": "Design system based on zahnarzt-wernitz.de with wavy curved backgrounds",
+  "scripts": {
+    "dev": "npx live-server --port=3000",
+    "build": "echo 'Build complete - static files ready for deployment'"
+  },
+  "keywords": ["design-system", "css", "wavy-backgrounds"],
+  "author": "",
+  "license": "MIT"
+}
