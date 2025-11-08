@@ -3,10 +3,10 @@ FROM composer:2 AS vendor
 WORKDIR /app
 
 # Copy composer files
-COPY composer.json composer.lock ./
+COPY composer.json ./
 
-# Install dependencies without scripts
-RUN composer install \
+# Install dependencies and generate lock file
+RUN composer update \
     --no-dev \
     --no-interaction \
     --prefer-dist \
