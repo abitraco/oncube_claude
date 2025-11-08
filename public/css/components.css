@@ -1,0 +1,614 @@
+/* ===================================
+   Components - Buttons, Cards, Navigation
+   Based on zahnarzt-wernitz.de design
+   =================================== */
+
+/* ==================
+   NAVIGATION
+   ================== */
+
+.nav {
+    position: sticky;
+    top: 0;
+    width: 100%;
+    background-color: var(--white);
+    box-shadow: var(--shadow-sm);
+    z-index: 1000;
+    padding: var(--space-4) 0;
+    transition: all var(--transition-base);
+}
+
+.nav-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.logo {
+    font-size: clamp(1.25rem, 2vw, 1.75rem);
+    font-weight: 800;
+    color: var(--primary-900);
+    text-decoration: none;
+}
+
+.nav-links {
+    display: flex;
+    gap: var(--space-2);
+    align-items: center;
+}
+
+.nav-links li {
+    display: inline-block;
+}
+
+.nav-links a {
+    padding: var(--space-3);
+    font-weight: 700;
+    font-size: clamp(0.875rem, 1vw, 1rem);
+    color: var(--primary-900);
+    transition: color var(--transition-base);
+    border-radius: var(--radius-md);
+}
+
+.nav-links a:hover {
+    color: var(--primary-800);
+    background-color: var(--primary-100);
+}
+
+@media (max-width: 768px) {
+    .nav-links {
+        gap: var(--space-1);
+    }
+
+    .nav-links a {
+        padding: var(--space-2);
+        font-size: 0.875rem;
+    }
+}
+
+/* ==================
+   BUTTONS
+   ================== */
+
+.btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: var(--space-3) var(--space-6);
+    font-size: clamp(0.875rem, 1vw, 1.125rem);
+    font-weight: 700;
+    line-height: 1.5;
+    text-align: center;
+    text-decoration: none;
+    border: 2px solid transparent;
+    border-radius: var(--radius-full);
+    cursor: pointer;
+    transition: all var(--transition-base);
+    white-space: nowrap;
+}
+
+.btn:focus-visible {
+    outline: 2px solid var(--secondary-500);
+    outline-offset: 2px;
+}
+
+/* Primary Button */
+.btn-primary {
+    background-color: var(--primary-900);
+    color: var(--white);
+    border-color: var(--primary-900);
+}
+
+.btn-primary:hover {
+    background-color: var(--primary-800);
+    border-color: var(--primary-800);
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-lg);
+}
+
+.btn-primary:active {
+    transform: translateY(0);
+}
+
+/* Secondary Button */
+.btn-secondary {
+    background-color: var(--secondary-500);
+    color: var(--primary-900);
+    border-color: var(--secondary-500);
+}
+
+.btn-secondary:hover {
+    background-color: var(--secondary-600);
+    border-color: var(--secondary-600);
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-lg);
+}
+
+/* Success Button */
+.btn-success {
+    background-color: var(--success-500);
+    color: var(--white);
+    border-color: var(--success-500);
+}
+
+.btn-success:hover {
+    background-color: var(--success-600);
+    border-color: var(--success-600);
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-lg);
+}
+
+/* Outline Button */
+.btn-outline {
+    background-color: transparent;
+    color: var(--primary-900);
+    border-color: var(--primary-900);
+}
+
+.btn-outline:hover {
+    background-color: var(--primary-900);
+    color: var(--white);
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-md);
+}
+
+/* Outline White Button */
+.btn-outline-white {
+    background-color: transparent;
+    color: var(--white);
+    border-color: var(--white);
+}
+
+.btn-outline-white:hover {
+    background-color: var(--white);
+    color: var(--primary-900);
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-md);
+}
+
+/* Button Sizes */
+.btn-sm {
+    padding: var(--space-2) var(--space-4);
+    font-size: 0.875rem;
+}
+
+.btn-lg {
+    padding: var(--space-4) var(--space-8);
+    font-size: 1.25rem;
+}
+
+/* ==================
+   CARDS
+   ================== */
+
+.card {
+    background-color: var(--white);
+    border-radius: var(--radius-xl);
+    box-shadow: var(--shadow-fancy-small);
+    overflow: hidden;
+    transition: all var(--transition-base);
+}
+
+.card:hover {
+    box-shadow: var(--shadow-fancy-medium);
+    transform: translateY(-4px);
+}
+
+.card-header {
+    padding: var(--space-6);
+    border-bottom: 1px solid var(--gray-200);
+}
+
+.card-header h4 {
+    margin: 0;
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--primary-900);
+}
+
+.card-body {
+    padding: var(--space-6);
+}
+
+.card-body p {
+    margin: 0;
+    color: var(--gray-600);
+    line-height: 1.6;
+}
+
+.card-footer {
+    padding: var(--space-6);
+    background-color: var(--gray-50);
+    border-top: 1px solid var(--gray-200);
+}
+
+.card-link {
+    color: var(--primary-800);
+    font-weight: 700;
+    text-decoration: none;
+    transition: color var(--transition-base);
+}
+
+.card-link:hover {
+    color: var(--primary-900);
+    text-decoration: underline;
+}
+
+/* Highlighted Card */
+.card-highlight {
+    border: 2px solid var(--secondary-500);
+    background: linear-gradient(135deg, var(--white) 0%, var(--secondary-500) 100%);
+}
+
+.card-highlight .card-header {
+    background-color: rgba(255, 255, 255, 0.9);
+}
+
+.card-highlight .card-footer {
+    background-color: rgba(255, 255, 255, 0.8);
+}
+
+/* ==================
+   SECTIONS
+   ================== */
+
+.hero-section {
+    position: relative;
+    min-height: 90vh;
+    display: flex;
+    align-items: center;
+    background-color: var(--primary-100);
+    padding: var(--space-20) 0;
+    overflow: hidden;
+}
+
+.hero-content {
+    position: relative;
+    z-index: 10;
+    text-align: center;
+    max-width: 900px;
+    margin: 0 auto;
+}
+
+.hero-title {
+    color: var(--primary-900);
+    margin-bottom: var(--space-6);
+}
+
+.hero-subtitle {
+    font-size: clamp(1.125rem, 2vw, 1.5rem);
+    color: var(--gray-700);
+    margin-bottom: var(--space-8);
+    line-height: 1.6;
+}
+
+.hero-buttons {
+    display: flex;
+    gap: var(--space-4);
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+/* Features Section */
+.features-section {
+    padding: var(--space-20) 0;
+    background-color: var(--white);
+}
+
+.section-title {
+    text-align: center;
+    color: var(--primary-900);
+    margin-bottom: var(--space-12);
+}
+
+.section-subtitle {
+    text-align: center;
+    font-size: clamp(1.125rem, 2vw, 1.375rem);
+    color: var(--gray-600);
+    max-width: 700px;
+    margin: 0 auto var(--space-12);
+}
+
+.features-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: var(--space-8);
+    margin-top: var(--space-12);
+}
+
+.feature-card {
+    text-align: center;
+    padding: var(--space-8);
+    background-color: var(--white);
+    border-radius: var(--radius-2xl);
+    box-shadow: var(--shadow-fancy-small);
+    transition: all var(--transition-base);
+}
+
+.feature-card:hover {
+    box-shadow: var(--shadow-fancy-medium);
+    transform: translateY(-8px);
+}
+
+.feature-icon {
+    width: 72px;
+    height: 72px;
+    margin: 0 auto var(--space-6);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: var(--primary-100);
+    border-radius: var(--radius-full);
+    color: var(--primary-900);
+}
+
+.feature-title {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--primary-900);
+    margin-bottom: var(--space-4);
+}
+
+.feature-text {
+    color: var(--gray-600);
+    line-height: 1.6;
+    margin: 0;
+}
+
+/* Wavy Section */
+.wavy-section {
+    position: relative;
+    padding: var(--space-24) 0;
+    background-color: var(--primary-100);
+}
+
+.wavy-content {
+    position: relative;
+    z-index: 10;
+    text-align: center;
+}
+
+.wave-examples {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: var(--space-8);
+    margin-top: var(--space-12);
+}
+
+.wave-example-card {
+    background-color: var(--white);
+    padding: var(--space-6);
+    border-radius: var(--radius-xl);
+    box-shadow: var(--shadow-md);
+}
+
+.wave-example-card h4 {
+    font-size: 1.125rem;
+    font-weight: 700;
+    color: var(--primary-900);
+    margin-bottom: var(--space-4);
+}
+
+/* Components Section */
+.components-section {
+    padding: var(--space-20) 0;
+    background-color: var(--white);
+}
+
+.component-showcase {
+    margin-bottom: var(--space-16);
+}
+
+.component-title {
+    font-size: 1.75rem;
+    font-weight: 700;
+    color: var(--primary-900);
+    margin-bottom: var(--space-8);
+    padding-bottom: var(--space-4);
+    border-bottom: 3px solid var(--secondary-500);
+}
+
+.component-examples {
+    display: flex;
+    gap: var(--space-4);
+    flex-wrap: wrap;
+    align-items: center;
+}
+
+.cards-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: var(--space-8);
+}
+
+/* Color Palette */
+.color-palette {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: var(--space-6);
+}
+
+.color-swatch {
+    background-color: var(--white);
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    box-shadow: var(--shadow-md);
+    transition: all var(--transition-base);
+}
+
+.color-swatch:hover {
+    box-shadow: var(--shadow-xl);
+    transform: scale(1.05);
+}
+
+.color-preview {
+    height: 120px;
+    width: 100%;
+}
+
+.color-info {
+    padding: var(--space-4);
+    text-align: center;
+}
+
+.color-name {
+    font-weight: 700;
+    color: var(--primary-900);
+    margin-bottom: var(--space-2);
+}
+
+.color-hex {
+    font-family: monospace;
+    font-size: 0.875rem;
+    color: var(--gray-600);
+}
+
+/* Contact Section */
+.contact-section {
+    position: relative;
+    padding: var(--space-24) 0 var(--space-20);
+    background-color: var(--primary-900);
+    color: var(--white);
+}
+
+.contact-content {
+    position: relative;
+    z-index: 10;
+    text-align: center;
+}
+
+.contact-buttons {
+    display: flex;
+    gap: var(--space-4);
+    justify-content: center;
+    flex-wrap: wrap;
+    margin-top: var(--space-8);
+}
+
+/* Footer */
+.footer {
+    background-color: var(--primary-950);
+    color: var(--white);
+    padding: var(--space-8) 0;
+    text-align: center;
+}
+
+.footer-content {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.footer-content p {
+    margin: 0;
+    font-size: 0.875rem;
+    color: var(--gray-300);
+}
+
+/* ==================
+   UTILITY COMPONENTS
+   ================== */
+
+/* Badges */
+.badge {
+    display: inline-block;
+    padding: var(--space-1) var(--space-3);
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    border-radius: var(--radius-full);
+    background-color: var(--primary-900);
+    color: var(--white);
+}
+
+.badge-primary {
+    background-color: var(--primary-900);
+    color: var(--white);
+}
+
+.badge-secondary {
+    background-color: var(--secondary-500);
+    color: var(--primary-900);
+}
+
+.badge-success {
+    background-color: var(--success-500);
+    color: var(--white);
+}
+
+/* Divider */
+.divider {
+    height: 1px;
+    background-color: var(--gray-200);
+    margin: var(--space-8) 0;
+}
+
+.divider-thick {
+    height: 3px;
+    background-color: var(--secondary-500);
+}
+
+/* Container Variants */
+.container-narrow {
+    max-width: 800px;
+}
+
+.container-wide {
+    max-width: 1600px;
+}
+
+/* Aspect Ratio Boxes */
+.aspect-box {
+    position: relative;
+    overflow: hidden;
+}
+
+.aspect-box img {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+/* Responsive Utilities */
+@media (max-width: 768px) {
+    .hero-section {
+        min-height: 70vh;
+        padding: var(--space-12) 0;
+    }
+
+    .hero-buttons {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .btn {
+        width: 100%;
+    }
+
+    .features-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .component-examples {
+        flex-direction: column;
+        align-items: stretch;
+    }
+}
+
+/* Print Styles */
+@media print {
+    .nav,
+    .hero-buttons,
+    .contact-section,
+    .footer {
+        display: none;
+    }
+
+    .wave-divider {
+        display: none;
+    }
+}
