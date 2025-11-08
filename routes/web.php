@@ -17,9 +17,7 @@ Route::get('/home', function () {
     return view('home');
 })->name('home');
 
-Route::get('/shop', function () {
-    return view('shop');
-})->name('shop');
+Route::get('/shop', [App\Http\Controllers\EbayController::class, 'shop'])->name('shop');
 
 Route::get('/about', function () {
     return view('about');
@@ -53,3 +51,7 @@ Route::get('/about.html', function () {
 Route::get('/contact.html', function () {
     return redirect()->route('contact');
 });
+
+// eBay API routes
+Route::get('/api/ebay/search', [App\Http\Controllers\EbayController::class, 'searchAjax'])->name('ebay.search');
+Route::get('/api/ebay/item/{itemId}', [App\Http\Controllers\EbayController::class, 'itemDetails'])->name('ebay.item');

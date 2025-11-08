@@ -57,11 +57,12 @@ RUN mkdir -p \
     /app/storage/framework/views \
     /app/storage/logs \
     /app/bootstrap/cache \
-    /app/database
+    /app/database \
+    /app/writable
 
 # 퍼미션 설정
 RUN chown -R application:application /app \
- && chmod -R 775 /app/storage /app/bootstrap/cache /app/database
+ && chmod -R 775 /app/storage /app/bootstrap/cache /app/database /app/writable
 
 # SQLite 데이터베이스 생성
 RUN touch /app/database/database.sqlite \

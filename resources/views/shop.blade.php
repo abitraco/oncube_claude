@@ -7,25 +7,25 @@
     <title>Shop - ONCUBE GLOBAL</title>
 
     <!-- Design System Styles -->
-    <link rel="stylesheet" href="css/design-system.css">
-    <link rel="stylesheet" href="css/waves.css">
-    <link rel="stylesheet" href="css/components.css">
-    <link rel="stylesheet" href="css/b2b-styles.css">
-    <link rel="stylesheet" href="css/shop.css">
+    <link rel="stylesheet" href="{{ asset('css/design-system.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/waves.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/components.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/b2b-styles.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/shop.css') }}">
 </head>
 <body>
     <!-- Navigation -->
     <nav class="nav">
         <div class="container">
             <div class="nav-content">
-                <a href="home.html" class="logo">
-                    <img src="assets/logo.svg" alt="ONCUBE GLOBAL" style="height: 50px;">
+                <a href="{{ route('home') }}" class="logo">
+                    <img src="{{ asset('assets/logo.svg') }}" alt="ONCUBE GLOBAL" style="height: 50px;">
                 </a>
                 <ul class="nav-links">
-                    <li><a href="home.html" data-i18n="nav_home">Home</a></li>
-                    <li><a href="shop.html" class="active" data-i18n="nav_shop">Shop</a></li>
-                    <li><a href="about.html" data-i18n="nav_about">About Us</a></li>
-                    <li><a href="contact.html" data-i18n="nav_contact">Contact Us</a></li>
+                    <li><a href="{{ route('home') }}" data-i18n="nav_home">Home</a></li>
+                    <li><a href="{{ route('shop') }}" class="active" data-i18n="nav_shop">Shop</a></li>
+                    <li><a href="{{ route('about') }}" data-i18n="nav_about">About Us</a></li>
+                    <li><a href="{{ route('contact') }}" data-i18n="nav_contact">Contact Us</a></li>
                     <li class="language-selector">
                         <button class="lang-btn lang-selector active" data-lang="en" onclick="changeLanguage('en')">EN</button>
                         <button class="lang-btn lang-selector" data-lang="ko" onclick="changeLanguage('ko')">한</button>
@@ -40,8 +40,8 @@
     <!-- Shop Hero with Wave -->
     <section class="shop-hero wave-background-top">
         <div class="container">
-            <h1 class="shop-hero-title fade-in-up">Industrial Products</h1>
-            <p class="shop-hero-subtitle fade-in-up delay-1">Browse our extensive catalog of industrial machinery, equipment, and parts</p>
+            <h1 class="shop-hero-title fade-in-up">Industrial Products from Korea</h1>
+            <p class="shop-hero-subtitle fade-in-up delay-1">Browse our extensive catalog of Korean industrial machinery, equipment, and parts</p>
         </div>
         <div class="wave-divider wave-bottom"></div>
     </section>
@@ -49,82 +49,50 @@
     <!-- Search and Filter Bar -->
     <section class="shop-search-section">
         <div class="container">
-            <div class="shop-search-bar">
+            <form action="{{ route('shop') }}" method="GET" class="shop-search-bar">
                 <div class="search-input-wrapper">
                     <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                         <circle cx="11" cy="11" r="8"/>
                         <path d="m21 21-4.35-4.35"/>
                     </svg>
-                    <input type="text" class="search-input" placeholder="Search products...">
+                    <input type="text" name="keywords" class="search-input" placeholder="Search products..." value="{{ $keywords ?? '' }}">
                 </div>
-                <button class="btn btn-primary">Search</button>
-            </div>
+                <button type="submit" class="btn btn-primary">Search</button>
+            </form>
         </div>
     </section>
 
     <!-- Main Shop Content -->
     <section class="shop-main-section">
         <div class="container">
+            @if($hasError ?? false)
+                <div style="background: #fee; border: 1px solid #fcc; border-radius: 8px; padding: 1rem; margin-bottom: 2rem; color: #c33;">
+                    <strong>Error:</strong> {{ $errorMessage }}
+                </div>
+            @endif
+
             <div class="shop-layout">
                 <!-- Sidebar Filters -->
                 <aside class="shop-sidebar">
                     <div class="sidebar-section">
-                        <h3 class="sidebar-title">Categories</h3>
-                        <ul class="category-list">
-                            <li><a href="?category=heavy-equipment" class="category-item">Heavy Equipment <span class="count">(245)</span></a></li>
-                            <li><a href="?category=healthcare" class="category-item">Healthcare, Lab & Dental <span class="count">(189)</span></a></li>
-                            <li><a href="?category=cnc" class="category-item active">CNC & Manufacturing <span class="count">(412)</span></a></li>
-                            <li><a href="?category=food-service" class="category-item">Food Service <span class="count">(156)</span></a></li>
-                            <li><a href="?category=agriculture" class="category-item">Agriculture & Forestry <span class="count">(298)</span></a></li>
-                            <li><a href="?category=parts" class="category-item">Heavy Equipment Parts <span class="count">(1,024)</span></a></li>
-                            <li><a href="?category=office" class="category-item">Office Equipment <span class="count">(87)</span></a></li>
-                            <li><a href="?category=hvac" class="category-item">HVAC & Refrigeration <span class="count">(234)</span></a></li>
-                            <li><a href="?category=measurement" class="category-item">Measurement & Inspection <span class="count">(167)</span></a></li>
-                            <li><a href="?category=facility" class="category-item">Facility Maintenance <span class="count">(203)</span></a></li>
-                        </ul>
+                        <h3 class="sidebar-title">Sort By</h3>
+                        <form action="{{ route('shop') }}" method="GET" id="sortForm">
+                            <input type="hidden" name="keywords" value="{{ $keywords ?? '' }}">
+                            <select name="sortOrder" class="sort-select" onchange="document.getElementById('sortForm').submit()">
+                                <option value="BestMatch" {{ ($sortOrder ?? '') == 'BestMatch' ? 'selected' : '' }}>Best Match</option>
+                                <option value="CurrentPriceLowest" {{ ($sortOrder ?? '') == 'CurrentPriceLowest' ? 'selected' : '' }}>Price: Lowest First</option>
+                                <option value="CurrentPriceHighest" {{ ($sortOrder ?? '') == 'CurrentPriceHighest' ? 'selected' : '' }}>Price: Highest First</option>
+                                <option value="StartTimeNewest" {{ ($sortOrder ?? '') == 'StartTimeNewest' ? 'selected' : '' }}>Newly Listed</option>
+                                <option value="EndTimeSoonest" {{ ($sortOrder ?? '') == 'EndTimeSoonest' ? 'selected' : '' }}>Ending Soon</option>
+                            </select>
+                        </form>
                     </div>
 
                     <div class="sidebar-section">
-                        <h3 class="sidebar-title">Price Range</h3>
-                        <div class="price-range-inputs">
-                            <input type="number" class="price-input" placeholder="Min">
-                            <span>-</span>
-                            <input type="number" class="price-input" placeholder="Max">
-                        </div>
-                        <button class="btn btn-outline btn-sm" style="width: 100%; margin-top: var(--space-3);">Apply</button>
-                    </div>
-
-                    <div class="sidebar-section">
-                        <h3 class="sidebar-title">Condition</h3>
-                        <label class="checkbox-label">
-                            <input type="checkbox" checked> New <span class="count">(892)</span>
-                        </label>
-                        <label class="checkbox-label">
-                            <input type="checkbox"> Used <span class="count">(1,245)</span>
-                        </label>
-                        <label class="checkbox-label">
-                            <input type="checkbox"> Refurbished <span class="count">(156)</span>
-                        </label>
-                    </div>
-
-                    <div class="sidebar-section">
-                        <h3 class="sidebar-title">Brand</h3>
-                        <div class="brand-search">
-                            <input type="text" class="search-input-sm" placeholder="Search brands...">
-                        </div>
-                        <label class="checkbox-label">
-                            <input type="checkbox"> Caterpillar <span class="count">(45)</span>
-                        </label>
-                        <label class="checkbox-label">
-                            <input type="checkbox"> John Deere <span class="count">(38)</span>
-                        </label>
-                        <label class="checkbox-label">
-                            <input type="checkbox"> Siemens <span class="count">(67)</span>
-                        </label>
-                        <label class="checkbox-label">
-                            <input type="checkbox"> Bosch <span class="count">(52)</span>
-                        </label>
-                        <button class="show-more-btn">Show More</button>
+                        <h3 class="sidebar-title">About Korean Products</h3>
+                        <p style="font-size: 0.875rem; color: var(--gray-600); line-height: 1.5;">
+                            All products are sourced from Korea (KR), featuring high-quality industrial equipment and parts from Korean sellers.
+                        </p>
                     </div>
                 </aside>
 
@@ -133,402 +101,163 @@
                     <!-- Results Header -->
                     <div class="results-header">
                         <div class="results-info">
-                            <h2>2,293 results in <strong>CNC & Manufacturing</strong></h2>
-                        </div>
-                        <div class="results-controls">
-                            <label class="sort-label">Sort by:</label>
-                            <select class="sort-select">
-                                <option>Best Match</option>
-                                <option>Price: Lowest First</option>
-                                <option>Price: Highest First</option>
-                                <option>Newly Listed</option>
-                                <option>Ending Soon</option>
-                            </select>
-                            <div class="view-toggle">
-                                <button class="view-btn active" data-view="grid">
-                                    <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
-                                        <rect x="3" y="3" width="7" height="7"/>
-                                        <rect x="14" y="3" width="7" height="7"/>
-                                        <rect x="3" y="14" width="7" height="7"/>
-                                        <rect x="14" y="14" width="7" height="7"/>
-                                    </svg>
-                                </button>
-                                <button class="view-btn" data-view="list">
-                                    <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
-                                        <rect x="3" y="5" width="18" height="3"/>
-                                        <rect x="3" y="11" width="18" height="3"/>
-                                        <rect x="3" y="17" width="18" height="3"/>
-                                    </svg>
-                                </button>
-                            </div>
+                            <h2>
+                                @if($total > 0)
+                                    {{ number_format($total) }} results
+                                    @if($keywords)
+                                        for "<strong>{{ $keywords }}</strong>"
+                                    @endif
+                                    from Korea
+                                @else
+                                    No products found
+                                    @if($keywords)
+                                        for "{{ $keywords }}"
+                                    @endif
+                                @endif
+                            </h2>
                         </div>
                     </div>
 
                     <!-- Product Grid -->
                     <div class="shop-products-grid" id="productsGrid">
-                        <!-- Repeat this product card structure -->
-                        <div class="shop-product-card fade-in-up">
-                            <div class="shop-product-image">
-                                <img src="product.png" alt="Product">
-                                <span class="product-badge">New</span>
-                            </div>
-                            <div class="shop-product-content">
-                                <span class="shop-product-category">Parts & Components</span>
-                                <h3 class="shop-product-title">Starter For Ford 7.3 7.3L PowerStroke Pickup Truck Higher Torque</h3>
-                                <p class="shop-product-price">USD $289.99</p>
-                                <button class="btn btn-secondary btn-sm btn-block" onclick="requestQuote({id: 'sp1', name: 'Product', price: '289.99', currency: 'USD', image: 'product.png', category: 'Parts'})">Request Quote</button>
-                            </div>
-                        </div>
+                        @forelse($items as $item)
+                            <div class="shop-product-card fade-in-up">
+                                <div class="shop-product-image">
+                                    @if(isset($item->image->imageUrl))
+                                        <img src="{{ $item->image->imageUrl }}" alt="{{ $item->title ?? 'Product' }}" loading="lazy">
+                                    @else
+                                        <img src="{{ asset('product.png') }}" alt="{{ $item->title ?? 'Product' }}">
+                                    @endif
+                                    @if(isset($item->condition))
+                                        <span class="product-badge">{{ $item->condition }}</span>
+                                    @endif
+                                </div>
+                                <div class="shop-product-content">
+                                    @if(isset($item->categories) && count($item->categories) > 0)
+                                        <span class="shop-product-category">{{ $item->categories[0]->categoryName ?? 'Industrial' }}</span>
+                                    @endif
+                                    <h3 class="shop-product-title">{{ Str::limit($item->title ?? 'Product', 80) }}</h3>
 
-                        <div class="shop-product-card fade-in-up delay-1">
-                            <div class="shop-product-image">
-                                <img src="product.png" alt="Product">
-                            </div>
-                            <div class="shop-product-content">
-                                <span class="shop-product-category">Parts & Components</span>
-                                <h3 class="shop-product-title">Starter For Ford 7.3 7.3L PowerStroke Pickup Truck Higher Torque</h3>
-                                <p class="shop-product-price">USD $289.99</p>
-                                <button class="btn btn-secondary btn-sm btn-block" onclick="requestQuote({id: 'sp2', name: 'Starter For Ford 7.3 7.3L PowerStroke Pickup Truck Higher Torque', price: '289.99', currency: 'USD', image: 'product.png', category: 'Parts & Components'})">Request Quote</button>
-                            </div>
-                        </div>
+                                    @if(isset($item->price))
+                                        <p class="shop-product-price">
+                                            {{ $item->price->currency ?? 'USD' }}
+                                            ${{ number_format((float)($item->price->value ?? 0), 2) }}
+                                        </p>
+                                    @endif
 
-                        <div class="shop-product-card fade-in-up delay-2">
-                            <div class="shop-product-image">
-                                <img src="product.png" alt="Product">
-                            </div>
-                            <div class="shop-product-content">
-                                <span class="shop-product-category">Parts & Components</span>
-                                <h3 class="shop-product-title">Starter For Ford 7.3 7.3L PowerStroke Pickup Truck Higher Torque</h3>
-                                <p class="shop-product-price">USD $289.99</p>
-                                <button class="btn btn-secondary btn-sm btn-block" onclick="requestQuote({id: 'sp3', name: 'Starter For Ford 7.3 7.3L PowerStroke Pickup Truck Higher Torque', price: '289.99', currency: 'USD', image: 'product.png', category: 'Parts & Components'})">Request Quote</button>
-                            </div>
-                        </div>
+                                    @if(isset($item->seller->feedbackPercentage))
+                                        <p style="font-size: 0.75rem; color: var(--gray-600); margin: 0.5rem 0;">
+                                            Seller: {{ $item->seller->feedbackPercentage }}% positive
+                                        </p>
+                                    @endif
 
-                        <div class="shop-product-card fade-in-up">
-                            <div class="shop-product-image">
-                                <img src="product.png" alt="Product">
-                                <span class="product-badge">New</span>
+                                    <button class="btn btn-secondary btn-sm btn-block" onclick="requestQuote({
+                                        id: '{{ $item->itemId ?? '' }}',
+                                        legacyId: '{{ $item->legacyItemId ?? '' }}',
+                                        name: '{{ addslashes($item->title ?? 'Product') }}',
+                                        price: '{{ $item->price->value ?? 0 }}',
+                                        currency: '{{ $item->price->currency ?? 'USD' }}',
+                                        image: '{{ $item->image->imageUrl ?? '' }}',
+                                        url: '{{ $item->itemWebUrl ?? '#' }}'
+                                    })">Request Quote</button>
+                                </div>
                             </div>
-                            <div class="shop-product-content">
-                                <span class="shop-product-category">Parts & Components</span>
-                                <h3 class="shop-product-title">Starter For Ford 7.3 7.3L PowerStroke Pickup Truck Higher Torque</h3>
-                                <p class="shop-product-price">USD $289.99</p>
-                                <button class="btn btn-secondary btn-sm btn-block" onclick="requestQuote({id: 'sp4', name: 'Starter For Ford 7.3 7.3L PowerStroke Pickup Truck Higher Torque', price: '289.99', currency: 'USD', image: 'product.png', category: 'Parts & Components'})">Request Quote</button>
+                        @empty
+                            <div style="grid-column: 1/-1; text-align: center; padding: 4rem 2rem;">
+                                <h3 style="color: var(--gray-600); margin-bottom: 1rem;">No products found</h3>
+                                <p style="color: var(--gray-500);">Try adjusting your search keywords or browse without filters</p>
+                                <a href="{{ route('shop') }}" class="btn btn-primary" style="margin-top: 1.5rem;">Clear Search</a>
                             </div>
-                        </div>
-
-                        <div class="shop-product-card fade-in-up delay-1">
-                            <div class="shop-product-image">
-                                <img src="product.png" alt="Product">
-                            </div>
-                            <div class="shop-product-content">
-                                <span class="shop-product-category">Parts & Components</span>
-                                <h3 class="shop-product-title">Starter For Ford 7.3 7.3L PowerStroke Pickup Truck Higher Torque</h3>
-                                <p class="shop-product-price">USD $289.99</p>
-                                <button class="btn btn-secondary btn-sm btn-block" onclick="requestQuote({id: 'sp5', name: 'Starter For Ford 7.3 7.3L PowerStroke Pickup Truck Higher Torque', price: '289.99', currency: 'USD', image: 'product.png', category: 'Parts & Components'})">Request Quote</button>
-                            </div>
-                        </div>
-
-                        <div class="shop-product-card fade-in-up delay-2">
-                            <div class="shop-product-image">
-                                <img src="product.png" alt="Product">
-                            </div>
-                            <div class="shop-product-content">
-                                <span class="shop-product-category">Parts & Components</span>
-                                <h3 class="shop-product-title">Starter For Ford 7.3 7.3L PowerStroke Pickup Truck Higher Torque</h3>
-                                <p class="shop-product-price">USD $289.99</p>
-                                <button class="btn btn-secondary btn-sm btn-block" onclick="requestQuote({id: 'sp6', name: 'Starter For Ford 7.3 7.3L PowerStroke Pickup Truck Higher Torque', price: '289.99', currency: 'USD', image: 'product.png', category: 'Parts & Components'})">Request Quote</button>
-                            </div>
-                        </div>
-
-                        <div class="shop-product-card fade-in-up">
-                            <div class="shop-product-image">
-                                <img src="product.png" alt="Product">
-                            </div>
-                            <div class="shop-product-content">
-                                <span class="shop-product-category">Parts & Components</span>
-                                <h3 class="shop-product-title">Starter For Ford 7.3 7.3L PowerStroke Pickup Truck Higher Torque</h3>
-                                <p class="shop-product-price">USD $289.99</p>
-                                <button class="btn btn-secondary btn-sm btn-block" onclick="requestQuote({id: 'sp7', name: 'Starter For Ford 7.3 7.3L PowerStroke Pickup Truck Higher Torque', price: '289.99', currency: 'USD', image: 'product.png', category: 'Parts & Components'})">Request Quote</button>
-                            </div>
-                        </div>
-
-                        <div class="shop-product-card fade-in-up delay-1">
-                            <div class="shop-product-image">
-                                <img src="product.png" alt="Product">
-                                <span class="product-badge">New</span>
-                            </div>
-                            <div class="shop-product-content">
-                                <span class="shop-product-category">Parts & Components</span>
-                                <h3 class="shop-product-title">Starter For Ford 7.3 7.3L PowerStroke Pickup Truck Higher Torque</h3>
-                                <p class="shop-product-price">USD $289.99</p>
-                                <button class="btn btn-secondary btn-sm btn-block" onclick="requestQuote({id: 'sp8', name: 'Starter For Ford 7.3 7.3L PowerStroke Pickup Truck Higher Torque', price: '289.99', currency: 'USD', image: 'product.png', category: 'Parts & Components'})">Request Quote</button>
-                            </div>
-                        </div>
-
-                        <div class="shop-product-card fade-in-up delay-2">
-                            <div class="shop-product-image">
-                                <img src="product.png" alt="Product">
-                            </div>
-                            <div class="shop-product-content">
-                                <span class="shop-product-category">Parts & Components</span>
-                                <h3 class="shop-product-title">Starter For Ford 7.3 7.3L PowerStroke Pickup Truck Higher Torque</h3>
-                                <p class="shop-product-price">USD $289.99</p>
-                                <button class="btn btn-secondary btn-sm btn-block" onclick="requestQuote({id: 'sp9', name: 'Starter For Ford 7.3 7.3L PowerStroke Pickup Truck Higher Torque', price: '289.99', currency: 'USD', image: 'product.png', category: 'Parts & Components'})">Request Quote</button>
-                            </div>
-                        </div>
-
-                        <div class="shop-product-card fade-in-up">
-                            <div class="shop-product-image">
-                                <img src="product.png" alt="Product">
-                            </div>
-                            <div class="shop-product-content">
-                                <span class="shop-product-category">Parts & Components</span>
-                                <h3 class="shop-product-title">Starter For Ford 7.3 7.3L PowerStroke Pickup Truck Higher Torque</h3>
-                                <p class="shop-product-price">USD $289.99</p>
-                                <button class="btn btn-secondary btn-sm btn-block" onclick="requestQuote({id: 'sp10', name: 'Starter For Ford 7.3 7.3L PowerStroke Pickup Truck Higher Torque', price: '289.99', currency: 'USD', image: 'product.png', category: 'Parts & Components'})">Request Quote</button>
-                            </div>
-                        </div>
-
-                        <div class="shop-product-card fade-in-up delay-1">
-                            <div class="shop-product-image">
-                                <img src="product.png" alt="Product">
-                            </div>
-                            <div class="shop-product-content">
-                                <span class="shop-product-category">Parts & Components</span>
-                                <h3 class="shop-product-title">Starter For Ford 7.3 7.3L PowerStroke Pickup Truck Higher Torque</h3>
-                                <p class="shop-product-price">USD $289.99</p>
-                                <button class="btn btn-secondary btn-sm btn-block" onclick="requestQuote({id: 'sp11', name: 'Starter For Ford 7.3 7.3L PowerStroke Pickup Truck Higher Torque', price: '289.99', currency: 'USD', image: 'product.png', category: 'Parts & Components'})">Request Quote</button>
-                            </div>
-                        </div>
-
-                        <div class="shop-product-card fade-in-up delay-2">
-                            <div class="shop-product-image">
-                                <img src="product.png" alt="Product">
-                                <span class="product-badge">New</span>
-                            </div>
-                            <div class="shop-product-content">
-                                <span class="shop-product-category">Parts & Components</span>
-                                <h3 class="shop-product-title">Starter For Ford 7.3 7.3L PowerStroke Pickup Truck Higher Torque</h3>
-                                <p class="shop-product-price">USD $289.99</p>
-                                <button class="btn btn-secondary btn-sm btn-block" onclick="requestQuote({id: 'sp12', name: 'Starter For Ford 7.3 7.3L PowerStroke Pickup Truck Higher Torque', price: '289.99', currency: 'USD', image: 'product.png', category: 'Parts & Components'})">Request Quote</button>
-                            </div>
-                        </div>
-
-                        <div class="shop-product-card fade-in-up">
-                            <div class="shop-product-image">
-                                <img src="product.png" alt="Product">
-                            </div>
-                            <div class="shop-product-content">
-                                <span class="shop-product-category">Parts & Components</span>
-                                <h3 class="shop-product-title">Starter For Ford 7.3 7.3L PowerStroke Pickup Truck Higher Torque</h3>
-                                <p class="shop-product-price">USD $289.99</p>
-                                <button class="btn btn-secondary btn-sm btn-block" onclick="requestQuote({id: 'sp13', name: 'Starter For Ford 7.3 7.3L PowerStroke Pickup Truck Higher Torque', price: '289.99', currency: 'USD', image: 'product.png', category: 'Parts & Components'})">Request Quote</button>
-                            </div>
-                        </div>
-
-                        <div class="shop-product-card fade-in-up delay-1">
-                            <div class="shop-product-image">
-                                <img src="product.png" alt="Product">
-                            </div>
-                            <div class="shop-product-content">
-                                <span class="shop-product-category">Parts & Components</span>
-                                <h3 class="shop-product-title">Starter For Ford 7.3 7.3L PowerStroke Pickup Truck Higher Torque</h3>
-                                <p class="shop-product-price">USD $289.99</p>
-                                <button class="btn btn-secondary btn-sm btn-block" onclick="requestQuote({id: 'sp14', name: 'Starter For Ford 7.3 7.3L PowerStroke Pickup Truck Higher Torque', price: '289.99', currency: 'USD', image: 'product.png', category: 'Parts & Components'})">Request Quote</button>
-                            </div>
-                        </div>
-
-                        <div class="shop-product-card fade-in-up delay-2">
-                            <div class="shop-product-image">
-                                <img src="product.png" alt="Product">
-                            </div>
-                            <div class="shop-product-content">
-                                <span class="shop-product-category">Parts & Components</span>
-                                <h3 class="shop-product-title">Starter For Ford 7.3 7.3L PowerStroke Pickup Truck Higher Torque</h3>
-                                <p class="shop-product-price">USD $289.99</p>
-                                <button class="btn btn-secondary btn-sm btn-block" onclick="requestQuote({id: 'sp15', name: 'Starter For Ford 7.3 7.3L PowerStroke Pickup Truck Higher Torque', price: '289.99', currency: 'USD', image: 'product.png', category: 'Parts & Components'})">Request Quote</button>
-                            </div>
-                        </div>
-
-                        <div class="shop-product-card fade-in-up">
-                            <div class="shop-product-image">
-                                <img src="product.png" alt="Product">
-                            </div>
-                            <div class="shop-product-content">
-                                <span class="shop-product-category">Parts & Components</span>
-                                <h3 class="shop-product-title">Starter For Ford 7.3 7.3L PowerStroke Pickup Truck Higher Torque</h3>
-                                <p class="shop-product-price">USD $289.99</p>
-                                <button class="btn btn-secondary btn-sm btn-block" onclick="requestQuote({id: 'sp16', name: 'Starter For Ford 7.3 7.3L PowerStroke Pickup Truck Higher Torque', price: '289.99', currency: 'USD', image: 'product.png', category: 'Parts & Components'})">Request Quote</button>
-                            </div>
-                        </div>
-
-                        <div class="shop-product-card fade-in-up delay-1">
-                            <div class="shop-product-image">
-                                <img src="product.png" alt="Product">
-                                <span class="product-badge">New</span>
-                            </div>
-                            <div class="shop-product-content">
-                                <span class="shop-product-category">Parts & Components</span>
-                                <h3 class="shop-product-title">Starter For Ford 7.3 7.3L PowerStroke Pickup Truck Higher Torque</h3>
-                                <p class="shop-product-price">USD $289.99</p>
-                                <button class="btn btn-secondary btn-sm btn-block" onclick="requestQuote({id: 'sp17', name: 'Starter For Ford 7.3 7.3L PowerStroke Pickup Truck Higher Torque', price: '289.99', currency: 'USD', image: 'product.png', category: 'Parts & Components'})">Request Quote</button>
-                            </div>
-                        </div>
-
-                        <div class="shop-product-card fade-in-up delay-2">
-                            <div class="shop-product-image">
-                                <img src="product.png" alt="Product">
-                            </div>
-                            <div class="shop-product-content">
-                                <span class="shop-product-category">Parts & Components</span>
-                                <h3 class="shop-product-title">Starter For Ford 7.3 7.3L PowerStroke Pickup Truck Higher Torque</h3>
-                                <p class="shop-product-price">USD $289.99</p>
-                                <button class="btn btn-secondary btn-sm btn-block" onclick="requestQuote({id: 'sp18', name: 'Starter For Ford 7.3 7.3L PowerStroke Pickup Truck Higher Torque', price: '289.99', currency: 'USD', image: 'product.png', category: 'Parts & Components'})">Request Quote</button>
-                            </div>
-                        </div>
-
-                        <div class="shop-product-card fade-in-up">
-                            <div class="shop-product-image">
-                                <img src="product.png" alt="Product">
-                            </div>
-                            <div class="shop-product-content">
-                                <span class="shop-product-category">Parts & Components</span>
-                                <h3 class="shop-product-title">Starter For Ford 7.3 7.3L PowerStroke Pickup Truck Higher Torque</h3>
-                                <p class="shop-product-price">USD $289.99</p>
-                                <button class="btn btn-secondary btn-sm btn-block" onclick="requestQuote({id: 'sp19', name: 'Starter For Ford 7.3 7.3L PowerStroke Pickup Truck Higher Torque', price: '289.99', currency: 'USD', image: 'product.png', category: 'Parts & Components'})">Request Quote</button>
-                            </div>
-                        </div>
-
-                        <div class="shop-product-card fade-in-up delay-1">
-                            <div class="shop-product-image">
-                                <img src="product.png" alt="Product">
-                            </div>
-                            <div class="shop-product-content">
-                                <span class="shop-product-category">Parts & Components</span>
-                                <h3 class="shop-product-title">Starter For Ford 7.3 7.3L PowerStroke Pickup Truck Higher Torque</h3>
-                                <p class="shop-product-price">USD $289.99</p>
-                                <button class="btn btn-secondary btn-sm btn-block" onclick="requestQuote({id: 'sp20', name: 'Starter For Ford 7.3 7.3L PowerStroke Pickup Truck Higher Torque', price: '289.99', currency: 'USD', image: 'product.png', category: 'Parts & Components'})">Request Quote</button>
-                            </div>
-                        </div>
-
-                        <div class="shop-product-card fade-in-up delay-2">
-                            <div class="shop-product-image">
-                                <img src="product.png" alt="Product">
-                            </div>
-                            <div class="shop-product-content">
-                                <span class="shop-product-category">Parts & Components</span>
-                                <h3 class="shop-product-title">Starter For Ford 7.3 7.3L PowerStroke Pickup Truck Higher Torque</h3>
-                                <p class="shop-product-price">USD $289.99</p>
-                                <button class="btn btn-secondary btn-sm btn-block" onclick="requestQuote({id: 'sp21', name: 'Starter For Ford 7.3 7.3L PowerStroke Pickup Truck Higher Torque', price: '289.99', currency: 'USD', image: 'product.png', category: 'Parts & Components'})">Request Quote</button>
-                            </div>
-                        </div>
-
-                        <div class="shop-product-card fade-in-up">
-                            <div class="shop-product-image">
-                                <img src="product.png" alt="Product">
-                                <span class="product-badge">New</span>
-                            </div>
-                            <div class="shop-product-content">
-                                <span class="shop-product-category">Parts & Components</span>
-                                <h3 class="shop-product-title">Starter For Ford 7.3 7.3L PowerStroke Pickup Truck Higher Torque</h3>
-                                <p class="shop-product-price">USD $289.99</p>
-                                <button class="btn btn-secondary btn-sm btn-block" onclick="requestQuote({id: 'sp22', name: 'Starter For Ford 7.3 7.3L PowerStroke Pickup Truck Higher Torque', price: '289.99', currency: 'USD', image: 'product.png', category: 'Parts & Components'})">Request Quote</button>
-                            </div>
-                        </div>
-
-                        <div class="shop-product-card fade-in-up delay-1">
-                            <div class="shop-product-image">
-                                <img src="product.png" alt="Product">
-                            </div>
-                            <div class="shop-product-content">
-                                <span class="shop-product-category">Parts & Components</span>
-                                <h3 class="shop-product-title">Starter For Ford 7.3 7.3L PowerStroke Pickup Truck Higher Torque</h3>
-                                <p class="shop-product-price">USD $289.99</p>
-                                <button class="btn btn-secondary btn-sm btn-block" onclick="requestQuote({id: 'sp23', name: 'Starter For Ford 7.3 7.3L PowerStroke Pickup Truck Higher Torque', price: '289.99', currency: 'USD', image: 'product.png', category: 'Parts & Components'})">Request Quote</button>
-                            </div>
-                        </div>
-
-                        <div class="shop-product-card fade-in-up delay-2">
-                            <div class="shop-product-image">
-                                <img src="product.png" alt="Product">
-                            </div>
-                            <div class="shop-product-content">
-                                <span class="shop-product-category">Parts & Components</span>
-                                <h3 class="shop-product-title">Starter For Ford 7.3 7.3L PowerStroke Pickup Truck Higher Torque</h3>
-                                <p class="shop-product-price">USD $289.99</p>
-                                <button class="btn btn-secondary btn-sm btn-block" onclick="requestQuote({id: 'sp24', name: 'Starter For Ford 7.3 7.3L PowerStroke Pickup Truck Higher Torque', price: '289.99', currency: 'USD', image: 'product.png', category: 'Parts & Components'})">Request Quote</button>
-                            </div>
-                        </div>
+                        @endforelse
                     </div>
 
                     <!-- Pagination -->
-                    <div class="pagination">
-                        <button class="pagination-btn" disabled>
-                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                <path d="M15 18l-6-6 6-6"/>
-                            </svg>
-                        </button>
-                        <button class="pagination-number active">1</button>
-                        <button class="pagination-number">2</button>
-                        <button class="pagination-number">3</button>
-                        <button class="pagination-number">4</button>
-                        <button class="pagination-number">5</button>
-                        <span class="pagination-dots">...</span>
-                        <button class="pagination-number">96</button>
-                        <button class="pagination-btn">
-                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                <path d="M9 18l6-6-6-6"/>
-                            </svg>
-                        </button>
-                    </div>
+                    @if($total > $perPage)
+                        <div class="pagination-container" style="margin-top: 3rem; display: flex; justify-content: center; gap: 0.5rem;">
+                            @php
+                                $totalPages = ceil($total / $perPage);
+                                $startPage = max(1, $currentPage - 2);
+                                $endPage = min($totalPages, $currentPage + 2);
+                            @endphp
+
+                            @if($currentPage > 1)
+                                <a href="{{ route('shop', array_merge(request()->query(), ['page' => $currentPage - 1])) }}" class="btn btn-outline btn-sm">Previous</a>
+                            @endif
+
+                            @for($i = $startPage; $i <= $endPage; $i++)
+                                <a href="{{ route('shop', array_merge(request()->query(), ['page' => $i])) }}"
+                                   class="btn btn-sm {{ $i == $currentPage ? 'btn-primary' : 'btn-outline' }}">
+                                    {{ $i }}
+                                </a>
+                            @endfor
+
+                            @if($currentPage < $totalPages)
+                                <a href="{{ route('shop', array_merge(request()->query(), ['page' => $currentPage + 1])) }}" class="btn btn-outline btn-sm">Next</a>
+                            @endif
+                        </div>
+                    @endif
                 </div>
             </div>
         </div>
     </section>
 
     <!-- Footer -->
-    <footer class="footer">
+    <footer class="footer wave-background-top">
+        <div class="wave-divider wave-top"></div>
         <div class="container">
-            <div class="footer-content-grid">
+            <div class="footer-content">
                 <div class="footer-column">
-                    <img src="assets/logo.svg" alt="ONCUBE GLOBAL" style="height: 50px; margin-bottom: var(--space-4);">
-                    <p>Your trusted partner for industrial machinery, equipment & parts worldwide.</p>
+                    <h3 class="footer-title">ONCUBE GLOBAL</h3>
+                    <p class="footer-description">Your trusted partner in Korean industrial solutions</p>
                 </div>
-
                 <div class="footer-column">
-                    <h4 data-i18n="footer_quick_links">Quick Links</h4>
+                    <h4 class="footer-heading">Quick Links</h4>
                     <ul class="footer-links">
-                        <li><a href="home.html" data-i18n="nav_home">Home</a></li>
-                        <li><a href="shop.html" data-i18n="nav_shop">Shop</a></li>
-                        <li><a href="about.html" data-i18n="nav_about">About Us</a></li>
-                        <li><a href="contact.html" data-i18n="nav_contact">Contact Us</a></li>
+                        <li><a href="{{ route('home') }}">Home</a></li>
+                        <li><a href="{{ route('shop') }}">Shop</a></li>
+                        <li><a href="{{ route('about') }}">About</a></li>
+                        <li><a href="{{ route('contact') }}">Contact</a></li>
                     </ul>
                 </div>
-
                 <div class="footer-column">
-                    <h4 data-i18n="footer_contact_info">Contact Information</h4>
+                    <h4 class="footer-heading">Contact Info</h4>
                     <ul class="footer-contact">
-                        <li>98, Gasan digital 2-ro, Unit 2-209, IT Castle</li>
-                        <li>Geumcheon-gu, Seoul 08506, Korea</li>
-                        <li>Tel: +82-10-4846-0846</li>
-                        <li>Fax: +82-504-476-0846</li>
-                        <li>Email: oncube2019@gmail.com</li>
+                        <li>ONCUBE GLOBAL</li>
+                        <li>98, Gasan digital 2-ro, Unit 2-209</li>
+                        <li>IT Castle, Geumcheon-gu</li>
+                        <li>Seoul 08506, Korea</li>
+                        <li>Tel. +82-10-4846-0846</li>
+                        <li>E-mail: oncube2019@gmail.com</li>
                         <li>Biz License: 416-19-94501</li>
                     </ul>
                 </div>
             </div>
-
             <div class="footer-bottom">
-                <p data-i18n="footer_copyright">&copy; 2025 ONCUBE GLOBAL. All rights reserved.</p>
+                <p>&copy; 2025 ONCUBE GLOBAL. All rights reserved.</p>
             </div>
         </div>
     </footer>
 
     <!-- Scripts -->
-    <script src="js/language.js"></script>
-    <script src="js/cart.js"></script>
-    <script src="js/animations.js"></script>
-    <script src="js/shop.js"></script>
+    <script src="{{ asset('js/language.js') }}"></script>
+    <script src="{{ asset('js/animations.js') }}"></script>
+    <script>
+        // Request quote functionality
+        function requestQuote(product) {
+            const message = `Hi, I'm interested in:\n\nProduct: ${product.name}\nPrice: ${product.currency} $${product.price}\neBay Item ID: ${product.legacyId || product.id}\n\nCould you provide a quote for international shipping to my location?`;
+
+            // Option 1: Open contact page with pre-filled message (if you implement this)
+            // window.location.href = `/contact?product=${encodeURIComponent(product.id)}`;
+
+            // Option 2: Open eBay URL in new tab
+            if (product.url && product.url !== '#') {
+                window.open(product.url, '_blank');
+            }
+
+            // Option 3: Show contact modal (implement later)
+            alert('Request Quote:\n\n' + message + '\n\nClick OK to be redirected to the contact page.');
+            window.location.href = '{{ route('contact') }}';
+        }
+    </script>
 </body>
 </html>

@@ -6,7 +6,13 @@
       "Bash(git add:*)",
       "Bash(git commit:*)",
       "Bash(git branch:*)",
-      "Bash(git push:*)"
+      "Bash(git push:*)",
+      "Bash(render --version:*)",
+      "Bash(npm install:*)",
+      "Bash(curl:*)",
+      "Bash(php -r:*)",
+      "Bash(node -e:*)",
+      "Bash(git reset:*)"
     ],
     "deny": [],
     "ask": []
