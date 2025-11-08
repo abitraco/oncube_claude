@@ -4,6 +4,13 @@
 /public/hot
 /public/storage
 /storage/*.key
+!/storage/app/.gitkeep
+!/storage/framework/.gitkeep
+!/storage/framework/cache/.gitkeep
+!/storage/framework/sessions/.gitkeep
+!/storage/framework/views/.gitkeep
+!/storage/logs/.gitkeep
+!/bootstrap/cache/.gitkeep
 /vendor
 .env
 .env.backup

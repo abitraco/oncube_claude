@@ -1,11 +1,24 @@
 # ---------- Stage 1: Composer ----------
 FROM composer:2 AS vendor
 WORKDIR /app
+
+# Copy composer files
 COPY composer.json composer.lock ./
-RUN composer install --no-dev --no-interaction --prefer-dist --no-progress
+
+# Install dependencies without scripts
+RUN composer install \
+    --no-dev \
+    --no-interaction \
+    --prefer-dist \
+    --no-progress \
+    --no-scripts \
+    --no-autoloader
+
+# Copy application code
 COPY . .
-RUN composer install --no-dev --no-interaction --prefer-dist --no-progress \
- && php artisan package:discover --ansi || true
+
+# Generate optimized autoloader
+RUN composer dump-autoload --optimize --no-dev
 
 # ---------- Stage 2: Runtime (Nginx + PHP-FPM in one) ----------
 FROM webdevops/php-nginx:8.3-alpine
@@ -16,25 +29,49 @@ ENV PHP_DISPLAY_ERRORS=0
 ENV PHP_MEMORY_LIMIT=512M
 ENV PHP_MAX_EXECUTION_TIME=60
 
-# 필요한 확장
+# 필요한 PHP 확장 설치
 RUN apk add --no-cache \
-    php83-pgsql php83-pdo_pgsql php83-intl php83-bcmath php83-opcache
+    php83-pdo \
+    php83-pdo_sqlite \
+    php83-sqlite3 \
+    php83-session \
+    php83-tokenizer \
+    php83-xml \
+    php83-xmlwriter \
+    php83-fileinfo \
+    php83-intl \
+    php83-bcmath \
+    php83-opcache \
+    php83-mbstring \
+    php83-curl \
+    curl
 
 # 앱 복사
 WORKDIR /app
 COPY --from=vendor /app /app
 
-# 퍼미션(캐시/세션/로그)
-RUN mkdir -p /app/storage/framework/{cache,sessions,views} /app/bootstrap/cache \
- && chown -R application:application /app/storage /app/bootstrap/cache \
- && chmod -R 775 /app/storage /app/bootstrap/cache
+# 필요한 디렉토리 생성
+RUN mkdir -p \
+    /app/storage/framework/cache \
+    /app/storage/framework/sessions \
+    /app/storage/framework/views \
+    /app/storage/logs \
+    /app/bootstrap/cache \
+    /app/database
+
+# 퍼미션 설정
+RUN chown -R application:application /app \
+ && chmod -R 775 /app/storage /app/bootstrap/cache /app/database
 
 # SQLite 데이터베이스 생성
 RUN touch /app/database/database.sqlite \
- && chown application:application /app/database/database.sqlite
+ && chown application:application /app/database/database.sqlite \
+ && chmod 664 /app/database/database.sqlite
 
-# 빌드 최적화
-RUN php artisan optimize || true
+# Laravel 환경 변수 설정
+ENV APP_ENV=production
+ENV APP_DEBUG=false
+ENV LOG_CHANNEL=stderr
 
 # 헬스체크용
 HEALTHCHECK --interval=30s --timeout=3s --start-period=40s \
