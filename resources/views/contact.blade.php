@@ -58,101 +58,26 @@
                 </div>
 
                 <div class="contact-form-wrapper fade-in-up delay-1">
-                    <form class="contact-form" id="contactForm" onsubmit="handleContactSubmit(event)">
-                        <div class="form-row">
-                            <div class="form-group">
-                                <label class="form-label" for="firstName">First name<span class="form-required">*</span></label>
-                                <input type="text" id="firstName" name="firstName" class="form-input" required>
-                            </div>
-                            <div class="form-group">
-                                <label class="form-label" for="lastName">Last name<span class="form-required">*</span></label>
-                                <input type="text" id="lastName" name="lastName" class="form-input" required>
-                            </div>
-                        </div>
-
-                        <div class="form-group">
-                            <label class="form-label" for="workEmail">Work Email<span class="form-required">*</span></label>
-                            <input type="email" id="workEmail" name="workEmail" class="form-input" required>
-                        </div>
-
-                        <div class="form-group">
-                            <label class="form-label" for="companyName">Company name<span class="form-required">*</span></label>
-                            <input type="text" id="companyName" name="companyName" class="form-input" required>
-                        </div>
-
-                        <div class="form-group">
-                            <label class="form-label" for="numEmployees">Number of employees<span class="form-required">*</span></label>
-                            <select id="numEmployees" name="numEmployees" class="form-select" required>
-                                <option value="">Please Select</option>
-                                <option value="1-10">1-10</option>
-                                <option value="11-50">11-50</option>
-                                <option value="51-200">51-200</option>
-                                <option value="201-500">201-500</option>
-                                <option value="501-1000">501-1,000</option>
-                                <option value="1000+">1,000+</option>
-                            </select>
-                        </div>
-
-                        <div class="form-group">
-                            <label class="form-label" for="industry">Industry<span class="form-required">*</span></label>
-                            <select id="industry" name="industry" class="form-select" required>
-                                <option value="">Please Select</option>
-                                <option value="semiconductor">Semiconductor Manufacturing</option>
-                                <option value="heavy-equipment">Heavy Equipment</option>
-                                <option value="automotive">Automotive</option>
-                                <option value="aerospace">Aerospace</option>
-                                <option value="healthcare">Healthcare & Medical Devices</option>
-                                <option value="food-service">Food Service</option>
-                                <option value="agriculture">Agriculture</option>
-                                <option value="manufacturing">General Manufacturing</option>
-                                <option value="other">Other</option>
-                            </select>
-                        </div>
-
-                        <div class="form-row">
-                            <div class="form-group" style="flex: 0 0 120px;">
-                                <label class="form-label" for="countryCode">Phone</label>
-                                <select id="countryCode" name="countryCode" class="form-select">
-                                    <option value="+39">🇮🇹 +39</option>
-                                    <option value="+1">🇺🇸 +1</option>
-                                    <option value="+82">🇰🇷 +82</option>
-                                    <option value="+81">🇯🇵 +81</option>
-                                    <option value="+86">🇨🇳 +86</option>
-                                    <option value="+44">🇬🇧 +44</option>
-                                    <option value="+49">🇩🇪 +49</option>
-                                </select>
-                            </div>
-                            <div class="form-group" style="flex: 1;">
-                                <label class="form-label" for="phoneNumber">&nbsp;</label>
-                                <input type="tel" id="phoneNumber" name="phoneNumber" class="form-input" placeholder="Phone number">
-                            </div>
-                        </div>
-
-                        <div class="form-group">
-                            <label class="form-label" for="jobTitle">Job title</label>
-                            <input type="text" id="jobTitle" name="jobTitle" class="form-input">
-                        </div>
-
-                        <div class="form-group">
-                            <label class="form-label" for="message">Message</label>
-                            <textarea id="message" name="message" class="form-textarea" rows="4" placeholder="Tell us about your needs..."></textarea>
-                        </div>
-
-                        <div class="form-privacy">
-                            <p>
-                                <strong>ONCUBE GLOBAL</strong> is committed to protecting and respecting your privacy.
-                            </p>
-                        </div>
-
-                        <div class="form-checkbox-group">
-                            <label class="checkbox-label-inline">
-                                <input type="checkbox" name="newsletter">
-                                <span>I'd like to occasionally receive other communications from ONCUBE GLOBAL, such as content and product news.</span>
-                            </label>
-                        </div>
-
-                        <button type="submit" class="btn btn-primary btn-lg btn-block">Send</button>
-                    </form>
+                    <!-- Google Form Embed -->
+                    <div class="google-form-container">
+                        <!-- Replace the src URL below with your Google Form embed URL -->
+                        <!-- To get the embed URL: 
+                             1. Go to your Google Form
+                             2. Click "Send" button (top right)
+                             3. Click the "<>" (embed HTML) icon
+                             4. Copy the iframe src URL
+                        -->
+                        <iframe 
+                            src="YOUR_GOOGLE_FORM_EMBED_URL_HERE"
+                            width="100%" 
+                            height="1200" 
+                            frameborder="0" 
+                            marginheight="0" 
+                            marginwidth="0"
+                            style="border-radius: var(--radius-lg);">
+                            Loading…
+                        </iframe>
+                    </div>
                 </div>
             </div>
         </div>
