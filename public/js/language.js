@@ -405,13 +405,20 @@ const translations = {
     }
 };
 
-// Current language state
-let currentLanguage = localStorage.getItem('language') || 'en';
+// Current language state - now using URL-based locale instead of localStorage
+let currentLanguage = document.documentElement.lang || 'en';
 
 // Initialize language on page load
 document.addEventListener('DOMContentLoaded', () => {
+    // Get language from URL route parameter instead of localStorage
+    const urlPath = window.location.pathname;
+    const localeMatch = urlPath.match(/^\/(en|ko|ja|zh)\//);
+    if (localeMatch) {
+        currentLanguage = localeMatch[1];
+    }
+
     updateLanguage(currentLanguage);
-    updateLanguageSelector();
+    // Don't call updateLanguageSelector() - let server-side rendering handle active state
 });
 
 // Change language

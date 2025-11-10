@@ -815,8 +815,8 @@ class EbayUtil {
         $oResp = simplexml_load_file(implode('', $aApiCalls));
         
         // Log API call statistics
-        helper('api_stat');
-        log_api_call('shopping/FindPopularSearches', 200, $sKeywords);
+        // helper('api_stat');
+        // log_api_call('shopping/FindPopularSearches', 200, $sKeywords);
 
         return $oResp;
 
@@ -969,8 +969,8 @@ class EbayUtil {
             curl_close($ch);
             
             // Log API call statistics
-            helper('api_stat');
-            log_api_call('item (getSingleItemNew)', $httpCode, $itemNo);
+            // helper('api_stat');
+            // log_api_call('item (getSingleItemNew)', $httpCode, $itemNo);
 
             // Handle curl errors
             if ($error) {
@@ -1059,9 +1059,10 @@ class EbayUtil {
                 $this->safeLog('info', 'Pagination - Page: ' . $searchData['pageNumber'] . ', Offset: ' . $queryParams['offset']);
             }            // Build filter array for other filters
             $filters = [];
-            
-            $filters[] = 'itemLocationCountry:KR';
-            $this->safeLog('info', 'Location filter: itemLocationCountry:KR');
+
+            // Remove Korea location filter to search eBay US globally
+            // $filters[] = 'itemLocationCountry:KR';
+            // $this->safeLog('info', 'Location filter: itemLocationCountry:KR');
 
             // Add filters to query params if any exist
             if (!empty($filters)) {
@@ -1116,10 +1117,10 @@ class EbayUtil {
             $this->safeLog('info', 'Response size: ' . strlen($response) . ' bytes');
             
             // Log API call statistics
-            helper('api_stat');
-            $endpoint = !empty($searchData['keywords']) ? 'item_summary/search (keywords)' : 'item_summary/search (category)';
-            $keywords = isset($searchData['keywords']) ? $searchData['keywords'] : '';
-            log_api_call($endpoint, $httpCode, $keywords);
+            // helper('api_stat');
+            // $endpoint = !empty($searchData['keywords']) ? 'item_summary/search (keywords)' : 'item_summary/search (category)';
+            // $keywords = isset($searchData['keywords']) ? $searchData['keywords'] : '';
+            // log_api_call($endpoint, $httpCode, $keywords);
             
             if ($err) {
                 $this->safeLog('error', 'cURL Error: ' . $err);
@@ -1227,9 +1228,10 @@ class EbayUtil {
                 $queryParams['offset'] = ((int)$searchData['pageNumber'] - 1) * (int)$queryParams['limit'];
             }            // Build filter array for other filters
             $filters = [];
-            
-            $filters[] = 'itemLocationCountry:KR';
-            
+
+            // Remove Korea location filter to search eBay US globally
+            // $filters[] = 'itemLocationCountry:KR';
+
             // Add item filters
             if (!empty($searchData['itemFilter'])) {
                 if (is_string($searchData['itemFilter'])) {
@@ -1281,10 +1283,17 @@ class EbayUtil {
 
             // Initialize curl
             $ch = curl_init();
+
+            // Determine marketplace ID
+            $marketplaceId = 'EBAY-US'; // Default
+            if (!empty($searchData['marketplace'])) {
+                $marketplaceId = $searchData['marketplace'];
+            }
+
             $headers = [
                 'Authorization: Bearer ' . $appToken,
                 'Content-Type: application/json',
-                'X-EBAY-C-MARKETPLACE-ID: EBAY-US'
+                'X-EBAY-C-MARKETPLACE-ID: ' . $marketplaceId
             ];
             
             curl_setopt_array($ch, [
@@ -1304,10 +1313,10 @@ class EbayUtil {
             curl_close($ch);
             
             // Log API call statistics
-            helper('api_stat');
-            $endpoint = !empty($searchData['keywords']) ? 'item_summary/search (Main-keywords)' : 'item_summary/search (Main-category)';
-            $keywords = isset($searchData['keywords']) ? $searchData['keywords'] : '';
-            log_api_call($endpoint, $httpCode, $keywords);
+            // helper('api_stat');
+            // $endpoint = !empty($searchData['keywords']) ? 'item_summary/search (Main-keywords)' : 'item_summary/search (Main-category)';
+            // $keywords = isset($searchData['keywords']) ? $searchData['keywords'] : '';
+            // log_api_call($endpoint, $httpCode, $keywords);
             
             // Decode response
             $result = json_decode($response);
@@ -1514,33 +1523,33 @@ class EbayUtil {
                         }
                         
                         // If refresh failed, try creating a new token
-                        log_message('warning', 'Token refresh failed, attempting to create new token');
+                        $this->safeLog('warning', 'Token refresh failed, attempting to create new token');
                         $newToken = $this->createAppToken();
                         if ($newToken) {
                             $this->appToken = $newToken;
-                            log_message('info', 'Successfully created new token');
+                            $this->safeLog('info', 'Successfully created new token');
                             return true;
                         }
-                        
+
                         // If current credential set failed, try switching to next credential set
                         if ($this->switchToNextCredentialSet()) {
-                            log_message('info', 'Switched to ' . $this->currentCredentialSet . ' credentials due to OAuth error');
+                            $this->safeLog('info', 'Switched to ' . $this->currentCredentialSet . ' credentials due to OAuth error');
                             $newToken = $this->createAppToken();
                             if ($newToken) {
                                 $this->appToken = $newToken;
-                                log_message('info', 'Successfully created token with new credentials');
+                                $this->safeLog('info', 'Successfully created token with new credentials');
                                 return true;
                             }
                         }
-                        
+
                         // If we get here, all token refresh/create attempts have failed
-                        log_message('error', 'Failed to obtain valid token with all available credential sets');
+                        $this->safeLog('error', 'Failed to obtain valid token with all available credential sets');
                         throw new \Exception('Unable to obtain valid eBay API token');
                     }
                     // Log other types of errors for monitoring
                     else {
-                        log_message('error', sprintf(
-                            'eBay API error: [%d] %s - %s', 
+                        $this->safeLog('error', sprintf(
+                            'eBay API error: [%d] %s - %s',
                             $error->errorId,
                             $error->domain,
                             $error->message ?? 'No message provided'
@@ -1643,14 +1652,14 @@ class EbayUtil {
                     if ($tokenData['using_fallback']) {
                         $this->currentCredentialSet = 'fallback';
                         $this->credentialSwitchTime = time(); // Set current time for migration
-                        log_message('info', 'Migrated token from old format: using fallback credentials');
-                        
+                        $this->safeLog('info', 'Migrated token from old format: using fallback credentials');
+
                         // Update token file to new format
                         $this->saveCredentialState($tokenData['token'], $tokenData['exp']);
                     } else {
                         $this->currentCredentialSet = 'primary';
                         $this->credentialSwitchTime = null;
-                        log_message('info', 'Migrated token from old format: using primary credentials');
+                        $this->safeLog('info', 'Migrated token from old format: using primary credentials');
                     }
                 }
             }
@@ -1672,7 +1681,7 @@ class EbayUtil {
         $writePath = defined('WRITEPATH') ? WRITEPATH : (realpath(__DIR__ . '/../../writable/') . DIRECTORY_SEPARATOR);
         $tokenPath = $writePath . 'token_info.txt';
         file_put_contents($tokenPath, json_encode($tokenData));
-        log_message('info', 'Updated token file to new credential format');
+        $this->safeLog('info', 'Updated token file to new credential format');
     }
 
     /**
@@ -1817,8 +1826,8 @@ class EbayUtil {
             curl_close($ch);
             
             // Log API call statistics
-            helper('api_stat');
-            log_api_call('analytics/rate_limit', $httpCode, $apiName);
+            // helper('api_stat');
+            // log_api_call('analytics/rate_limit', $httpCode, $apiName);
             
             // Handle errors
             if ($error) {

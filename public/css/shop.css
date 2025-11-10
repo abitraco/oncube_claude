@@ -2,6 +2,49 @@
    Shop Page Styles
    =================================== */
 
+/* Shop Tabs */
+.shop-tabs-section {
+    background: var(--white);
+    border-bottom: 2px solid var(--gray-200);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+}
+
+.shop-tabs {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: var(--space-2);
+    padding: var(--space-2) 0;
+}
+
+.shop-tab {
+    padding: var(--space-4) var(--space-8);
+    text-decoration: none;
+    color: var(--gray-600);
+    font-weight: 600;
+    font-size: 1.125rem;
+    border-bottom: 4px solid transparent;
+    transition: all 0.3s ease;
+    background: transparent;
+    border-radius: var(--radius-md) var(--radius-md) 0 0;
+    position: relative;
+}
+
+.shop-tab:hover {
+    color: var(--primary-900);
+    background: var(--gray-50);
+}
+
+.shop-tab.active {
+    color: var(--primary-900);
+    background: var(--primary-50);
+    border-bottom-color: var(--secondary-500);
+    box-shadow: 0 -2px 12px rgba(0, 39, 72, 0.1);
+}
+
 /* Shop Hero */
 .shop-hero {
     position: relative;
@@ -457,6 +500,21 @@
 }
 
 @media (max-width: 768px) {
+    .shop-tabs {
+        flex-direction: row;
+        justify-content: center;
+        gap: var(--space-1);
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+    }
+
+    .shop-tab {
+        padding: var(--space-3) var(--space-4);
+        font-size: 0.9375rem;
+        white-space: nowrap;
+        flex-shrink: 0;
+    }
+
     .shop-search-bar {
         flex-direction: column;
     }

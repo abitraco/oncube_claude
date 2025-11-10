@@ -12,7 +12,19 @@
       "Bash(curl:*)",
       "Bash(php -r:*)",
       "Bash(node -e:*)",
-      "Bash(git reset:*)"
+      "Bash(git reset:*)",
+      "Bash(composer install:*)",
+      "Bash(php --version:*)",
+      "Bash(docker:*)",
+      "Bash(docker-compose build:*)",
+      "Bash(docker-compose up:*)",
+      "Bash(docker-compose ps:*)",
+      "Bash(timeout 5 curl:*)",
+      "Bash(docker-compose logs:*)",
+      "Bash(docker-compose down:*)",
+      "Bash(docker-compose exec:*)",
+      "Bash(docker-compose restart:*)",
+      "Bash(timeout 30 sh:*)"
     ],
     "deny": [],
     "ask": []

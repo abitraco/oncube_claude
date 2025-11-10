@@ -7,34 +7,13 @@
     <title>ONCUBE GLOBAL - Industrial Machinery & Equipment</title>
 
     <!-- Design System Styles -->
-    <link rel="stylesheet" href="css/design-system.css">
-    <link rel="stylesheet" href="css/waves.css">
-    <link rel="stylesheet" href="css/components.css">
-    <link rel="stylesheet" href="css/b2b-styles.css">
+    <link rel="stylesheet" href="{{ asset('css/design-system.css') }}?v={{ time() }}">
+    <link rel="stylesheet" href="{{ asset('css/waves.css') }}?v={{ time() }}">
+    <link rel="stylesheet" href="{{ asset('css/components.css') }}?v={{ time() }}">
+    <link rel="stylesheet" href="{{ asset('css/b2b-styles.css') }}?v={{ time() }}">
 </head>
 <body>
-    <!-- Navigation -->
-    <nav class="nav">
-        <div class="container">
-            <div class="nav-content">
-                <a href="home.html" class="logo">
-                    <img src="assets/logo.svg" alt="ONCUBE GLOBAL" style="height: 50px;">
-                </a>
-                <ul class="nav-links">
-                    <li><a href="home.html" class="active" data-i18n="nav_home">Home</a></li>
-                    <li><a href="shop.html" data-i18n="nav_shop">Shop</a></li>
-                    <li><a href="about.html" data-i18n="nav_about">About Us</a></li>
-                    <li><a href="contact.html" data-i18n="nav_contact">Contact Us</a></li>
-                    <li class="language-selector">
-                        <button class="lang-btn lang-selector active" data-lang="en" onclick="changeLanguage('en')">EN</button>
-                        <button class="lang-btn lang-selector" data-lang="ko" onclick="changeLanguage('ko')">한</button>
-                        <button class="lang-btn lang-selector" data-lang="ja" onclick="changeLanguage('ja')">日</button>
-                        <button class="lang-btn lang-selector" data-lang="zh" onclick="changeLanguage('zh')">中</button>
-                    </li>
-                </ul>
-            </div>
-        </div>
-    </nav>
+    @include('partials.header')
 
     <!-- Hero Section with Wavy Background -->
     <section id="hero" class="hero-section wave-background-top">
@@ -43,8 +22,8 @@
                 <h1 class="hero-title fade-in-up" data-i18n="hero_title">Global Industrial Solutions</h1>
                 <p class="hero-subtitle fade-in-up delay-1" data-i18n="hero_subtitle">Your Trusted Partner for Industrial Machinery, Equipment & Parts</p>
                 <div class="hero-buttons fade-in-up delay-2">
-                    <a href="shop.html" class="btn btn-primary" data-i18n="hero_cta_primary">Browse Products</a>
-                    <a href="rfq.html" class="btn btn-secondary" data-i18n="hero_cta_secondary">Request Quote</a>
+                    <a href="{{ route('shop', ['locale' => currentLocale()]) }}" class="btn btn-primary" data-i18n="hero_cta_primary">Browse Products</a>
+                    <a href="{{ route('contact', ['locale' => currentLocale()]) }}" class="btn btn-secondary" data-i18n="hero_cta_secondary">Request Quote</a>
                 </div>
             </div>
         </div>
@@ -400,7 +379,7 @@
             </div>
 
             <div class="text-center mt-12">
-                <a href="shop.html" class="btn btn-primary btn-lg" data-i18n="products_view_all">View All Products</a>
+                <a href="{{ route('shop', ['locale' => currentLocale()]) }}" class="btn btn-primary btn-lg" data-i18n="products_view_all">View All Products</a>
             </div>
         </div>
         <div class="wave-divider wave-bottom"></div>
@@ -411,57 +390,19 @@
         <div class="wave-divider wave-top"></div>
         <div class="container">
             <div class="cta-content fade-in-up">
-                <h2 class="section-title text-white" data-i18n="contact_title">Get In Touch</h2>
+                <h2 class="section-title-white" data-i18n="contact_title">Get In Touch</h2>
                 <p class="section-subtitle text-white" data-i18n="contact_subtitle">Ready to source your industrial needs? Contact us today</p>
                 <div class="cta-buttons">
-                    <a href="contact.html" class="btn btn-secondary btn-lg" data-i18n="contact_cta">Contact Us</a>
-                    <a href="rfq.html" class="btn btn-outline-white btn-lg" data-i18n="contact_rfq">Request Quote</a>
+                    <a href="{{ route('contact', ['locale' => currentLocale()]) }}" class="btn btn-secondary btn-lg" data-i18n="contact_cta">Contact Us</a>
+                    <a href="{{ route('contact', ['locale' => currentLocale()]) }}" class="btn btn-outline-white btn-lg" data-i18n="contact_rfq">Request Quote</a>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- Footer -->
-    <footer class="footer">
-        <div class="container">
-            <div class="footer-content-grid">
-                <div class="footer-column">
-                    <img src="assets/logo.svg" alt="ONCUBE GLOBAL" style="height: 50px; margin-bottom: var(--space-4);">
-                    <p>Your trusted partner for industrial machinery, equipment & parts worldwide.</p>
-                </div>
+    @include('partials.footer')
 
-                <div class="footer-column">
-                    <h4 data-i18n="footer_quick_links">Quick Links</h4>
-                    <ul class="footer-links">
-                        <li><a href="home.html" data-i18n="nav_home">Home</a></li>
-                        <li><a href="shop.html" data-i18n="nav_shop">Shop</a></li>
-                        <li><a href="about.html" data-i18n="nav_about">About Us</a></li>
-                        <li><a href="contact.html" data-i18n="nav_contact">Contact Us</a></li>
-                    </ul>
-                </div>
-
-                <div class="footer-column">
-                    <h4 data-i18n="footer_contact_info">Contact Information</h4>
-                    <ul class="footer-contact">
-                        <li>98, Gasan digital 2-ro, Unit 2-209, IT Castle</li>
-                        <li>Geumcheon-gu, Seoul 08506, Korea</li>
-                        <li>Tel: +82-10-4846-0846</li>
-                        <li>Fax: +82-504-476-0846</li>
-                        <li>Email: oncube2019@gmail.com</li>
-                        <li>Biz License: 416-19-94501</li>
-                    </ul>
-                </div>
-            </div>
-
-            <div class="footer-bottom">
-                <p data-i18n="footer_copyright">&copy; 2025 ONCUBE GLOBAL. All rights reserved.</p>
-            </div>
-        </div>
-    </footer>
-
-    <!-- Scripts -->
-    <script src="js/language.js"></script>
-    <script src="js/cart.js"></script>
-    <script src="js/animations.js"></script>
+    <!-- Page-specific Scripts -->
+    <script src="{{ asset('js/cart.js') }}"></script>
 </body>
 </html>

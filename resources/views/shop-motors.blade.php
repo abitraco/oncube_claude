@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Shop industrial machinery, equipment and parts - ONCUBE GLOBAL">
-    <title>Shop - ONCUBE GLOBAL</title>
+    <meta name="description" content="Shop motor parts, vehicles, and automotive equipment - ONCUBE GLOBAL">
+    <title>Motor Parts Shop - ONCUBE GLOBAL</title>
 
     <!-- Design System Styles -->
     <link rel="stylesheet" href="{{ asset('css/design-system.css') }}?v={{ time() }}">
@@ -19,8 +19,8 @@
     <!-- Shop Hero with Wave -->
     <section class="shop-hero wave-background-top">
         <div class="container">
-            <h1 class="shop-hero-title fade-in-up">Business & Industrial Equipment</h1>
-            <p class="shop-hero-subtitle fade-in-up delay-1">Browse our extensive catalog of industrial machinery, equipment, and parts from trusted sellers</p>
+            <h1 class="shop-hero-title fade-in-up">Motor Parts & Vehicles</h1>
+            <p class="shop-hero-subtitle fade-in-up delay-1">Browse our extensive catalog of motor parts, automotive equipment, and vehicles from trusted sellers</p>
         </div>
         <div class="wave-divider wave-bottom"></div>
     </section>
@@ -30,11 +30,11 @@
         <div class="container">
             <div class="shop-tabs">
                 <a href="{{ route('shop', ['locale' => currentLocale()]) }}"
-                   class="shop-tab active">
+                   class="shop-tab">
                     Business & Industrial Equipment
                 </a>
                 <a href="{{ route('shop.motors', ['locale' => currentLocale()]) }}"
-                   class="shop-tab">
+                   class="shop-tab active">
                     Motor Parts
                 </a>
             </div>
@@ -72,26 +72,26 @@
                     <div class="sidebar-section">
                         <h3 class="sidebar-title">Categories</h3>
                         <ul class="category-list">
-                            <li><a href="{{ route('shop', ['locale' => currentLocale(), 'categoryId' => '12576']) }}" class="{{ !request('categoryId') || request('categoryId') == '12576' ? 'active' : '' }}">All Business & Industrial</a></li>
-                            <li><a href="{{ route('shop', ['locale' => currentLocale(), 'categoryId' => '92074']) }}" class="{{ request('categoryId') == '92074' ? 'active' : '' }}">Heavy Equipment</a></li>
-                            <li><a href="{{ route('shop', ['locale' => currentLocale(), 'categoryId' => '11804']) }}" class="{{ request('categoryId') == '11804' ? 'active' : '' }}">Healthcare, Lab & Dental</a></li>
-                            <li><a href="{{ route('shop', ['locale' => currentLocale(), 'categoryId' => '12576']) }}" class="{{ request('categoryId') == '12576' && request('keywords') == 'CNC' ? 'active' : '' }}">CNC & Metalworking</a></li>
-                            <li><a href="{{ route('shop', ['locale' => currentLocale(), 'categoryId' => '182969']) }}" class="{{ request('categoryId') == '182969' ? 'active' : '' }}">Restaurant & Food Service</a></li>
-                            <li><a href="{{ route('shop', ['locale' => currentLocale(), 'categoryId' => '92087']) }}" class="{{ request('categoryId') == '92087' ? 'active' : '' }}">Construction</a></li>
-                            <li><a href="{{ route('shop', ['locale' => currentLocale(), 'categoryId' => '26242']) }}" class="{{ request('categoryId') == '26242' ? 'active' : '' }}">Office Equipment</a></li>
-                            <li><a href="{{ route('shop', ['locale' => currentLocale(), 'categoryId' => '92085']) }}" class="{{ request('categoryId') == '92085' ? 'active' : '' }}">Farming & Agriculture</a></li>
-                            <li><a href="{{ route('shop', ['locale' => currentLocale(), 'categoryId' => '11875']) }}" class="{{ request('categoryId') == '11875' ? 'active' : '' }}">Printing & Graphic Arts</a></li>
-                            <li><a href="{{ route('shop', ['locale' => currentLocale(), 'categoryId' => '26238']) }}" class="{{ request('categoryId') == '26238' ? 'active' : '' }}">Electrical Equipment</a></li>
-                            <li><a href="{{ route('shop', ['locale' => currentLocale(), 'categoryId' => '11804']) }}" class="{{ request('categoryId') == '11804' ? 'active' : '' }}">Material Handling</a></li>
-                            <li><a href="{{ route('shop', ['locale' => currentLocale(), 'categoryId' => '260328']) }}" class="{{ request('categoryId') == '260328' ? 'active' : '' }}">HVAC & Refrigeration</a></li>
+                            <li><a href="{{ route('shop.motors', ['locale' => currentLocale(), 'categoryId' => '33615']) }}" class="{{ !request('categoryId') || request('categoryId') == '33615' ? 'active' : '' }}">Car & Truck Parts</a></li>
+                            <li><a href="{{ route('shop.motors', ['locale' => currentLocale(), 'categoryId' => '6028']) }}" class="{{ request('categoryId') == '6028' ? 'active' : '' }}">All Parts & Accessories</a></li>
+                            <li><a href="{{ route('shop.motors', ['locale' => currentLocale(), 'categoryId' => '10063']) }}" class="{{ request('categoryId') == '10063' ? 'active' : '' }}">Motorcycle Parts</a></li>
+                            <li><a href="{{ route('shop.motors', ['locale' => currentLocale(), 'categoryId' => '6750']) }}" class="{{ request('categoryId') == '6750' ? 'active' : '' }}">Cars & Trucks</a></li>
+                            <li><a href="{{ route('shop.motors', ['locale' => currentLocale(), 'categoryId' => '6024']) }}" class="{{ request('categoryId') == '6024' ? 'active' : '' }}">Motorcycles</a></li>
+                            <li><a href="{{ route('shop.motors', ['locale' => currentLocale(), 'categoryId' => '6001']) }}" class="{{ request('categoryId') == '6001' ? 'active' : '' }}">Automotive Tools & Supplies</a></li>
+                            <li><a href="{{ route('shop.motors', ['locale' => currentLocale(), 'categoryId' => '179697']) }}" class="{{ request('categoryId') == '179697' ? 'active' : '' }}">Powersports</a></li>
+                            <li><a href="{{ route('shop.motors', ['locale' => currentLocale(), 'categoryId' => '6030']) }}" class="{{ request('categoryId') == '6030' ? 'active' : '' }}">Tires & Wheels</a></li>
+                            <li><a href="{{ route('shop.motors', ['locale' => currentLocale(), 'categoryId' => '66466']) }}" class="{{ request('categoryId') == '66466' ? 'active' : '' }}">Performance & Racing</a></li>
+                            <li><a href="{{ route('shop.motors', ['locale' => currentLocale(), 'categoryId' => '64614']) }}" class="{{ request('categoryId') == '64614' ? 'active' : '' }}">Boats</a></li>
+                            <li><a href="{{ route('shop.motors', ['locale' => currentLocale(), 'categoryId' => '63691']) }}" class="{{ request('categoryId') == '63691' ? 'active' : '' }}">RVs & Campers</a></li>
+                            <li><a href="{{ route('shop.motors', ['locale' => currentLocale(), 'categoryId' => '50000']) }}" class="{{ request('categoryId') == '50000' ? 'active' : '' }}">ATVs, UTVs & Snowmobiles</a></li>
                         </ul>
                     </div>
 
                     <div class="sidebar-section">
                         <h3 class="sidebar-title">Sort By</h3>
-                        <form action="{{ route('shop', ['locale' => currentLocale()]) }}" method="GET" id="sortForm">
+                        <form action="{{ route('shop.motors', ['locale' => currentLocale()]) }}" method="GET" id="sortForm">
                             <input type="hidden" name="keywords" value="{{ $keywords ?? '' }}">
-                            <input type="hidden" name="categoryId" value="{{ request('categoryId', '12576') }}">
+                            <input type="hidden" name="categoryId" value="{{ request('categoryId', '33615') }}">
                             <select name="sortOrder" class="sort-select" onchange="document.getElementById('sortForm').submit()">
                                 <option value="BestMatch" {{ ($sortOrder ?? '') == 'BestMatch' ? 'selected' : '' }}>Best Match</option>
                                 <option value="CurrentPriceLowest" {{ ($sortOrder ?? '') == 'CurrentPriceLowest' ? 'selected' : '' }}>Price: Lowest First</option>
@@ -114,7 +114,7 @@
                                     @if($keywords)
                                         for "<strong>{{ $keywords }}</strong>"
                                     @endif
-                                    in Business & Industrial
+                                    in Motor Parts & Vehicles
                                     @if(config('app.debug') && isset($isCached))
                                         <span style="font-size: 0.75rem; color: {{ $isCached ? '#10b981' : '#f59e0b' }}; margin-left: 0.5rem;">
                                             {{ $isCached ? '(Cached)' : '(Fresh)' }}
@@ -178,7 +178,7 @@
                             <div style="grid-column: 1/-1; text-align: center; padding: 4rem 2rem;">
                                 <h3 style="color: var(--gray-600); margin-bottom: 1rem;">No products found</h3>
                                 <p style="color: var(--gray-500);">Try adjusting your search keywords or browse without filters</p>
-                                <a href="{{ route('shop', ['locale' => currentLocale()]) }}" class="btn btn-primary" style="margin-top: 1.5rem;">Clear Search</a>
+                                <a href="{{ route('shop.motors', ['locale' => currentLocale()]) }}" class="btn btn-primary" style="margin-top: 1.5rem;">Clear Search</a>
                             </div>
                         @endforelse
                     </div>
@@ -193,18 +193,18 @@
                             @endphp
 
                             @if($currentPage > 1)
-                                <a href="{{ route('shop', array_merge(['locale' => currentLocale()], request()->query(), ['page' => $currentPage - 1])) }}" class="btn btn-outline btn-sm">Previous</a>
+                                <a href="{{ route('shop.motors', array_merge(['locale' => currentLocale()], request()->query(), ['page' => $currentPage - 1])) }}" class="btn btn-outline btn-sm">Previous</a>
                             @endif
 
                             @for($i = $startPage; $i <= $endPage; $i++)
-                                <a href="{{ route('shop', array_merge(['locale' => currentLocale()], request()->query(), ['page' => $i])) }}"
+                                <a href="{{ route('shop.motors', array_merge(['locale' => currentLocale()], request()->query(), ['page' => $i])) }}"
                                    class="btn btn-sm {{ $i == $currentPage ? 'btn-primary' : 'btn-outline' }}">
                                     {{ $i }}
                                 </a>
                             @endfor
 
                             @if($currentPage < $totalPages)
-                                <a href="{{ route('shop', array_merge(['locale' => currentLocale()], request()->query(), ['page' => $currentPage + 1])) }}" class="btn btn-outline btn-sm">Next</a>
+                                <a href="{{ route('shop.motors', array_merge(['locale' => currentLocale()], request()->query(), ['page' => $currentPage + 1])) }}" class="btn btn-outline btn-sm">Next</a>
                             @endif
                         </div>
                     @endif

@@ -1,0 +1,31 @@
+version: '3.8'
+
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "8000:80"
+    environment:
+      - APP_ENV=local
+      - APP_DEBUG=true
+      - APP_KEY=${APP_KEY}
+      - LOG_CHANNEL=stderr
+      - DB_CONNECTION=sqlite
+      - EBAY_CLIENT_ID=${EBAY_CLIENT_ID}
+      - EBAY_CLIENT_SECRET=${EBAY_CLIENT_SECRET}
+      - EBAY_LEGACY_APP_ID=${EBAY_LEGACY_APP_ID}
+    volumes:
+      - ./resources:/app/resources  # Mount resources for live development
+      - ./routes:/app/routes  # Mount routes for live development
+      - ./public:/app/public  # Mount public assets
+      - ./storage:/app/storage
+      - ./writable:/app/writable
+      - ./database:/app/database
+    command: >
+      sh -c "
+      chown -R application:application /app/storage /app/writable /app/database &&
+      chmod -R 775 /app/storage /app/writable /app/database &&
+      supervisord -c /opt/docker/etc/supervisor.conf
+      "
