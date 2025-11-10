@@ -1,20 +1,9 @@
-<!DOCTYPE html>
-<html lang="en" class="scroll-smooth">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Learn about ONCUBE GLOBAL - Your trusted partner for industrial and semiconductor equipment, parts, and services worldwide">
-    <title>About Us - ONCUBE GLOBAL</title>
+@extends('layouts.app')
 
-    <!-- Design System Styles -->
-    <link rel="stylesheet" href="{{ asset('css/design-system.css') }}">
-    <link rel="stylesheet" href="{{ asset('css/waves.css') }}">
-    <link rel="stylesheet" href="{{ asset('css/components.css') }}">
-    <link rel="stylesheet" href="{{ asset('css/b2b-styles.css') }}">
-</head>
-<body>
-    @include('partials.header')
+@section('title', 'About Us - ONCUBE GLOBAL')
+@section('meta_description', 'Learn about ONCUBE GLOBAL - Your trusted partner for industrial and semiconductor equipment, parts, and services worldwide')
 
+@section('content')
     <!-- About Hero with Wave -->
     <section class="about-hero wave-background-top">
         <div class="container">
@@ -252,10 +241,4 @@
         </div>
         <div class="wave-divider wave-bottom"></div>
     </section>
-
-    @include('partials.footer')
-
-    <!-- Page-specific Scripts -->
-    <script src="{{ asset('js/cart.js') }}"></script>
-</body>
-</html>
+@endsection

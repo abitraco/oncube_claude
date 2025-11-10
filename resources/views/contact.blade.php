@@ -1,20 +1,9 @@
-<!DOCTYPE html>
-<html lang="en" class="scroll-smooth">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Contact ONCUBE GLOBAL - Get in touch with our team for industrial and semiconductor equipment solutions">
-    <title>Contact Us - ONCUBE GLOBAL</title>
+@extends('layouts.app')
 
-    <!-- Design System Styles -->
-    <link rel="stylesheet" href="{{ asset('css/design-system.css') }}">
-    <link rel="stylesheet" href="{{ asset('css/waves.css') }}">
-    <link rel="stylesheet" href="{{ asset('css/components.css') }}">
-    <link rel="stylesheet" href="{{ asset('css/b2b-styles.css') }}">
-</head>
-<body>
-    @include('partials.header')
+@section('title', 'Contact Us - ONCUBE GLOBAL')
+@section('meta_description', 'Contact ONCUBE GLOBAL - Get in touch with our team for industrial and semiconductor equipment solutions')
 
+@section('content')
     <!-- Contact Hero -->
     <section class="contact-hero-section wave-background-top">
         <div class="container">
@@ -122,27 +111,10 @@
             </div>
         </div>
     </section>
+@endsection
 
-    @include('partials.footer')
-
-    <!-- Page-specific Scripts -->
-    <script src="{{ asset('js/cart.js') }}"></script>
+@push('scripts')
     <script>
-        function handleContactSubmit(event) {
-            event.preventDefault();
-
-            const formData = new FormData(event.target);
-            const data = Object.fromEntries(formData);
-
-            console.log('Contact form submitted:', data);
-
-            // Show success notification
-            showContactNotification('Thank you! We will get back to you soon.');
-
-            // Reset form
-            event.target.reset();
-        }
-
         function showContactNotification(message) {
             const notification = document.createElement('div');
             notification.style.cssText = `
@@ -166,5 +138,4 @@
             }, 3000);
         }
     </script>
-</body>
-</html>
+@endpush

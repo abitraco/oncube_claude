@@ -1,20 +1,9 @@
-<!DOCTYPE html>
-<html lang="en" class="scroll-smooth">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="ONCUBE GLOBAL - Your trusted partner for industrial machinery, equipment and parts worldwide">
-    <title>ONCUBE GLOBAL - Industrial Machinery & Equipment</title>
+@extends('layouts.app')
 
-    <!-- Design System Styles -->
-    <link rel="stylesheet" href="{{ asset('css/design-system.css') }}?v={{ time() }}">
-    <link rel="stylesheet" href="{{ asset('css/waves.css') }}?v={{ time() }}">
-    <link rel="stylesheet" href="{{ asset('css/components.css') }}?v={{ time() }}">
-    <link rel="stylesheet" href="{{ asset('css/b2b-styles.css') }}?v={{ time() }}">
-</head>
-<body>
-    @include('partials.header')
+@section('title', 'ONCUBE GLOBAL - Industrial Machinery & Equipment')
+@section('meta_description', 'ONCUBE GLOBAL - Your trusted partner for industrial machinery, equipment and parts worldwide')
 
+@section('content')
     <!-- Hero Section with Wavy Background -->
     <section id="hero" class="hero-section wave-background-top">
         <div class="container">
@@ -399,10 +388,4 @@
             </div>
         </div>
     </section>
-
-    @include('partials.footer')
-
-    <!-- Page-specific Scripts -->
-    <script src="{{ asset('js/cart.js') }}"></script>
-</body>
-</html>
+@endsection

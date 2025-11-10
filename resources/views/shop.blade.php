@@ -1,21 +1,13 @@
-<!DOCTYPE html>
-<html lang="en" class="scroll-smooth">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Shop industrial machinery, equipment and parts - ONCUBE GLOBAL">
-    <title>Shop - ONCUBE GLOBAL</title>
+@extends('layouts.app')
 
-    <!-- Design System Styles -->
-    <link rel="stylesheet" href="{{ asset('css/design-system.css') }}?v={{ time() }}">
-    <link rel="stylesheet" href="{{ asset('css/waves.css') }}?v={{ time() }}">
-    <link rel="stylesheet" href="{{ asset('css/components.css') }}?v={{ time() }}">
-    <link rel="stylesheet" href="{{ asset('css/b2b-styles.css') }}?v={{ time() }}">
+@section('title', 'Shop - ONCUBE GLOBAL')
+@section('meta_description', 'Shop industrial machinery, equipment and parts - ONCUBE GLOBAL')
+
+@push('styles')
     <link rel="stylesheet" href="{{ asset('css/shop.css') }}?v={{ time() }}">
-</head>
-<body>
-    @include('partials.header')
+@endpush
 
+@section('content')
     <!-- Shop Hero with Wave -->
     <section class="shop-hero wave-background-top">
         <div class="container">
@@ -212,10 +204,9 @@
             </div>
         </div>
     </section>
+@endsection
 
-    @include('partials.footer')
-
-    <!-- Page-specific Scripts -->
+@push('scripts')
     <script>
         // Request quote functionality
         function requestQuote(product) {
@@ -234,5 +225,4 @@
             window.location.href = '{{ route('contact', ['locale' => currentLocale()]) }}';
         }
     </script>
-</body>
-</html>
+@endpush
