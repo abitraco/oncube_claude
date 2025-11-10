@@ -60,15 +60,8 @@
                 <div class="contact-form-wrapper fade-in-up delay-1">
                     <!-- Google Form Embed -->
                     <div class="google-form-container">
-                        <!-- Replace the src URL below with your Google Form embed URL -->
-                        <!-- To get the embed URL: 
-                             1. Go to your Google Form
-                             2. Click "Send" button (top right)
-                             3. Click the "<>" (embed HTML) icon
-                             4. Copy the iframe src URL
-                        -->
                         <iframe 
-                            src="YOUR_GOOGLE_FORM_EMBED_URL_HERE"
+                            src="https://docs.google.com/forms/d/e/1FAIpQLSfqMU6TO2xDT0QuMDKGfPM3DygJhu3wrdVV8qti4wNOJOufBg/viewform?embedded=true"
                             width="100%" 
                             height="1200" 
                             frameborder="0" 
