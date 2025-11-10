@@ -32,6 +32,14 @@
     color: var(--primary-900);
     text-decoration: none;
     z-index: 1001;
+    display: flex;
+    align-items: center;
+}
+
+.logo img {
+    display: block;
+    height: auto;
+    max-width: 100%;
 }
 
 /* Mobile Menu Toggle */
