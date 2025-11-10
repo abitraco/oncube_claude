@@ -3,7 +3,7 @@
     <div class="container">
         <div class="footer-content-grid">
             <div class="footer-column">
-                <img src="{{ asset('assets/logo.svg') }}" alt="ONCUBE GLOBAL" style="height: 50px; margin-bottom: var(--space-4);">
+                <img src="{{ asset('assets/logo.png') }}" alt="ONCUBE GLOBAL" style="height: 45px; margin-bottom: var(--space-4);">
                 <p>Your trusted partner for industrial machinery, equipment & parts worldwide.</p>
             </div>
 

@@ -3,7 +3,7 @@
     <div class="container">
         <div class="nav-content">
             <a href="{{ route('home', ['locale' => currentLocale()]) }}" class="logo">
-                <img src="{{ asset('assets/logo.svg') }}" alt="ONCUBE GLOBAL" style="height: 50px;">
+                <img src="{{ asset('assets/logo.png') }}" alt="ONCUBE GLOBAL" style="height: 45px;">
             </a>
             <button class="mobile-menu-toggle" aria-label="Toggle menu">
                 <span></span>
