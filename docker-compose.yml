@@ -1,31 +1,41 @@
-version: '3.8'
-
 services:
-  app:
+  oncube-app:
     build:
       context: .
       dockerfile: Dockerfile
+    container_name: oncube-web
     ports:
-      - "8000:80"
+      - "80:80"
+      - "443:443"
     environment:
-      - APP_ENV=local
-      - APP_DEBUG=true
-      - APP_KEY=${APP_KEY}
-      - LOG_CHANNEL=stderr
-      - DB_CONNECTION=sqlite
-      - EBAY_CLIENT_ID=${EBAY_CLIENT_ID}
-      - EBAY_CLIENT_SECRET=${EBAY_CLIENT_SECRET}
-      - EBAY_LEGACY_APP_ID=${EBAY_LEGACY_APP_ID}
+      APP_ENV: production
+      APP_DEBUG: "false"
+      APP_KEY: ${APP_KEY:-base64:placeholder}
+      APP_URL: http://72.61.118.53
+      LOG_CHANNEL: stderr
+      DB_CONNECTION: sqlite
+      EBAY_CLIENT_ID: ${EBAY_CLIENT_ID}
+      EBAY_CLIENT_SECRET: ${EBAY_CLIENT_SECRET}
+      EBAY_LEGACY_APP_ID: ${EBAY_LEGACY_APP_ID}
     volumes:
-      - ./resources:/app/resources  # Mount resources for live development
-      - ./routes:/app/routes  # Mount routes for live development
-      - ./public:/app/public  # Mount public assets
-      - ./storage:/app/storage
-      - ./writable:/app/writable
-      - ./database:/app/database
+      - oncube-storage:/app/storage
+      - oncube-database:/app/database
+      - oncube-writable:/app/writable
+    restart: unless-stopped
     command: >
       sh -c "
       chown -R application:application /app/storage /app/writable /app/database &&
       chmod -R 775 /app/storage /app/writable /app/database &&
+      php artisan config:cache &&
+      php artisan route:cache &&
+      php artisan view:cache &&
       supervisord -c /opt/docker/etc/supervisor.conf
       "
+
+volumes:
+  oncube-storage:
+    driver: local
+  oncube-database:
+    driver: local
+  oncube-writable:
+    driver: local
