@@ -50,6 +50,9 @@ RUN apk add --no-cache \
 WORKDIR /app
 COPY --from=vendor /app /app
 
+# Custom Nginx configuration
+COPY nginx.conf /opt/docker/etc/nginx/vhost.conf
+
 # 필요한 디렉토리 생성
 RUN mkdir -p \
     /app/storage/framework/cache \
@@ -73,9 +76,5 @@ RUN touch /app/database/database.sqlite \
 ENV APP_ENV=production
 ENV APP_DEBUG=false
 ENV LOG_CHANNEL=stderr
-
-# 헬스체크용
-HEALTHCHECK --interval=30s --timeout=3s --start-period=40s \
-  CMD curl -f http://localhost/health || exit 1
 
 # 기본 CMD는 이미지에서 Nginx+PHP-FPM가 함께 기동됨
