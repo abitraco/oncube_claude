@@ -21,8 +21,8 @@ services:
       - oncube-storage:/app/storage
       - oncube-database:/app/database
       - oncube-writable:/app/writable
-      - letsencrypt:/etc/letsencrypt
-      - certbot-www:/var/www/certbot
+      - /etc/letsencrypt:/etc/letsencrypt:ro
+      - /var/www/certbot:/var/www/certbot
     restart: unless-stopped
     command: >
       sh -c "
@@ -40,8 +40,4 @@ volumes:
   oncube-database:
     driver: local
   oncube-writable:
-    driver: local
-  letsencrypt:
-    driver: local
-  certbot-www:
     driver: local
