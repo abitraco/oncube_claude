@@ -374,16 +374,40 @@
         <div class="wave-divider wave-bottom"></div>
     </section>
 
+    <!-- Request Quote Section -->
+    <section id="request-quote" class="request-quote-section wave-background-full">
+        <div class="wave-divider wave-top"></div>
+        <div class="container">
+            <div class="request-quote-content">
+                <div class="request-quote-text fade-in-up">
+                    <h2 class="section-title" data-i18n="request_quote_title">Request a Quote</h2>
+                    <p class="section-subtitle" data-i18n="request_quote_subtitle">
+                        Get competitive pricing for industrial equipment and parts. Fill out the form and our team will respond within 24 hours.
+                    </p>
+                    <ul class="request-quote-benefits">
+                        <li>✓ Customized pricing for your business</li>
+                        <li>✓ Access to worldwide suppliers</li>
+                        <li>✓ Expert technical support</li>
+                        <li>✓ Fast turnaround time</li>
+                    </ul>
+                </div>
+                <div class="request-quote-form-wrapper fade-in-up delay-1">
+                    @include('partials.request-quote-form')
+                </div>
+            </div>
+        </div>
+        <div class="wave-divider wave-bottom"></div>
+    </section>
+
     <!-- CTA Section with Wavy Background -->
     <section id="cta" class="cta-section wave-background-bottom">
         <div class="wave-divider wave-top"></div>
         <div class="container">
             <div class="cta-content fade-in-up">
                 <h2 class="section-title-white" data-i18n="contact_title">Get In Touch</h2>
-                <p class="section-subtitle text-white" data-i18n="contact_subtitle">Ready to source your industrial needs? Contact us today</p>
+                <p class="section-subtitle text-white" data-i18n="contact_subtitle">Have questions? Contact our team for personalized assistance</p>
                 <div class="cta-buttons">
                     <a href="{{ route('contact', ['locale' => currentLocale()]) }}" class="btn btn-secondary btn-lg" data-i18n="contact_cta">Contact Us</a>
-                    <a href="{{ route('contact', ['locale' => currentLocale()]) }}" class="btn btn-outline-white btn-lg" data-i18n="contact_rfq">Request Quote</a>
                 </div>
             </div>
         </div>

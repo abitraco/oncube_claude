@@ -204,6 +204,31 @@
             </div>
         </div>
     </section>
+
+    <!-- Request Quote Section -->
+    <section id="request-quote" class="request-quote-section wave-background-full">
+        <div class="wave-divider wave-top"></div>
+        <div class="container">
+            <div class="request-quote-content">
+                <div class="request-quote-text fade-in-up">
+                    <h2 class="section-title">Request a Quote</h2>
+                    <p class="section-subtitle">
+                        Looking for specific motor parts or bulk orders? Get a customized quote from our experts.
+                    </p>
+                    <ul class="request-quote-benefits">
+                        <li>✓ OEM and aftermarket parts</li>
+                        <li>✓ Volume discounts for dealers</li>
+                        <li>✓ Fast international shipping</li>
+                        <li>✓ Quality guarantee</li>
+                    </ul>
+                </div>
+                <div class="request-quote-form-wrapper fade-in-up delay-1">
+                    @include('partials.request-quote-form')
+                </div>
+            </div>
+        </div>
+        <div class="wave-divider wave-bottom"></div>
+    </section>
 @endsection
 
 @push('scripts')

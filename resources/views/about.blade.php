@@ -234,11 +234,35 @@
                     advanced services and premium products on time, every time.
                 </p>
                 <div class="commitment-cta">
-                    <a href="contact.html" class="btn btn-primary btn-lg">Partner With Us</a>
-                    <a href="shop.html" class="btn btn-outline btn-lg">Browse Products</a>
+                    <a href="{{ route('contact', ['locale' => currentLocale()]) }}" class="btn btn-primary btn-lg">Partner With Us</a>
+                    <a href="{{ route('shop', ['locale' => currentLocale()]) }}" class="btn btn-outline btn-lg">Browse Products</a>
                 </div>
             </div>
         </div>
         <div class="wave-divider wave-bottom"></div>
+    </section>
+
+    <!-- Request Quote Section -->
+    <section id="request-quote" class="request-quote-section wave-background-bottom">
+        <div class="wave-divider wave-top"></div>
+        <div class="container">
+            <div class="request-quote-content">
+                <div class="request-quote-text fade-in-up">
+                    <h2 class="section-title">Start Your Partnership</h2>
+                    <p class="section-subtitle">
+                        Ready to experience the ONCUBE GLOBAL difference? Request a quote and discover how we can support your business.
+                    </p>
+                    <ul class="request-quote-benefits">
+                        <li>✓ Trusted by global manufacturers</li>
+                        <li>✓ Customized B2B solutions</li>
+                        <li>✓ Technical expertise & support</li>
+                        <li>✓ Long-term partnership focus</li>
+                    </ul>
+                </div>
+                <div class="request-quote-form-wrapper fade-in-up delay-1">
+                    @include('partials.request-quote-form')
+                </div>
+            </div>
+        </div>
     </section>
 @endsection
