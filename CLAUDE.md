@@ -5,14 +5,20 @@ This is a Laravel 11 web application for a B2B industrial equipment and semicond
 ## Quick Summary
 
 Laravel 11 B2B platform featuring:
-- eBay API integration for product catalog
-- Request for Quote (RFQ) system with file uploads
-- Featured products admin dashboard
-- Multi-language support (en, ko, ja, zh)
-- SQLite database
-- Docker deployment ready
 
-Server: Hostinger VPS (72.61.118.53)
+* eBay API integration for product catalog
+* Request for Quote (RFQ) system with file uploads
+* Featured products admin dashboard
+* Multi-language support (en, ko, ja, zh)
+* SQLite database
+* Docker deployment ready
+
+Server: Hostinger VPS (72.61.118.53) root pass=> @@@Kgl835490
 PHP 8.3+ | Laravel 11 | SQLite
 
-See README.md, LARAVEL_SETUP_GUIDE.md, HOSTINGER_DEPLOY.md for detailed documentation.
+See README.md, LARAVEL\_SETUP\_GUIDE.md, HOSTINGER\_DEPLOY.md for detailed documentation.
+
+
+
+
+
