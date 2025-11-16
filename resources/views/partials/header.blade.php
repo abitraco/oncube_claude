@@ -12,8 +12,9 @@
             </button>
             <ul class="nav-links">
                 <li><a href="{{ route('home', ['locale' => currentLocale()]) }}" class="{{ request()->routeIs('home') ? 'active' : '' }}" data-i18n="nav_home">Home</a></li>
-                <li><a href="{{ route('shop', ['locale' => currentLocale()]) }}" class="{{ request()->routeIs('shop') || request()->routeIs('shop.motors') ? 'active' : '' }}" data-i18n="nav_shop">Shop</a></li>
                 <li><a href="{{ route('about', ['locale' => currentLocale()]) }}" class="{{ request()->routeIs('about') ? 'active' : '' }}" data-i18n="nav_about">About Us</a></li>
+                <li><a href="{{ route('shop', ['locale' => currentLocale()]) }}" class="{{ request()->routeIs('shop') || request()->routeIs('shop.motors') ? 'active' : '' }}" data-i18n="nav_shop">Shop</a></li>
+                <li><a href="{{ route('request-quote', ['locale' => currentLocale()]) }}" class="{{ request()->routeIs('request-quote') ? 'active' : '' }}" data-i18n="nav_request_quote">Request Quote</a></li>
                 <li><a href="{{ route('contact', ['locale' => currentLocale()]) }}" class="{{ request()->routeIs('contact') ? 'active' : '' }}" data-i18n="nav_contact">Contact Us</a></li>
                 <li class="language-selector" style="display: flex !important; flex-direction: row !important; flex-wrap: nowrap !important;">
                     @php $currentLang = currentLocale(); @endphp

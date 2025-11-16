@@ -181,7 +181,7 @@
 /* Shop by Category Section */
 .shop-by-category-section {
     padding: var(--space-20) 0;
-    background-color: var(--white);
+    /* background-color: var(--white); */
 }
 
 .category-showcase-grid {
@@ -613,7 +613,6 @@
 .commitment-section {
     position: relative;
     padding: var(--space-24) 0;
-    background-color: var(--primary-900);
 }
 
 .commitment-content {
@@ -623,13 +622,13 @@
 }
 
 .commitment-section .section-title {
-    color: var(--white);
+    color: var(--primary-900);
 }
 
 .commitment-text {
     font-size: 1.125rem;
     line-height: 1.8;
-    color: var(--gray-200);
+    color: var(--gray-700);
     margin-bottom: var(--space-6);
 }
 

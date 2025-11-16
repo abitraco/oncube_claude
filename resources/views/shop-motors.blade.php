@@ -11,8 +11,8 @@
     <!-- Shop Hero with Wave -->
     <section class="shop-hero wave-background-top">
         <div class="container">
-            <h1 class="shop-hero-title fade-in-up">Motor Parts & Vehicles</h1>
-            <p class="shop-hero-subtitle fade-in-up delay-1">Browse our extensive catalog of motor parts, automotive equipment, and vehicles from trusted sellers</p>
+            <h1 class="shop-hero-title fade-in-up">{{ __('Motor Parts & Vehicles') }}</h1>
+            <p class="shop-hero-subtitle fade-in-up delay-1">{{ __('Browse our extensive catalog of motor parts, automotive equipment, and vehicles from trusted sellers') }}</p>
         </div>
         <div class="wave-divider wave-bottom"></div>
     </section>
@@ -23,11 +23,11 @@
             <div class="shop-tabs">
                 <a href="{{ route('shop', ['locale' => currentLocale()]) }}"
                    class="shop-tab">
-                    Business & Industrial Equipment
+                    {{ __('Business & Industrial Equipment') }}
                 </a>
                 <a href="{{ route('shop.motors', ['locale' => currentLocale()]) }}"
                    class="shop-tab active">
-                    Motor Parts
+                    {{ __('Motor Parts') }}
                 </a>
             </div>
         </div>
@@ -36,15 +36,15 @@
     <!-- Search and Filter Bar -->
     <section class="shop-search-section">
         <div class="container">
-            <form action="{{ route('shop', ['locale' => currentLocale()]) }}" method="GET" class="shop-search-bar">
+            <form action="{{ route('shop.motors', ['locale' => currentLocale()]) }}" method="GET" class="shop-search-bar">
                 <div class="search-input-wrapper">
                     <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                         <circle cx="11" cy="11" r="8"/>
                         <path d="m21 21-4.35-4.35"/>
                     </svg>
-                    <input type="text" name="keywords" class="search-input" placeholder="Search products..." value="{{ $keywords ?? '' }}">
+                    <input type="text" name="keywords" class="search-input" placeholder="{{ __('Search products...') }}" value="{{ $keywords ?? '' }}">
                 </div>
-                <button type="submit" class="btn btn-primary">Search</button>
+                <button type="submit" class="btn btn-primary">{{ __('Search') }}</button>
             </form>
         </div>
     </section>
@@ -54,42 +54,62 @@
         <div class="container">
             @if($hasError ?? false)
                 <div style="background: #fee; border: 1px solid #fcc; border-radius: 8px; padding: 1rem; margin-bottom: 2rem; color: #c33;">
-                    <strong>Error:</strong> {{ $errorMessage }}
+                    <strong>{{ __('Error:') }}</strong> {{ $errorMessage }}
                 </div>
             @endif
 
+            @if($showSearchOnly ?? false)
+                <!-- Search Only View -->
+                <div style="text-align: center; padding: 4rem 2rem;">
+                    <svg width="120" height="120" viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg" style="margin: 0 auto 2rem;">
+                        <circle cx="60" cy="60" r="58" stroke="#002748" stroke-width="3" fill="#EDF3F6"/>
+                        <circle cx="50" cy="50" r="25" stroke="#002748" stroke-width="4" fill="none"/>
+                        <path d="M 68 68 L 85 85" stroke="#002748" stroke-width="4" stroke-linecap="round"/>
+                    </svg>
+                    <h2 style="color: #002748; margin-bottom: 1rem; font-size: 2rem;">{{ __('Start Your Search') }}</h2>
+                    <p style="color: #003B5C; font-size: 1.125rem; margin-bottom: 2rem; max-width: 600px; margin-left: auto; margin-right: auto;">
+                        {{ __('Enter keywords in the search bar above to browse thousands of motor parts and automotive equipment.') }}
+                    </p>
+                </div>
+            @else
             <div class="shop-layout">
                 <!-- Sidebar Filters -->
                 <aside class="shop-sidebar">
                     <div class="sidebar-section">
-                        <h3 class="sidebar-title">Categories</h3>
+                        <h3 class="sidebar-title">{{ __('Categories') }}</h3>
                         <ul class="category-list">
-                            <li><a href="{{ route('shop.motors', ['locale' => currentLocale(), 'categoryId' => '33615']) }}" class="{{ !request('categoryId') || request('categoryId') == '33615' ? 'active' : '' }}">Car & Truck Parts</a></li>
-                            <li><a href="{{ route('shop.motors', ['locale' => currentLocale(), 'categoryId' => '6028']) }}" class="{{ request('categoryId') == '6028' ? 'active' : '' }}">All Parts & Accessories</a></li>
-                            <li><a href="{{ route('shop.motors', ['locale' => currentLocale(), 'categoryId' => '10063']) }}" class="{{ request('categoryId') == '10063' ? 'active' : '' }}">Motorcycle Parts</a></li>
-                            <li><a href="{{ route('shop.motors', ['locale' => currentLocale(), 'categoryId' => '6750']) }}" class="{{ request('categoryId') == '6750' ? 'active' : '' }}">Cars & Trucks</a></li>
-                            <li><a href="{{ route('shop.motors', ['locale' => currentLocale(), 'categoryId' => '6024']) }}" class="{{ request('categoryId') == '6024' ? 'active' : '' }}">Motorcycles</a></li>
-                            <li><a href="{{ route('shop.motors', ['locale' => currentLocale(), 'categoryId' => '6001']) }}" class="{{ request('categoryId') == '6001' ? 'active' : '' }}">Automotive Tools & Supplies</a></li>
-                            <li><a href="{{ route('shop.motors', ['locale' => currentLocale(), 'categoryId' => '179697']) }}" class="{{ request('categoryId') == '179697' ? 'active' : '' }}">Powersports</a></li>
-                            <li><a href="{{ route('shop.motors', ['locale' => currentLocale(), 'categoryId' => '6030']) }}" class="{{ request('categoryId') == '6030' ? 'active' : '' }}">Tires & Wheels</a></li>
-                            <li><a href="{{ route('shop.motors', ['locale' => currentLocale(), 'categoryId' => '66466']) }}" class="{{ request('categoryId') == '66466' ? 'active' : '' }}">Performance & Racing</a></li>
-                            <li><a href="{{ route('shop.motors', ['locale' => currentLocale(), 'categoryId' => '64614']) }}" class="{{ request('categoryId') == '64614' ? 'active' : '' }}">Boats</a></li>
-                            <li><a href="{{ route('shop.motors', ['locale' => currentLocale(), 'categoryId' => '63691']) }}" class="{{ request('categoryId') == '63691' ? 'active' : '' }}">RVs & Campers</a></li>
-                            <li><a href="{{ route('shop.motors', ['locale' => currentLocale(), 'categoryId' => '50000']) }}" class="{{ request('categoryId') == '50000' ? 'active' : '' }}">ATVs, UTVs & Snowmobiles</a></li>
+                            @if(!empty($categoryDistributions) && count($categoryDistributions) > 0)
+                                @foreach($categoryDistributions as $index => $category)
+                                    @if($index < 15)
+                                        <li>
+                                            <a href="{{ route('shop.motors', ['locale' => currentLocale(), 'categoryId' => $category->categoryId]) }}" 
+                                               class="{{ $currentCategoryId == $category->categoryId ? 'active' : '' }}">
+                                                <span class="category-name">{{ $category->categoryName }}</span>
+                                                @if(isset($category->matchCount))
+                                                    <span class="category-count">{{ number_format($category->matchCount) }}</span>
+                                                @endif
+                                            </a>
+                                        </li>
+                                    @endif
+                                @endforeach
+                            @else
+                                <!-- Fallback static categories if API data not available -->
+                                <li><a href="{{ route('shop.motors', ['locale' => currentLocale(), 'categoryId' => '33615']) }}" class="{{ request('categoryId') == '6030' ? 'active' : '' }}">Car & Truck Parts</a></li>
+                            @endif
                         </ul>
                     </div>
 
                     <div class="sidebar-section">
-                        <h3 class="sidebar-title">Sort By</h3>
+                        <h3 class="sidebar-title">{{ __('Sort By') }}</h3>
                         <form action="{{ route('shop.motors', ['locale' => currentLocale()]) }}" method="GET" id="sortForm">
                             <input type="hidden" name="keywords" value="{{ $keywords ?? '' }}">
-                            <input type="hidden" name="categoryId" value="{{ request('categoryId', '33615') }}">
+                            <input type="hidden" name="categoryId" value="{{ request('categoryId', '6030') }}">
                             <select name="sortOrder" class="sort-select" onchange="document.getElementById('sortForm').submit()">
-                                <option value="BestMatch" {{ ($sortOrder ?? '') == 'BestMatch' ? 'selected' : '' }}>Best Match</option>
-                                <option value="CurrentPriceLowest" {{ ($sortOrder ?? '') == 'CurrentPriceLowest' ? 'selected' : '' }}>Price: Lowest First</option>
-                                <option value="CurrentPriceHighest" {{ ($sortOrder ?? '') == 'CurrentPriceHighest' ? 'selected' : '' }}>Price: Highest First</option>
-                                <option value="StartTimeNewest" {{ ($sortOrder ?? '') == 'StartTimeNewest' ? 'selected' : '' }}>Newly Listed</option>
-                                <option value="EndTimeSoonest" {{ ($sortOrder ?? '') == 'EndTimeSoonest' ? 'selected' : '' }}>Ending Soon</option>
+                                <option value="BestMatch" {{ ($sortOrder ?? '') == 'BestMatch' ? 'selected' : '' }}>{{ __('Best Match') }}</option>
+                                <option value="CurrentPriceLowest" {{ ($sortOrder ?? '') == 'CurrentPriceLowest' ? 'selected' : '' }}>{{ __('Price: Lowest First') }}</option>
+                                <option value="CurrentPriceHighest" {{ ($sortOrder ?? '') == 'CurrentPriceHighest' ? 'selected' : '' }}>{{ __('Price: Highest First') }}</option>
+                                <option value="StartTimeNewest" {{ ($sortOrder ?? '') == 'StartTimeNewest' ? 'selected' : '' }}>{{ __('Newly Listed') }}</option>
+                                <option value="EndTimeSoonest" {{ ($sortOrder ?? '') == 'EndTimeSoonest' ? 'selected' : '' }}>{{ __('Ending Soon') }}</option>
                             </select>
                         </form>
                     </div>
@@ -102,20 +122,24 @@
                         <div class="results-info">
                             <h2>
                                 @if($total > 0)
-                                    {{ number_format($total) }} results
+                                    {{ number_format($total) }} {{ __('results') }}
                                     @if($keywords)
-                                        for "<strong>{{ $keywords }}</strong>"
+                                        {{ __('for') }} "<strong>{{ $keywords }}</strong>"
                                     @endif
-                                    in Motor Parts & Vehicles
+                                    @if($categoryName)
+                                        {{ __('in') }} {{ $categoryName }}
+                                    @else
+                                        {{ __('in Motor Parts & Vehicles') }}
+                                    @endif
                                     @if(config('app.debug') && isset($isCached))
                                         <span style="font-size: 0.75rem; color: {{ $isCached ? '#10b981' : '#f59e0b' }}; margin-left: 0.5rem;">
                                             {{ $isCached ? '(Cached)' : '(Fresh)' }}
                                         </span>
                                     @endif
                                 @else
-                                    No products found
+                                    {{ __('No products found') }}
                                     @if($keywords)
-                                        for "{{ $keywords }}"
+                                        {{ __('for') }} "{{ $keywords }}"
                                     @endif
                                 @endif
                             </h2>
@@ -151,26 +175,26 @@
 
                                     @if(isset($item->seller->feedbackPercentage))
                                         <p style="font-size: 0.75rem; color: var(--gray-600); margin: 0.5rem 0;">
-                                            Seller: {{ $item->seller->feedbackPercentage }}% positive
+                                            {{ __('Seller:') }} {{ $item->seller->feedbackPercentage }}% {{ __('positive') }}
                                         </p>
                                     @endif
 
-                                    <button class="btn btn-secondary btn-sm btn-block" onclick="requestQuote({
-                                        id: '{{ $item->itemId ?? '' }}',
-                                        legacyId: '{{ $item->legacyItemId ?? '' }}',
-                                        name: '{{ addslashes($item->title ?? 'Product') }}',
-                                        price: '{{ $item->price->value ?? 0 }}',
-                                        currency: '{{ $item->price->currency ?? 'USD' }}',
-                                        image: '{{ $item->image->imageUrl ?? '' }}',
-                                        url: '{{ $item->itemWebUrl ?? '#' }}'
-                                    })">Request Quote</button>
+                                    @if(isset($item->itemWebUrl))
+                                        <a href="{{ $item->itemWebUrl }}" target="_blank" rel="noopener noreferrer" class="btn btn-outline btn-sm btn-block" style="margin-bottom: 0.5rem;">
+                                            {{ __('View Detail') }}
+                                        </a>
+                                    @endif
+
+                                    <a href="{{ route('request-quote', ['locale' => currentLocale(), 'product_url' => $item->itemWebUrl ?? '']) }}" class="btn btn-secondary btn-sm btn-block">
+                                        {{ __('Request Quote') }}
+                                    </a>
                                 </div>
                             </div>
                         @empty
                             <div style="grid-column: 1/-1; text-align: center; padding: 4rem 2rem;">
-                                <h3 style="color: var(--gray-600); margin-bottom: 1rem;">No products found</h3>
-                                <p style="color: var(--gray-500);">Try adjusting your search keywords or browse without filters</p>
-                                <a href="{{ route('shop.motors', ['locale' => currentLocale()]) }}" class="btn btn-primary" style="margin-top: 1.5rem;">Clear Search</a>
+                                <h3 style="color: var(--gray-600); margin-bottom: 1rem;">{{ __('No products found') }}</h3>
+                                <p style="color: var(--gray-500);">{{ __('Try adjusting your search keywords or browse without filters') }}</p>
+                                <a href="{{ route('shop.motors', ['locale' => currentLocale()]) }}" class="btn btn-primary" style="margin-top: 1.5rem;">{{ __('Clear Search') }}</a>
                             </div>
                         @endforelse
                     </div>
@@ -185,7 +209,7 @@
                             @endphp
 
                             @if($currentPage > 1)
-                                <a href="{{ route('shop.motors', array_merge(['locale' => currentLocale()], request()->query(), ['page' => $currentPage - 1])) }}" class="btn btn-outline btn-sm">Previous</a>
+                                <a href="{{ route('shop.motors', array_merge(['locale' => currentLocale()], request()->query(), ['page' => $currentPage - 1])) }}" class="btn btn-outline btn-sm">{{ __('Previous') }}</a>
                             @endif
 
                             @for($i = $startPage; $i <= $endPage; $i++)
@@ -196,58 +220,23 @@
                             @endfor
 
                             @if($currentPage < $totalPages)
-                                <a href="{{ route('shop.motors', array_merge(['locale' => currentLocale()], request()->query(), ['page' => $currentPage + 1])) }}" class="btn btn-outline btn-sm">Next</a>
+                                <a href="{{ route('shop.motors', array_merge(['locale' => currentLocale()], request()->query(), ['page' => $currentPage + 1])) }}" class="btn btn-outline btn-sm">{{ __('Next') }}</a>
                             @endif
                         </div>
                     @endif
                 </div>
             </div>
+            @endif
         </div>
     </section>
 
-    <!-- Request Quote Section -->
-    <section id="request-quote" class="request-quote-section wave-background-full">
-        <div class="wave-divider wave-top"></div>
-        <div class="container">
-            <div class="request-quote-content">
-                <div class="request-quote-text fade-in-up">
-                    <h2 class="section-title">Request a Quote</h2>
-                    <p class="section-subtitle">
-                        Looking for specific motor parts or bulk orders? Get a customized quote from our experts.
-                    </p>
-                    <ul class="request-quote-benefits">
-                        <li>✓ OEM and aftermarket parts</li>
-                        <li>✓ Volume discounts for dealers</li>
-                        <li>✓ Fast international shipping</li>
-                        <li>✓ Quality guarantee</li>
-                    </ul>
-                </div>
-                <div class="request-quote-form-wrapper fade-in-up delay-1">
-                    @include('partials.request-quote-form')
-                </div>
-            </div>
-        </div>
-        <div class="wave-divider wave-bottom"></div>
-    </section>
 @endsection
 
 @push('scripts')
     <script>
         // Request quote functionality
-        function requestQuote(product) {
-            const message = `Hi, I'm interested in:\n\nProduct: ${product.name}\nPrice: ${product.currency} $${product.price}\neBay Item ID: ${product.legacyId || product.id}\n\nCould you provide a quote for international shipping to my location?`;
-
-            // Option 1: Open contact page with pre-filled message (if you implement this)
-            // window.location.href = `/contact?product=${encodeURIComponent(product.id)}`;
-
-            // Option 2: Open eBay URL in new tab
-            if (product.url && product.url !== '#') {
-                window.open(product.url, '_blank');
-            }
-
-            // Option 3: Show contact modal (implement later)
-            alert('Request Quote:\n\n' + message + '\n\nClick OK to be redirected to the contact page.');
-            window.location.href = '{{ route('contact', ['locale' => currentLocale()]) }}';
+        function requestQuote() {
+            window.location.href = '{{ route('request-quote', ['locale' => currentLocale()]) }}';
         }
     </script>
 @endpush

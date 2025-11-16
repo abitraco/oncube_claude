@@ -12,7 +12,7 @@
                 <p class="hero-subtitle fade-in-up delay-1" data-i18n="hero_subtitle">Your Trusted Partner for Industrial Machinery, Equipment & Parts</p>
                 <div class="hero-buttons fade-in-up delay-2">
                     <a href="{{ route('shop', ['locale' => currentLocale()]) }}" class="btn btn-primary" data-i18n="hero_cta_primary">Browse Products</a>
-                    <a href="{{ route('contact', ['locale' => currentLocale()]) }}" class="btn btn-secondary" data-i18n="hero_cta_secondary">Request Quote</a>
+                    <a href="{{ route('request-quote', ['locale' => currentLocale()]) }}" class="btn btn-secondary" data-i18n="hero_cta_secondary">Request Quote</a>
                 </div>
             </div>
         </div>
@@ -65,13 +65,13 @@
     </section>
 
     <!-- Shop by Category Section -->
-    <section id="shop-by-category" class="shop-by-category-section">
+    <section id="shop-by-category" class="shop-by-category-section wave-background-full">
         <div class="container">
             <h2 class="section-title fade-in-up">Shop by category</h2>
 
             <!-- Row 1 -->
             <div class="category-showcase-grid">
-                <a href="shop.html?category=heavy-equipment" class="category-showcase-card fade-in-up">
+                <a href="{{ route('shop', ['locale' => currentLocale(), 'categoryId' => '92074']) }}" class="category-showcase-card fade-in-up">
                     <div class="category-showcase-image">
                         <svg width="120" height="120" viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <!-- Excavator -->
@@ -88,7 +88,7 @@
                     <h3 class="category-showcase-title">Heavy equipment</h3>
                 </a>
 
-                <a href="shop.html?category=healthcare" class="category-showcase-card fade-in-up delay-1">
+                <a href="{{ route('shop', ['locale' => currentLocale(), 'categoryId' => '11804']) }}" class="category-showcase-card fade-in-up delay-1">
                     <div class="category-showcase-image">
                         <svg width="120" height="120" viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <!-- Microscope -->
@@ -105,7 +105,7 @@
                     <h3 class="category-showcase-title">Healthcare, lab and dental</h3>
                 </a>
 
-                <a href="shop.html?category=cnc" class="category-showcase-card fade-in-up delay-2">
+                <a href="{{ route('shop', ['locale' => currentLocale(), 'categoryId' => '12576']) }}" class="category-showcase-card fade-in-up delay-2">
                     <div class="category-showcase-image">
                         <svg width="120" height="120" viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <!-- CNC Machine -->
@@ -122,7 +122,7 @@
                     <h3 class="category-showcase-title">CNC and manufacturing</h3>
                 </a>
 
-                <a href="shop.html?category=food-service" class="category-showcase-card fade-in-up delay-3">
+                <a href="{{ route('shop', ['locale' => currentLocale(), 'categoryId' => '182969']) }}" class="category-showcase-card fade-in-up delay-3">
                     <div class="category-showcase-image">
                         <svg width="120" height="120" viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <!-- Coffee Machine -->
@@ -137,43 +137,11 @@
                     </div>
                     <h3 class="category-showcase-title">Food service</h3>
                 </a>
-
-                <a href="shop.html?category=agriculture" class="category-showcase-card fade-in-up delay-4">
-                    <div class="category-showcase-image">
-                        <svg width="120" height="120" viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <!-- Tractor -->
-                            <rect x="35" y="55" width="50" height="25" rx="3" fill="#19BD0A"/>
-                            <circle cx="45" cy="82" r="10" fill="#333" stroke="#666" stroke-width="2"/>
-                            <circle cx="45" cy="82" r="5" fill="#666"/>
-                            <circle cx="75" cy="82" r="10" fill="#333" stroke="#666" stroke-width="2"/>
-                            <circle cx="75" cy="82" r="5" fill="#666"/>
-                            <rect x="50" y="40" width="20" height="15" rx="2" fill="#FFEC2D"/>
-                            <rect x="60" y="30" width="8" height="12" rx="1" fill="#666"/>
-                        </svg>
-                    </div>
-                    <h3 class="category-showcase-title">Agriculture and forestry</h3>
-                </a>
             </div>
 
             <!-- Row 2 -->
             <div class="category-showcase-grid mt-8">
-                <a href="shop.html?category=heavy-parts" class="category-showcase-card fade-in-up">
-                    <div class="category-showcase-image">
-                        <svg width="120" height="120" viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <!-- Gear/Seat Part -->
-                            <circle cx="60" cy="60" r="25" fill="#002748"/>
-                            <circle cx="60" cy="60" r="12" fill="#FFEC2D"/>
-                            <rect x="50" y="35" width="20" height="10" rx="2" fill="#002748"/>
-                            <rect x="50" y="75" width="20" height="10" rx="2" fill="#002748"/>
-                            <rect x="35" y="50" width="10" height="20" rx="2" fill="#002748"/>
-                            <rect x="75" y="50" width="10" height="20" rx="2" fill="#002748"/>
-                            <circle cx="60" cy="60" r="8" fill="#003B5C"/>
-                        </svg>
-                    </div>
-                    <h3 class="category-showcase-title">Heavy equipment parts</h3>
-                </a>
-
-                <a href="shop.html?category=office" class="category-showcase-card fade-in-up delay-1">
+                <a href="{{ route('shop', ['locale' => currentLocale(), 'categoryId' => '26242']) }}" class="category-showcase-card fade-in-up">
                     <div class="category-showcase-image">
                         <svg width="120" height="120" viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <!-- Calculator -->
@@ -193,40 +161,7 @@
                     <h3 class="category-showcase-title">Office equipment</h3>
                 </a>
 
-                <a href="shop.html?category=hvac" class="category-showcase-card fade-in-up delay-2">
-                    <div class="category-showcase-image">
-                        <svg width="120" height="120" viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <!-- Fan -->
-                            <circle cx="60" cy="60" r="30" fill="none" stroke="#002748" stroke-width="3"/>
-                            <circle cx="60" cy="60" r="8" fill="#002748"/>
-                            <path d="M60 32 Q50 50 60 60" fill="#003B5C"/>
-                            <path d="M88 60 Q70 50 60 60" fill="#003B5C"/>
-                            <path d="M60 88 Q70 70 60 60" fill="#003B5C"/>
-                            <path d="M32 60 Q50 70 60 60" fill="#003B5C"/>
-                            <circle cx="60" cy="60" r="4" fill="#FFEC2D"/>
-                            <circle cx="60" cy="60" r="25" fill="none" stroke="#FFEC2D" stroke-width="1" stroke-dasharray="4 4"/>
-                        </svg>
-                    </div>
-                    <h3 class="category-showcase-title">HVAC and refrigeration</h3>
-                </a>
-
-                <a href="shop.html?category=measurement" class="category-showcase-card fade-in-up delay-3">
-                    <div class="category-showcase-image">
-                        <svg width="120" height="120" viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <!-- Measuring Device -->
-                            <rect x="35" y="30" width="50" height="60" rx="4" fill="#FF6B00"/>
-                            <rect x="40" y="35" width="40" height="30" rx="2" fill="#002748"/>
-                            <line x1="45" y1="42" x2="75" y2="42" stroke="#FFEC2D" stroke-width="2"/>
-                            <line x1="45" y1="50" x2="70" y2="50" stroke="#FFEC2D" stroke-width="2"/>
-                            <line x1="45" y1="58" x2="65" y2="58" stroke="#FFEC2D" stroke-width="2"/>
-                            <rect x="50" y="70" width="20" height="15" rx="2" fill="#FFEC2D"/>
-                            <text x="60" y="80" font-size="10" fill="#002748" text-anchor="middle" font-weight="bold">123</text>
-                        </svg>
-                    </div>
-                    <h3 class="category-showcase-title">Measurement and inspection</h3>
-                </a>
-
-                <a href="shop.html?category=facility" class="category-showcase-card fade-in-up delay-4">
+                <a href="{{ route('shop', ['locale' => currentLocale(), 'categoryId' => '26238']) }}" class="category-showcase-card fade-in-up delay-2">
                     <div class="category-showcase-image">
                         <svg width="120" height="120" viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <!-- Wrench and Screwdriver -->
@@ -251,120 +186,59 @@
             <p class="section-subtitle fade-in-up delay-1" data-i18n="products_subtitle">High-quality industrial machinery and equipment</p>
 
             <div class="products-grid">
-                <!-- Product Card 1 -->
+                @forelse($featuredProducts as $index => $product)
+                <div class="product-card fade-in-up {{ 'delay-' . ($index % 6) }}">
+                    <div class="product-image">
+                        @if($product->image)
+                            <img src="{{ asset('storage/' . $product->image) }}" alt="{{ $product->title }}">
+                        @else
+                            <img src="product.png" alt="{{ $product->title }}">
+                        @endif
+                        @if($index === 0)
+                            <span class="product-badge">Featured</span>
+                        @endif
+                    </div>
+                    <div class="product-content">
+                        @if($product->category)
+                            <span class="product-category">{{ $product->category }}</span>
+                        @endif
+                        <h3 class="product-title">{{ $product->title }}</h3>
+                        @if($product->subtitle)
+                            <p class="product-desc">{{ $product->subtitle }}</p>
+                        @endif
+                        <div class="product-price-section">
+                            <span class="product-price-label" data-i18n="product_original_price">Original Price</span>
+                            <span class="product-price">USD ${{ number_format($product->price, 2) }}</span>
+                        </div>
+                        <div class="product-actions">
+                            @if($product->product_url)
+                                <a href="{{ $product->product_url }}" target="_blank" class="btn btn-outline btn-block" data-i18n="product_details">View Details</a>
+                            @endif
+                            <a href="{{ route('request-quote', ['locale' => currentLocale(), 'product_url' => $product->product_url ?? '']) }}" class="btn btn-secondary btn-block" data-i18n="product_rfq">Request Quote</a>
+                        </div>
+                    </div>
+                </div>
+                @empty
+                <!-- Default Product Card (shown when no products in database) -->
                 <div class="product-card fade-in-up">
                     <div class="product-image">
-                        <img src="product.png" alt="Starter For Ford 7.3 7.3L PowerStroke Pickup Truck Higher Torque">
+                        <img src="product.png" alt="Product">
                         <span class="product-badge">Featured</span>
                     </div>
                     <div class="product-content">
                         <span class="product-category">Parts & Components</span>
-                        <h3 class="product-title">Starter For Ford 7.3 7.3L PowerStroke Pickup Truck Higher Torque</h3>
-                        <p class="product-desc">High-torque starter motor for Ford PowerStroke diesel engines</p>
+                        <h3 class="product-title">Industrial Equipment</h3>
+                        <p class="product-desc">High-quality industrial machinery and parts</p>
                         <div class="product-price-section">
                             <span class="product-price-label" data-i18n="product_original_price">Original Price</span>
-                            <span class="product-price">USD $289.99</span>
+                            <span class="product-price">USD $0.00</span>
                         </div>
                         <div class="product-actions">
-                            <button class="btn btn-secondary btn-block" onclick="requestQuote({id: 'p1', name: 'Starter For Ford 7.3 7.3L PowerStroke Pickup Truck Higher Torque', price: '289.99', currency: 'USD', image: 'product.png', category: 'Parts & Components'})" data-i18n="product_rfq">Request Quote</button>
+                            <a href="{{ route('request-quote', ['locale' => currentLocale()]) }}" class="btn btn-secondary btn-block" data-i18n="product_rfq">Request Quote</a>
                         </div>
                     </div>
                 </div>
-
-                <!-- Product Card 2 -->
-                <div class="product-card fade-in-up delay-1">
-                    <div class="product-image">
-                        <img src="product.png" alt="Starter For Ford 7.3 7.3L PowerStroke Pickup Truck Higher Torque">
-                    </div>
-                    <div class="product-content">
-                        <span class="product-category">Parts & Components</span>
-                        <h3 class="product-title">Starter For Ford 7.3 7.3L PowerStroke Pickup Truck Higher Torque</h3>
-                        <p class="product-desc">High-torque starter motor for Ford PowerStroke diesel engines</p>
-                        <div class="product-price-section">
-                            <span class="product-price-label" data-i18n="product_original_price">Original Price</span>
-                            <span class="product-price">USD $289.99</span>
-                        </div>
-                        <div class="product-actions">
-                            <button class="btn btn-secondary btn-block" onclick="requestQuote({id: 'p2', name: 'Starter For Ford 7.3 7.3L PowerStroke Pickup Truck Higher Torque', price: '289.99', currency: 'USD', image: 'product.png', category: 'Parts & Components'})" data-i18n="product_rfq">Request Quote</button>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Product Card 3 -->
-                <div class="product-card fade-in-up delay-2">
-                    <div class="product-image">
-                        <img src="product.png" alt="Starter For Ford 7.3 7.3L PowerStroke Pickup Truck Higher Torque">
-                    </div>
-                    <div class="product-content">
-                        <span class="product-category">Parts & Components</span>
-                        <h3 class="product-title">Starter For Ford 7.3 7.3L PowerStroke Pickup Truck Higher Torque</h3>
-                        <p class="product-desc">High-torque starter motor for Ford PowerStroke diesel engines</p>
-                        <div class="product-price-section">
-                            <span class="product-price-label" data-i18n="product_original_price">Original Price</span>
-                            <span class="product-price">USD $289.99</span>
-                        </div>
-                        <div class="product-actions">
-                            <button class="btn btn-secondary btn-block" onclick="requestQuote({id: 'p3', name: 'Starter For Ford 7.3 7.3L PowerStroke Pickup Truck Higher Torque', price: '289.99', currency: 'USD', image: 'product.png', category: 'Parts & Components'})" data-i18n="product_rfq">Request Quote</button>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Product Card 4 -->
-                <div class="product-card fade-in-up delay-3">
-                    <div class="product-image">
-                        <img src="product.png" alt="Starter For Ford 7.3 7.3L PowerStroke Pickup Truck Higher Torque">
-                    </div>
-                    <div class="product-content">
-                        <span class="product-category">Parts & Components</span>
-                        <h3 class="product-title">Starter For Ford 7.3 7.3L PowerStroke Pickup Truck Higher Torque</h3>
-                        <p class="product-desc">High-torque starter motor for Ford PowerStroke diesel engines</p>
-                        <div class="product-price-section">
-                            <span class="product-price-label" data-i18n="product_original_price">Original Price</span>
-                            <span class="product-price">USD $289.99</span>
-                        </div>
-                        <div class="product-actions">
-                            <button class="btn btn-secondary btn-block" onclick="requestQuote({id: 'p4', name: 'Starter For Ford 7.3 7.3L PowerStroke Pickup Truck Higher Torque', price: '289.99', currency: 'USD', image: 'product.png', category: 'Parts & Components'})" data-i18n="product_rfq">Request Quote</button>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Product Card 5 -->
-                <div class="product-card fade-in-up delay-4">
-                    <div class="product-image">
-                        <img src="product.png" alt="Starter For Ford 7.3 7.3L PowerStroke Pickup Truck Higher Torque">
-                    </div>
-                    <div class="product-content">
-                        <span class="product-category">Parts & Components</span>
-                        <h3 class="product-title">Starter For Ford 7.3 7.3L PowerStroke Pickup Truck Higher Torque</h3>
-                        <p class="product-desc">High-torque starter motor for Ford PowerStroke diesel engines</p>
-                        <div class="product-price-section">
-                            <span class="product-price-label" data-i18n="product_original_price">Original Price</span>
-                            <span class="product-price">USD $289.99</span>
-                        </div>
-                        <div class="product-actions">
-                            <button class="btn btn-secondary btn-block" onclick="requestQuote({id: 'p5', name: 'Starter For Ford 7.3 7.3L PowerStroke Pickup Truck Higher Torque', price: '289.99', currency: 'USD', image: 'product.png', category: 'Parts & Components'})" data-i18n="product_rfq">Request Quote</button>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Product Card 6 -->
-                <div class="product-card fade-in-up delay-5">
-                    <div class="product-image">
-                        <img src="product.png" alt="Starter For Ford 7.3 7.3L PowerStroke Pickup Truck Higher Torque">
-                    </div>
-                    <div class="product-content">
-                        <span class="product-category">Parts & Components</span>
-                        <h3 class="product-title">Starter For Ford 7.3 7.3L PowerStroke Pickup Truck Higher Torque</h3>
-                        <p class="product-desc">High-torque starter motor for Ford PowerStroke diesel engines</p>
-                        <div class="product-price-section">
-                            <span class="product-price-label" data-i18n="product_original_price">Original Price</span>
-                            <span class="product-price">USD $289.99</span>
-                        </div>
-                        <div class="product-actions">
-                            <button class="btn btn-secondary btn-block" onclick="requestQuote({id: 'p6', name: 'Starter For Ford 7.3 7.3L PowerStroke Pickup Truck Higher Torque', price: '289.99', currency: 'USD', image: 'product.png', category: 'Parts & Components'})" data-i18n="product_rfq">Request Quote</button>
-                        </div>
-                    </div>
-                </div>
+                @endforelse
             </div>
 
             <div class="text-center mt-12">
@@ -378,21 +252,19 @@
     <section id="request-quote" class="request-quote-section wave-background-full">
         <div class="wave-divider wave-top"></div>
         <div class="container">
-            <div class="request-quote-content">
-                <div class="request-quote-text fade-in-up">
-                    <h2 class="section-title" data-i18n="request_quote_title">Request a Quote</h2>
-                    <p class="section-subtitle" data-i18n="request_quote_subtitle">
-                        Get competitive pricing for industrial equipment and parts. Fill out the form and our team will respond within 24 hours.
-                    </p>
-                    <ul class="request-quote-benefits">
-                        <li>✓ Customized pricing for your business</li>
-                        <li>✓ Access to worldwide suppliers</li>
-                        <li>✓ Expert technical support</li>
-                        <li>✓ Fast turnaround time</li>
-                    </ul>
-                </div>
-                <div class="request-quote-form-wrapper fade-in-up delay-1">
-                    @include('partials.request-quote-form')
+            <div class="request-quote-cta-content fade-in-up">
+                <h2 class="section-title" data-i18n="home_quote_title">Request a Quote</h2>
+                <p class="section-subtitle" data-i18n="home_quote_subtitle">
+                    Get competitive pricing for industrial equipment and parts. Fill out the form and our team will respond within 24 hours.
+                </p>
+                <ul class="request-quote-benefits">
+                    <li data-i18n="home_quote_benefit1">✓ Customized pricing for your business</li>
+                    <li data-i18n="home_quote_benefit2">✓ Access to worldwide suppliers</li>
+                    <li data-i18n="home_quote_benefit3">✓ Expert technical support</li>
+                    <li data-i18n="home_quote_benefit4">✓ Fast turnaround time</li>
+                </ul>
+                <div class="request-quote-button">
+                    <a href="{{ route('request-quote', ['locale' => currentLocale()]) }}" class="btn btn-primary btn-lg" data-i18n="home_quote_button">Get Your Quote Now</a>
                 </div>
             </div>
         </div>
@@ -408,6 +280,7 @@
                 <p class="section-subtitle text-white" data-i18n="contact_subtitle">Have questions? Contact our team for personalized assistance</p>
                 <div class="cta-buttons">
                     <a href="{{ route('contact', ['locale' => currentLocale()]) }}" class="btn btn-secondary btn-lg" data-i18n="contact_cta">Contact Us</a>
+                    <a href="{{ route('request-quote', ['locale' => currentLocale()]) }}" class="btn btn-outline-white btn-lg" data-i18n="contact_rfq">Request Quote</a>
                 </div>
             </div>
         </div>

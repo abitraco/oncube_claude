@@ -22,12 +22,43 @@ Route::get('/health', function () {
     ], 200);
 });
 
+// Admin routes
+Route::get('/admin', [App\Http\Controllers\Admin\DashboardController::class, 'index'])->name('admin.dashboard');
+Route::post('/admin', [App\Http\Controllers\Admin\DashboardController::class, 'index']);
+Route::get('/admin/quotes', [App\Http\Controllers\Admin\QuoteRequestAdminController::class, 'index'])->name('admin.quotes');
+Route::post('/admin/quotes', [App\Http\Controllers\Admin\QuoteRequestAdminController::class, 'index']);
+Route::get('/admin/logout', [App\Http\Controllers\Admin\QuoteRequestAdminController::class, 'logout'])->name('admin.logout');
+
+// Admin Featured Products routes
+Route::get('/admin/featured-products', [App\Http\Controllers\Admin\FeaturedProductController::class, 'index'])->name('admin.featured-products');
+Route::post('/admin/featured-products', [App\Http\Controllers\Admin\FeaturedProductController::class, 'index']);
+Route::post('/admin/featured-products/store', [App\Http\Controllers\Admin\FeaturedProductController::class, 'store'])->name('admin.featured-products.store');
+Route::post('/admin/featured-products/{id}/duplicate', [App\Http\Controllers\Admin\FeaturedProductController::class, 'duplicate'])->name('admin.featured-products.duplicate');
+Route::put('/admin/featured-products/{id}', [App\Http\Controllers\Admin\FeaturedProductController::class, 'update'])->name('admin.featured-products.update');
+Route::delete('/admin/featured-products/{id}', [App\Http\Controllers\Admin\FeaturedProductController::class, 'destroy'])->name('admin.featured-products.destroy');
+
+// Admin Login Page
+Route::get('/admin/login', function () {
+    $redirect = request()->query('redirect', 'quotes');
+    return view('admin.login', compact('redirect'));
+})->name('admin.login');
+
 // Localized routes
 Route::group(['prefix' => '{locale}', 'where' => ['locale' => 'en|ko|ja|zh'], 'middleware' => 'setlocale'], function () {
 
     Route::get('/home', function () {
-        return view('home');
+        $featuredProducts = \App\FeaturedProduct::where('is_active', true)
+            ->orderBy('order')
+            ->limit(6)
+            ->get();
+        return view('home', compact('featuredProducts'));
     })->name('home');
+
+    Route::get('/request-quote', function () {
+        return view('request-quote');
+    })->name('request-quote');
+    
+    Route::post('/request-quote', [App\Http\Controllers\QuoteRequestController::class, 'store'])->name('request-quote.store');
 
     Route::get('/shop', [App\Http\Controllers\EbayController::class, 'shop'])->name('shop');
     Route::get('/shop/motors', [App\Http\Controllers\EbayController::class, 'shopMotors'])->name('shop.motors');

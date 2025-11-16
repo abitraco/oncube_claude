@@ -21,7 +21,7 @@
                 <h4 data-i18n="footer_contact_info">Contact Information</h4>
                 <ul class="footer-contact">
                     <li>98, Gasan digital 2-ro, Unit 2-209, IT Castle</li>
-                    <li>Geumcheon-gu, Seoul 08506, Korea</li>
+                    <li>Geumcheon-gu, Seoul 08506, Republic of Korea</li>
                     <li>Tel: +82-10-4846-0846</li>
                     <li>Fax: +82-504-476-0846</li>
                     <li>Email: oncube2019@gmail.com</li>

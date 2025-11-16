@@ -12,11 +12,15 @@ class EbayController extends Controller
     protected $ebayUtil;
 
     // Cache duration in seconds (1 hour = 3600, 24 hours = 86400)
-    protected $cacheDuration = 3600; // 1 hour
+    // Disabled on localhost for development
+    protected $cacheDuration;
 
     public function __construct()
     {
         $this->ebayUtil = new EbayUtil();
+        
+        // Disable cache on localhost/local development
+        $this->cacheDuration = config('app.env') === 'local' ? 0 : 3600;
     }
 
     /**
@@ -60,6 +64,26 @@ class EbayController extends Controller
                 'ListingType' => $request->input('ListingType', 'All')
             ];
 
+            // If no keywords provided and using default category, show search page only
+            // Allow category browsing when specific categoryId is provided
+            if (empty($searchData['keywords']) && $searchData['categoryId'] === '12576') {
+                return view('shop', [
+                    'items' => [],
+                    'total' => 0,
+                    'currentPage' => 1,
+                    'perPage' => 48,
+                    'keywords' => '',
+                    'sortOrder' => 'BestMatch',
+                    'categoryName' => null,
+                    'categoryDistributions' => [],
+                    'currentCategoryId' => $searchData['categoryId'],
+                    'hasError' => false,
+                    'errorMessage' => '',
+                    'isCached' => false,
+                    'showSearchOnly' => true
+                ]);
+            }
+
             // Generate cache key
             $cacheKey = $this->getCacheKey($searchData);
 
@@ -83,12 +107,22 @@ class EbayController extends Controller
             // Prepare data for view
             $items = [];
             $total = 0;
+            $categoryName = null;
+            $categoryDistributions = [];
             $hasError = false;
             $errorMessage = '';
 
             if ($result && isset($result->itemSummaries)) {
                 $items = $result->itemSummaries;
                 $total = $result->total ?? 0;
+                // Extract category data from refinement
+                if (isset($result->refinement->categoryDistributions)) {
+                    $categoryDistributions = $result->refinement->categoryDistributions;
+                    // Get the first category name as the current category
+                    if (count($categoryDistributions) > 0) {
+                        $categoryName = $categoryDistributions[0]->categoryName ?? null;
+                    }
+                }
             } elseif ($result && isset($result->errors)) {
                 $hasError = true;
                 // Check for rate limit error specifically
@@ -120,9 +154,13 @@ class EbayController extends Controller
                 'perPage' => $searchData['perpage'],
                 'keywords' => $searchData['keywords'],
                 'sortOrder' => $searchData['sortOrder'],
+                'categoryName' => $categoryName,
+                'categoryDistributions' => $categoryDistributions,
+                'currentCategoryId' => $searchData['categoryId'],
                 'hasError' => $hasError,
                 'errorMessage' => $errorMessage,
                 'isCached' => $isCached, // Show cache status in debug mode
+                'showSearchOnly' => false
             ]);
 
         } catch (\Exception $e) {
@@ -135,8 +173,12 @@ class EbayController extends Controller
                 'perPage' => 48,
                 'keywords' => '',
                 'sortOrder' => 'BestMatch',
+                'categoryName' => null,
+                'categoryDistributions' => [],
+                'currentCategoryId' => '12576',
                 'hasError' => true,
-                'errorMessage' => 'An error occurred while loading products'
+                'errorMessage' => 'An error occurred while loading products',
+                'showSearchOnly' => false
             ]);
         }
     }
@@ -151,7 +193,7 @@ class EbayController extends Controller
             // Default to eBay Motors Car & Truck Parts category (33615)
             $searchData = [
                 'keywords' => $request->input('keywords', ''),
-                'categoryId' => $request->input('categoryId', '33615'),
+                'categoryId' => $request->input('categoryId', '6030'),
                 'perpage' => $request->input('perpage', 48),
                 'pageNumber' => $request->input('page', 1),
                 'sortOrder' => $request->input('sortOrder', 'BestMatch'),
@@ -160,6 +202,26 @@ class EbayController extends Controller
                 'ListingType' => $request->input('ListingType', 'All'),
                 'marketplace' => 'EBAY_MOTORS_US' // eBay Motors marketplace
             ];
+
+            // If no keywords provided and using default category, show search page only
+            // Allow category browsing when specific categoryId is provided
+            if (empty($searchData['keywords']) && $searchData['categoryId'] === '6030') {
+                return view('shop-motors', [
+                    'items' => [],
+                    'total' => 0,
+                    'currentPage' => 1,
+                    'perPage' => 48,
+                    'keywords' => '',
+                    'sortOrder' => 'BestMatch',
+                    'categoryName' => null,
+                    'categoryDistributions' => [],
+                    'currentCategoryId' => $searchData['categoryId'],
+                    'hasError' => false,
+                    'errorMessage' => '',
+                    'isCached' => false,
+                    'showSearchOnly' => true
+                ]);
+            }
 
             // Generate cache key
             $cacheKey = $this->getCacheKey($searchData);
@@ -184,12 +246,22 @@ class EbayController extends Controller
             // Prepare data for view
             $items = [];
             $total = 0;
+            $categoryName = null;
+            $categoryDistributions = [];
             $hasError = false;
             $errorMessage = '';
 
             if ($result && isset($result->itemSummaries)) {
                 $items = $result->itemSummaries;
                 $total = $result->total ?? 0;
+                // Extract category data from refinement
+                if (isset($result->refinement->categoryDistributions)) {
+                    $categoryDistributions = $result->refinement->categoryDistributions;
+                    // Get the first category name as the current category
+                    if (count($categoryDistributions) > 0) {
+                        $categoryName = $categoryDistributions[0]->categoryName ?? null;
+                    }
+                }
             } elseif ($result && isset($result->errors)) {
                 $hasError = true;
                 // Check for rate limit error specifically
@@ -220,9 +292,13 @@ class EbayController extends Controller
                 'perPage' => $searchData['perpage'],
                 'keywords' => $searchData['keywords'],
                 'sortOrder' => $searchData['sortOrder'],
+                'categoryName' => $categoryName,
+                'categoryDistributions' => $categoryDistributions,
+                'currentCategoryId' => $searchData['categoryId'],
                 'hasError' => $hasError,
                 'errorMessage' => $errorMessage,
                 'isCached' => $isCached,
+                'showSearchOnly' => false
             ]);
 
         } catch (\Exception $e) {
@@ -235,8 +311,12 @@ class EbayController extends Controller
                 'perPage' => 48,
                 'keywords' => '',
                 'sortOrder' => 'BestMatch',
+                'categoryName' => null,
+                'categoryDistributions' => [],
+                'currentCategoryId' => '6030',
                 'hasError' => true,
-                'errorMessage' => 'An error occurred while loading products'
+                'errorMessage' => 'An error occurred while loading products',
+                'showSearchOnly' => false
             ]);
         }
     }

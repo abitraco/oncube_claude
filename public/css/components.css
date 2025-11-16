@@ -498,7 +498,7 @@
 
 .hero-section {
     position: relative;
-    min-height: 90vh;
+    min-height: 60vh;
     display: flex;
     align-items: center;
     background-color: var(--primary-100);
@@ -510,7 +510,7 @@
     position: relative;
     z-index: 10;
     text-align: center;
-    max-width: 900px;
+    max-width: 750px;
     margin: 0 auto;
 }
 
@@ -826,7 +826,7 @@
 /* Responsive Utilities */
 @media (max-width: 768px) {
     .hero-section {
-        min-height: 70vh;
+        min-height: 60vh;
         padding: var(--space-12) 0;
     }
 
@@ -854,7 +854,7 @@
    ================== */
 
 .request-quote-section {
-    padding: var(--space-24) 0;
+    padding: var(--space-24) 0 var(--space-20);
     position: relative;
 }
 
@@ -865,6 +865,14 @@
     align-items: start;
 }
 
+.request-quote-cta-content {
+    text-align: center;
+    max-width: 800px;
+    margin: 0 auto;
+    position: relative;
+    z-index: 10;
+}
+
 .request-quote-text {
     position: sticky;
     top: var(--space-8);
@@ -873,14 +881,20 @@
 .request-quote-benefits {
     list-style: none;
     padding: 0;
-    margin: var(--space-8) 0 0 0;
+    margin: var(--space-6) 0 var(--space-8) 0;
+    display: inline-block;
+    text-align: left;
 }
 
 .request-quote-benefits li {
-    padding: var(--space-3) 0;
+    padding: var(--space-2) 0;
     color: var(--gray-700);
     font-size: clamp(0.95rem, 1.5vw, 1.05rem);
     line-height: 1.6;
+}
+
+.request-quote-button {
+    margin-top: var(--space-8);
 }
 
 .request-quote-form-wrapper {
@@ -915,6 +929,11 @@
         top: 0;
     }
 
+    .request-quote-cta-content {
+        max-width: 100%;
+        padding: 0 var(--space-4);
+    }
+
     .google-form-container iframe {
         min-height: 1400px;
     }
@@ -927,6 +946,14 @@
 
     .request-quote-form-wrapper {
         padding: var(--space-4);
+    }
+
+    .request-quote-cta-content {
+        padding: 0 var(--space-2);
+    }
+
+    .request-quote-benefits {
+        font-size: 0.9rem;
     }
 
     .google-form-container iframe {
