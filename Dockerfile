@@ -80,6 +80,9 @@ ENV APP_ENV=production
 ENV APP_DEBUG=false
 ENV LOG_CHANNEL=stderr
 
+# Create storage symlink
+RUN php artisan storage:link || true
+
 # Run migrations automatically on container start
 RUN php artisan migrate --force || true
 
