@@ -32,7 +32,7 @@ chmod 600 ~/.ssh/authorized_keys
 ssh -i C:\Users\chance\.ssh\id_ed25519 root@72.61.118.53
 ```
 
-### Windows SSH Config (Optional)
+### Windows SSH Config (Recommended)
 
 Create or edit `C:\Users\chance\.ssh\config`:
 ```
@@ -49,14 +49,39 @@ After this setup, you can simply use:
 ssh oncube-vps
 ```
 
+### SSH Agent (Avoid Multiple Passphrase Prompts)
+
+**Option 1: Use SSH Agent (PowerShell)**
+```powershell
+# Start SSH agent (one-time per session)
+Start-Service ssh-agent
+ssh-add C:\Users\chance\.ssh\id_ed25519
+
+# Now you can run multiple SSH commands without passphrase prompts
+```
+
+**Option 2: Use Pageant (PuTTY)**
+- Load your private key into Pageant
+- Pageant runs in system tray
+- No passphrase prompts while Pageant is running
+
+**Option 3: Use Git Bash SSH Agent**
+```bash
+# In Git Bash
+eval $(ssh-agent -s)
+ssh-add ~/.ssh/id_ed25519
+```
+
 ## Deployment Process
+
+**IMPORTANT**: All commands below use a single SSH connection to avoid multiple passphrase prompts.
 
 ### Quick Deployment (CSS/JS/View changes only)
 
 For static files and template changes that don't require Docker rebuild:
 
 ```bash
-ssh root@72.61.118.53 "cd /root/oncube_claude && git pull origin main"
+ssh root@72.61.118.53 "cd /root/oncube_claude && git pull origin main && docker compose restart"
 ```
 
 ### Full Deployment (Code/Config changes)
@@ -64,54 +89,35 @@ ssh root@72.61.118.53 "cd /root/oncube_claude && git pull origin main"
 For PHP code, dependencies, or Dockerfile changes:
 
 ```bash
-# Pull latest code and rebuild containers
-ssh root@72.61.118.53 "cd /root/oncube_claude && git pull origin main && docker compose down && docker compose up -d --build"
-```
-
-### One-line Deployment Script
-
-```bash
-# Quick deploy (no rebuild)
-ssh root@72.61.118.53 "cd /root/oncube_claude && git pull origin main && docker compose restart"
-
-# Full deploy (with rebuild)
 ssh root@72.61.118.53 "cd /root/oncube_claude && git pull origin main && docker compose down && docker compose up -d --build"
 ```
 
 ## Common Deployment Tasks
 
-### 1. Deploy Latest Changes
+### 1. Complete Deployment Workflow
 ```bash
-cd c:\Users\chance\Downloads\DEV_LOCAL\oncube_claude
-git add .
-git commit -m "Your commit message"
-git push origin main
-ssh root@72.61.118.53 "cd /root/oncube_claude && git pull origin main && docker compose restart"
+# Single command chain - only asks for passphrase once
+cd c:\Users\chance\Downloads\DEV_LOCAL\oncube_claude && git add . && git commit -m "Your commit message" && git push origin main && ssh root@72.61.118.53 "cd /root/oncube_claude && git pull origin main && docker compose restart"
 ```
 
-### 2. Run Database Migrations
+### 2. Deploy with Database Migrations
 ```bash
-ssh root@72.61.118.53 "cd /root/oncube_claude && docker compose exec -T oncube-app php artisan migrate --force"
+ssh root@72.61.118.53 "cd /root/oncube_claude && git pull origin main && docker compose exec -T oncube-app php artisan migrate --force && docker compose restart"
 ```
 
-### 3. Clear Cache
+### 3. Deploy with Cache Clear
 ```bash
-ssh root@72.61.118.53 "cd /root/oncube_claude && docker compose exec -T oncube-app php artisan cache:clear"
+ssh root@72.61.118.53 "cd /root/oncube_claude && git pull origin main && docker compose exec -T oncube-app php artisan cache:clear && docker compose restart"
 ```
 
-### 4. View Logs
+### 4. Check Status and Logs (single connection)
 ```bash
-ssh root@72.61.118.53 "cd /root/oncube_claude && docker compose logs oncube-app --tail 50 -f"
+ssh root@72.61.118.53 "cd /root/oncube_claude && docker compose ps && echo '--- Recent Logs ---' && docker compose logs oncube-app --tail 20"
 ```
 
-### 5. Check Container Status
+### 5. Full Deploy with Migrations and Cache Clear
 ```bash
-ssh root@72.61.118.53 "cd /root/oncube_claude && docker compose ps"
-```
-
-### 6. Restart Containers
-```bash
-ssh root@72.61.118.53 "cd /root/oncube_claude && docker compose restart"
+ssh root@72.61.118.53 "cd /root/oncube_claude && git pull origin main && docker compose down && docker compose up -d --build && docker compose exec -T oncube-app php artisan migrate --force && docker compose exec -T oncube-app php artisan cache:clear"
 ```
 
 ## Docker Architecture
@@ -146,29 +152,25 @@ Certificates are managed outside Docker via Let's Encrypt:
 
 ### Site returns 500 error
 ```bash
-# Check logs
-ssh root@72.61.118.53 "cd /root/oncube_claude && docker compose logs oncube-app --tail 100"
-
-# Check if migrations are needed
-ssh root@72.61.118.53 "cd /root/oncube_claude && docker compose exec -T oncube-app php artisan migrate:status"
+# Single connection - check logs and migration status
+ssh root@72.61.118.53 "cd /root/oncube_claude && docker compose logs oncube-app --tail 100 && echo '--- Migration Status ---' && docker compose exec -T oncube-app php artisan migrate:status"
 ```
 
 ### Images not showing
 ```bash
-# Verify storage link exists
-ssh root@72.61.118.53 "cd /root/oncube_claude && docker compose exec -T oncube-app ls -la /app/public/storage"
-
-# Recreate storage link if needed
-ssh root@72.61.118.53 "cd /root/oncube_claude && docker compose exec -T oncube-app php artisan storage:link"
+# Single connection - check and fix storage link
+ssh root@72.61.118.53 "cd /root/oncube_claude && docker compose exec -T oncube-app ls -la /app/public/storage && docker compose exec -T oncube-app php artisan storage:link"
 ```
 
 ### Docker container won't start
 ```bash
-# Check container logs
-ssh root@72.61.118.53 "cd /root/oncube_claude && docker compose logs oncube-app"
+# Single connection - check logs and rebuild
+ssh root@72.61.118.53 "cd /root/oncube_claude && docker compose logs oncube-app --tail 50 && docker compose down && docker compose up -d --build --no-cache"
+```
 
-# Rebuild from scratch
-ssh root@72.61.118.53 "cd /root/oncube_claude && docker compose down && docker compose up -d --build --no-cache"
+### Complete Health Check (single connection)
+```bash
+ssh root@72.61.118.53 "cd /root/oncube_claude && echo '=== Container Status ===' && docker compose ps && echo '=== Recent Logs ===' && docker compose logs oncube-app --tail 30 && echo '=== Disk Space ===' && df -h /root/oncube_claude && echo '=== Git Status ===' && git status"
 ```
 
 ## Automated Deployment Commands for Claude
@@ -226,10 +228,22 @@ curl -s -o /dev/null -w "%{http_code}" https://oncube.cloud/health
 
 ## Emergency Rollback
 
-If deployment fails, rollback to previous commit:
+If deployment fails, rollback to previous commit (single connection):
 
 ```bash
-ssh root@72.61.118.53 "cd /root/oncube_claude && git log --oneline -5"
-# Note the previous commit hash
+# View recent commits and rollback in one connection
+ssh root@72.61.118.53 "cd /root/oncube_claude && git log --oneline -5 && read -p 'Enter commit hash to rollback: ' HASH && git reset --hard \$HASH && docker compose restart"
+```
+
+Or if you know the commit hash:
+
+```bash
+# Direct rollback (replace <commit-hash> with actual hash)
 ssh root@72.61.118.53 "cd /root/oncube_claude && git reset --hard <commit-hash> && docker compose restart"
+```
+
+Quick rollback to previous commit:
+
+```bash
+ssh root@72.61.118.53 "cd /root/oncube_claude && git reset --hard HEAD~1 && docker compose restart"
 ```
