@@ -13,10 +13,15 @@ Laravel 11 B2B platform featuring:
 * SQLite database
 * Docker deployment ready
 
-Server: Hostinger VPS (72.61.118.53) root pass=> @@@Kgl835490
+Server: Hostinger VPS (72.61.118.53)
+- SSH: `ssh root@72.61.118.53` (key-based auth configured)
+- SSH Key: `C:\Users\chance\.ssh\id_ed25519`
+
 PHP 8.3+ | Laravel 11 | SQLite
 
-See README.md, LARAVEL\_SETUP\_GUIDE.md, HOSTINGER\_DEPLOY.md for detailed documentation.
+**Deployment**: See [DEPLOYMENT.md](DEPLOYMENT.md) for complete deployment guide and SSH configuration.
+
+See README.md, LARAVEL\_SETUP\_GUIDE.md for detailed documentation.
 
 
 
