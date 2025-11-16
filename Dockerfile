@@ -67,6 +67,9 @@ RUN mkdir -p \
 RUN chown -R application:application /app \
  && chmod -R 775 /app/storage /app/bootstrap/cache /app/database /app/writable
 
+# Copy migrations explicitly (in case COPY . . doesn't include them)
+COPY database/migrations /app/database/migrations
+
 # SQLite 데이터베이스 생성
 RUN touch /app/database/database.sqlite \
  && chown application:application /app/database/database.sqlite \
@@ -76,5 +79,8 @@ RUN touch /app/database/database.sqlite \
 ENV APP_ENV=production
 ENV APP_DEBUG=false
 ENV LOG_CHANNEL=stderr
+
+# Run migrations automatically on container start
+RUN php artisan migrate --force || true
 
 # 기본 CMD는 이미지에서 Nginx+PHP-FPM가 함께 기동됨
