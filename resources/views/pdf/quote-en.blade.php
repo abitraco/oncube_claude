@@ -16,10 +16,26 @@
         }
 
         .header {
-            text-align: center;
             margin-bottom: 30px;
             padding-bottom: 20px;
             border-bottom: 3px solid #002748;
+            position: relative;
+        }
+
+        .header-logo {
+            float: left;
+            width: 150px;
+            margin-right: 20px;
+        }
+
+        .header-logo img {
+            max-width: 150px;
+            height: auto;
+        }
+
+        .header-content {
+            text-align: center;
+            padding-top: 10px;
         }
 
         .header h1 {
@@ -32,6 +48,12 @@
             font-size: 14pt;
             color: #666;
             margin: 5px 0;
+        }
+
+        .clearfix::after {
+            content: "";
+            display: table;
+            clear: both;
         }
 
         .company-info {
@@ -170,12 +192,17 @@
     </style>
 </head>
 <body>
-    <div class="header">
-        <h1>QUOTATION</h1>
-        <div class="company-name">ONCUBE GLOBAL</div>
-        <div class="company-info">
-            Industrial & Semiconductor Equipment Distribution<br>
-            License: 416-19-94501 | Tel: +82-10-4846-0846
+    <div class="header clearfix">
+        <div class="header-logo">
+            <img src="{{ public_path('assets/logo.png') }}" alt="ONCUBE GLOBAL">
+        </div>
+        <div class="header-content">
+            <h1>QUOTATION</h1>
+            <div class="company-name">ONCUBE GLOBAL</div>
+            <div class="company-info">
+                Industrial & Semiconductor Equipment Distribution<br>
+                License: 416-19-94501 | Tel: +82-10-4846-0846
+            </div>
         </div>
     </div>
 
