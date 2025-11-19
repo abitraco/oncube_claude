@@ -18,7 +18,7 @@
         /* Header */
         .header-container {
             background-color: #002748;
-            color: white;
+            color: #ffffff;
             padding: 25px;
             border-radius: 12px;
             margin-bottom: 30px;
@@ -34,25 +34,29 @@
             width: 40%;
             text-align: right;
             vertical-align: middle;
+            color: #ffffff;
         }
         .company-name {
             font-size: 14pt;
             font-weight: bold;
             margin-bottom: 5px;
+            color: #ffffff;
         }
         .company-sub {
             font-size: 9pt;
             opacity: 0.9;
+            color: #ffffff;
         }
         .quote-title {
             font-size: 28pt;
             font-weight: bold;
             letter-spacing: 2px;
             margin-bottom: 5px;
+            color: #ffffff;
         }
         .quote-badge {
             background-color: rgba(255,255,255,0.15);
-            color: white;
+            color: #ffffff;
             padding: 6px 15px;
             border-radius: 4px;
             font-size: 10pt;
@@ -65,7 +69,7 @@
             margin-bottom: 30px;
         }
         .info-card {
-            background-color: #f8f9fa;
+            background-color: #f0f2f5;
             border-radius: 8px;
             padding: 20px;
             border-left: 4px solid #002748;
@@ -77,6 +81,8 @@
             text-transform: uppercase;
             margin-bottom: 15px;
             letter-spacing: 0.5px;
+            border-bottom: 1px solid #e0e0e0;
+            padding-bottom: 5px;
         }
         .info-row {
             margin-bottom: 8px;
@@ -99,10 +105,8 @@
             margin-bottom: 10px;
             display: flex;
             align-items: center;
-        }
-        .icon-clipboard {
-            color: #ff6b00;
-            margin-right: 8px;
+            border-bottom: 2px solid #002748;
+            padding-bottom: 5px;
         }
         
         .items-table {
@@ -115,7 +119,7 @@
         }
         .items-table th {
             background-color: #002748;
-            color: white;
+            color: #ffffff;
             padding: 12px 15px;
             text-align: left;
             font-weight: bold;
@@ -147,13 +151,13 @@
         .subtotal-row {
             text-align: right;
             padding: 10px 15px;
-            background-color: #f8f9fa;
+            background-color: #f0f2f5;
             border-radius: 4px;
             margin-bottom: 10px;
         }
         .total-row {
             background-color: #002748;
-            color: white;
+            color: #ffffff;
             padding: 15px;
             border-radius: 8px;
             text-align: right;
@@ -163,11 +167,12 @@
         }
         .total-label {
             margin-right: 20px;
+            color: #ffffff;
         }
 
         /* Terms */
         .terms-card {
-            background-color: #f8f9fa;
+            background-color: #f0f2f5;
             border-radius: 8px;
             padding: 20px;
             border-left: 4px solid #ff6b00;
@@ -194,7 +199,9 @@
         <table class="header-content">
             <tr>
                 <td class="logo-area">
-                    <img src="{{ public_path('assets/logo.png') }}" style="height: 40px; margin-bottom: 10px;">
+                    <div style="background-color: white; padding: 10px; border-radius: 4px; display: inline-block; margin-bottom: 10px;">
+                        <img src="{{ public_path('assets/logo.png') }}" style="height: 30px;">
+                    </div>
                     <div class="company-name">온큐브글로벌 (ONCUBE GLOBAL)</div>
                     <div class="company-sub">
                         산업용 기계 및 반도체 장비 유통<br>
@@ -263,7 +270,7 @@
 
     <!-- Line Items -->
     <div class="section-title">
-        <span style="color: #ff6b00; font-size: 14pt; margin-right: 8px;">📋</span> Line Items
+        Line Items
     </div>
 
     <table class="items-table">
@@ -302,13 +309,13 @@
         </div>
         <div class="total-row">
             <span class="total-label">Total Amount:</span>
-            <span>${{ number_format($total, 2) }}</span>
+            <span style="color: #ffffff;">${{ number_format($total, 2) }}</span>
         </div>
     </div>
 
     <!-- Terms -->
     <div class="section-title">
-        <span style="color: #ff6b00; font-size: 14pt; margin-right: 8px;">📝</span> Terms & Conditions
+        Terms & Conditions
     </div>
     
     <div class="terms-card">
