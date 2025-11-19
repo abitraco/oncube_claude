@@ -55,12 +55,10 @@
             color: #ffffff;
         }
         .quote-badge {
-            background-color: rgba(255,255,255,0.15);
             color: #ffffff;
-            padding: 6px 15px;
-            border-radius: 4px;
-            font-size: 10pt;
+            font-size: 11pt;
             display: inline-block;
+            opacity: 0.9;
         }
 
         /* Info Cards */
