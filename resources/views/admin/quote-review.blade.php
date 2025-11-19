@@ -81,16 +81,39 @@
         }
 
         .quote-header {
-            text-align: center;
             margin-bottom: 30px;
             padding-bottom: 20px;
             border-bottom: 2px solid #002748;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .quote-header-logo {
+            float: left;
+            width: 120px;
+            margin-right: 20px;
+        }
+
+        .quote-header-logo img {
+            max-width: 120px;
+            height: auto;
+        }
+
+        .quote-header-content {
+            text-align: center;
+            padding-top: 10px;
         }
 
         .quote-header h2 {
             color: #002748;
             font-size: 32px;
             margin-bottom: 10px;
+        }
+
+        .clearfix::after {
+            content: "";
+            display: table;
+            clear: both;
         }
 
         .quote-info {
@@ -247,9 +270,18 @@
 
         <!-- Quote Preview -->
         <div class="quote-preview">
-            <div class="quote-header">
-                <h2>QUOTATION</h2>
-                <p style="color: #666;">ONCUBE GLOBAL</p>
+            <div class="quote-header clearfix">
+                <div class="quote-header-logo">
+                    <img src="{{ asset('assets/logo.png') }}" alt="ONCUBE GLOBAL">
+                </div>
+                <div class="quote-header-content">
+                    <h2>{{ $quoteRequest->quote_template == 'ko' ? '견 적 서' : 'QUOTATION' }}</h2>
+                    <p style="color: #666;">{{ $quoteRequest->quote_template == 'ko' ? '온큐브글로벌 (ONCUBE GLOBAL)' : 'ONCUBE GLOBAL' }}</p>
+                    <p style="font-size: 12px; color: #888;">
+                        {{ $quoteRequest->quote_template == 'ko' ? '산업용 기계 및 반도체 장비 유통' : 'Industrial & Semiconductor Equipment Distribution' }}<br>
+                        {{ $quoteRequest->quote_template == 'ko' ? '사업자등록번호: 416-19-94501 | 연락처: +82-10-4846-0846' : 'License: 416-19-94501 | Tel: +82-10-4846-0846' }}
+                    </p>
+                </div>
             </div>
 
             <div class="quote-info">
