@@ -3,22 +3,18 @@ FROM composer:2 AS vendor
 WORKDIR /app
 
 # Copy composer files
-COPY composer.json ./
+COPY composer.json composer.lock ./
 
-# Install dependencies and generate lock file
-RUN composer update \
+# Install dependencies
+RUN composer install \
     --no-dev \
     --no-interaction \
     --prefer-dist \
-    --no-progress \
-    --no-scripts \
-    --no-autoloader
+    --optimize-autoloader \
+    --no-scripts
 
 # Copy application code
 COPY . .
-
-# Generate optimized autoloader
-RUN composer dump-autoload --optimize --no-dev
 
 # ---------- Stage 2: Runtime (Nginx + PHP-FPM in one) ----------
 FROM webdevops/php-nginx:8.3-alpine
