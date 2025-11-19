@@ -168,6 +168,26 @@
             color: #f57c00;
         }
 
+        .badge-pending {
+            background: #fff3cd;
+            color: #856404;
+        }
+
+        .badge-sent {
+            background: #d4edda;
+            color: #155724;
+        }
+
+        .badge-completed {
+            background: #d1ecf1;
+            color: #0c5460;
+        }
+
+        .badge-cancelled {
+            background: #f8d7da;
+            color: #721c24;
+        }
+
         .view-link {
             color: #002748;
             text-decoration: none;
@@ -177,6 +197,43 @@
 
         .view-link:hover {
             text-decoration: underline;
+        }
+
+        .btn-quote {
+            background: #19BD0A;
+            color: white;
+            padding: 6px 12px;
+            border-radius: 4px;
+            text-decoration: none;
+            font-size: 12px;
+            font-weight: 600;
+            display: inline-block;
+            margin-right: 5px;
+        }
+
+        .btn-quote:hover {
+            background: #15a008;
+        }
+
+        .btn-view {
+            background: #002748;
+            color: white;
+            padding: 6px 12px;
+            border-radius: 4px;
+            text-decoration: none;
+            font-size: 12px;
+            font-weight: 600;
+            display: inline-block;
+        }
+
+        .btn-view:hover {
+            background: #003d6b;
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 5px;
+            flex-wrap: wrap;
         }
 
         .no-data {
@@ -361,7 +418,8 @@
                     <th>Email</th>
                     <th>Phone</th>
                     <th>Type</th>
-                    <th>Action</th>
+                    <th>Status</th>
+                    <th>Actions</th>
                 </tr>
             </thead>
             <tbody>
@@ -374,21 +432,37 @@
                         <td>{{ $request->company_email }}</td>
                         <td>{{ $request->phone }}</td>
                         <td>
-                            <span class="badge badge-{{ 
-                                $request->inquiry_type == '견적문의' ? 'quote' : 
-                                ($request->inquiry_type == '대량구매' ? 'bulk' : 
-                                ($request->inquiry_type == '사업제휴' ? 'partnership' : 'other')) 
+                            <span class="badge badge-{{
+                                $request->inquiry_type == '견적문의' ? 'quote' :
+                                ($request->inquiry_type == '대량구매' ? 'bulk' :
+                                ($request->inquiry_type == '사업제휴' ? 'partnership' : 'other'))
                             }}">
                                 {{ $request->inquiry_type }}
                             </span>
                         </td>
                         <td>
-                            <a href="#" class="view-link" onclick="viewDetails({{ $request->id }}); return false;">View Details</a>
+                            <span class="badge badge-{{
+                                $request->status == 'pending' ? 'pending' :
+                                ($request->status == 'quote_sent' ? 'sent' :
+                                ($request->status == 'completed' ? 'completed' : 'cancelled'))
+                            }}">
+                                {{ $request->status_label ?? ucfirst($request->status ?? 'pending') }}
+                            </span>
+                        </td>
+                        <td>
+                            <div class="action-buttons">
+                                @if($request->status == 'quote_sent' && $request->quote_pdf)
+                                    <a href="{{ route('admin.quote.review', $request->id) }}" class="btn-view">View Quote</a>
+                                @else
+                                    <a href="{{ route('admin.quote.builder', $request->id) }}" class="btn-quote">Create Quote</a>
+                                @endif
+                                <a href="#" class="btn-view" onclick="viewDetails({{ $request->id }}); return false;">Details</a>
+                            </div>
                         </td>
                     </tr>
                 @empty
                     <tr>
-                        <td colspan="8" class="no-data">No quote requests found</td>
+                        <td colspan="9" class="no-data">No quote requests found</td>
                     </tr>
                 @endforelse
             </tbody>

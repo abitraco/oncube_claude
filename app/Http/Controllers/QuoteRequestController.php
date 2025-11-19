@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Mail;
+use App\QuoteRequest;
 
 class QuoteRequestController extends Controller
 {
@@ -30,7 +32,7 @@ class QuoteRequestController extends Controller
         }
 
         // Store quote request
-        DB::table('quote_requests')->insert([
+        $quoteRequest = QuoteRequest::create([
             'company_email' => $validated['company_email'],
             'company_name' => $validated['company_name'],
             'phone' => $validated['phone'],
@@ -42,9 +44,30 @@ class QuoteRequestController extends Controller
             'attachment' => $attachmentPath,
             'privacy_agreed' => true,
             'locale' => app()->getLocale(),
-            'created_at' => now(),
-            'updated_at' => now(),
+            'status' => QuoteRequest::STATUS_PENDING,
         ]);
+
+        // Send confirmation email to customer
+        try {
+            Mail::send('emails.quote-request-received', ['quoteRequest' => $quoteRequest], function ($message) use ($quoteRequest) {
+                $message->to($quoteRequest->company_email, $quoteRequest->contact_name)
+                    ->subject('Quote Request Received - ONCUBE GLOBAL');
+            });
+        } catch (\Exception $e) {
+            // Log error but don't fail the request
+            \Log::error('Failed to send customer confirmation email: ' . $e->getMessage());
+        }
+
+        // Send notification email to admin
+        try {
+            Mail::send('emails.quote-request-admin', ['quoteRequest' => $quoteRequest], function ($message) use ($quoteRequest) {
+                $message->to('kmmccc@gmail.com', 'ONCUBE Admin')
+                    ->subject('New Quote Request - ' . $quoteRequest->company_name);
+            });
+        } catch (\Exception $e) {
+            // Log error but don't fail the request
+            \Log::error('Failed to send admin notification email: ' . $e->getMessage());
+        }
 
         return back()->with('success', __('Your quote request has been submitted successfully. We will contact you within 24 hours.'));
     }
