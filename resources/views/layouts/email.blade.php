@@ -54,7 +54,9 @@
                         <!-- Header -->
                         <tr>
                             <td style="padding:30px;text-align:center;font-size:24px;font-weight:bold;background-color:#002748;color:#ffffff;border-radius:8px 8px 0 0;">
-                                <img src="https://via.placeholder.com/150x50/002748/ffffff?text=ONCUBE+GLOBAL" alt="ONCUBE GLOBAL" width="150" style="width:150px;max-width:80%;height:auto;border:none;text-decoration:none;color:#ffffff;">
+                                <div style="background-color:#ffffff;display:inline-block;padding:10px 20px;border-radius:4px;margin-bottom:15px;">
+                                    <img src="{{ asset('assets/logo.png') }}" alt="ONCUBE GLOBAL" width="120" style="width:120px;max-width:100%;height:auto;display:block;border:none;">
+                                </div>
                                 <div style="margin-top:10px;font-size:14px;font-weight:normal;opacity:0.9;">Industrial & Semiconductor Equipment</div>
                             </td>
                         </tr>
