@@ -1,180 +1,217 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-    <meta charset="utf-8">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
     <title>견적서 - {{ $data['quote_number'] }}</title>
     <style>
         @page {
-            margin: 20mm;
+            margin: 8mm 10mm;
         }
 
         body {
-            font-family: 'DejaVu Sans', 'Malgun Gothic', sans-serif;
-            font-size: 11pt;
+            font-family: 'DejaVu Sans', sans-serif;
+            font-size: 10pt;
             color: #333;
-            line-height: 1.6;
+            line-height: 1.4;
+            margin: 0;
+            padding: 0;
+        }
+
+        .document-border {
+            border: 3px solid #003d6b;
+            border-radius: 8px;
+            padding: 0;
+            min-height: 270mm;
         }
 
         .header {
-            background: #002748;
-            padding: 20px;
-            margin-bottom: 25px;
-            border-radius: 5px;
+            background: linear-gradient(135deg, #003d6b 0%, #0056a3 100%);
+            padding: 20px 25px;
+            border-radius: 6px 6px 0 0;
         }
 
-        .header-container {
-            width: 100%;
-        }
-
-        .header-top {
+        .header-flex {
             display: table;
             width: 100%;
-            margin-bottom: 0;
         }
 
-        .header-logo {
+        .header-left {
             display: table-cell;
-            width: 120px;
             vertical-align: middle;
-            background: white;
-            padding: 10px;
-            border-radius: 5px;
+            width: 70%;
         }
 
-        .header-logo img {
-            width: 100px;
+        .header-right {
+            display: table-cell;
+            vertical-align: middle;
+            text-align: right;
+            width: 30%;
+        }
+
+        .logo-box {
+            background: white;
+            padding: 8px 12px;
+            border-radius: 6px;
+            display: inline-block;
+            margin-right: 15px;
+            vertical-align: middle;
+        }
+
+        .logo-box img {
+            width: 110px;
             height: auto;
             display: block;
         }
 
-        .header-company {
-            display: table-cell;
+        .company-info {
+            display: inline-block;
             vertical-align: middle;
-            padding-left: 20px;
             color: white;
         }
 
-        .company-title {
-            font-size: 16pt;
+        .company-name {
+            font-size: 12pt;
             font-weight: bold;
             margin-bottom: 3px;
         }
 
         .company-desc {
-            font-size: 9pt;
+            font-size: 7.5pt;
+            opacity: 0.95;
             line-height: 1.4;
         }
 
-        .header-right {
-            text-align: right;
+        .quote-title {
             color: white;
-            margin-top: 15px;
-            padding-top: 15px;
-            border-top: 1px solid rgba(255,255,255,0.2);
-        }
-
-        .header-right h1 {
-            font-size: 28pt;
-            margin: 0 0 5px 0;
-            color: white;
+            font-size: 26pt;
             font-weight: bold;
+            margin: 0 0 6px 0;
+            letter-spacing: 8px;
         }
 
-        .quote-number-badge {
+        .quote-number {
+            background: rgba(255,255,255,0.25);
+            color: white;
+            padding: 4px 12px;
+            border-radius: 6px;
+            font-size: 9.5pt;
+            font-weight: bold;
             display: inline-block;
-            background: rgba(255,255,255,0.2);
-            color: white;
-            padding: 5px 12px;
-            border-radius: 3px;
-            font-size: 11pt;
-            font-weight: bold;
         }
 
-        .clearfix::after {
-            content: "";
+        .content-area {
+            padding: 22px 25px;
+        }
+
+        .info-section {
+            margin-bottom: 15px;
+        }
+
+        .info-row {
             display: table;
-            clear: both;
-        }
-
-        .quote-info {
             width: 100%;
-            margin-bottom: 20px;
+            border-collapse: collapse;
+            margin-bottom: 3px;
         }
 
-        .quote-info table {
-            width: 100%;
+        .info-cell {
+            display: table-cell;
+            width: 50%;
+            padding: 0 8px 0 0;
         }
 
-        .quote-info td {
-            vertical-align: top;
-            padding: 10px;
+        .info-cell:last-child {
+            padding: 0 0 0 8px;
         }
 
         .info-box {
-            border-left: 4px solid #002748;
-            padding: 12px 15px;
             background: #f8f9fa;
-            border-radius: 3px;
-            margin-bottom: 10px;
+            border: 1px solid #d8d8d8;
+            border-left: 4px solid #003d6b;
+            padding: 12px 16px;
+            border-radius: 6px;
         }
 
-        .info-box h4 {
-            margin: 0 0 12px 0;
-            color: #002748;
-            font-size: 10pt;
-            text-transform: uppercase;
+        .info-box-title {
+            color: #003d6b;
+            font-size: 9pt;
             font-weight: bold;
+            margin-bottom: 8px;
+            text-transform: uppercase;
             letter-spacing: 0.5px;
         }
 
-        .info-box p {
-            margin: 6px 0;
-            font-size: 9.5pt;
-            line-height: 1.5;
+        .info-item {
+            font-size: 8.5pt;
+            margin: 4px 0;
+            line-height: 1.4;
+            color: #555;
+            word-wrap: break-word;
+            overflow-wrap: break-word;
         }
 
-        .info-box p strong {
-            color: #002748;
+        .info-label {
+            color: #003d6b;
+            font-weight: 600;
+            display: inline-block;
+            width: 75px;
+            vertical-align: top;
+        }
+
+        .info-value {
+            display: inline;
+            word-break: break-word;
+            font-size: 8pt;
+        }
+
+        .section-header {
+            background: #f0f4f8;
+            padding: 8px 12px;
+            margin: 18px 0 8px 0;
+            border-left: 5px solid #FF6B00;
+            border-radius: 6px;
+        }
+
+        .section-header-icon {
+            display: inline-block;
+            margin-right: 8px;
+            font-size: 11pt;
+        }
+
+        .section-header-text {
+            color: #003d6b;
+            font-size: 10pt;
             font-weight: bold;
             display: inline-block;
-            min-width: 90px;
-        }
-
-        .items-section-title {
-            color: #002748;
-            font-size: 13pt;
-            font-weight: bold;
-            margin: 25px 0 12px 0;
         }
 
         .items-table {
             width: 100%;
             border-collapse: collapse;
-            margin: 15px 0;
-            border-radius: 5px;
-            overflow: hidden;
+            margin: 10px 0;
+            border: 1px solid #c8c8c8;
         }
 
         .items-table th {
-            background: #002748;
+            background: #003d6b;
             color: white;
-            padding: 12px 10px;
+            padding: 9px 12px;
             text-align: left;
-            font-size: 9.5pt;
+            font-size: 8.5pt;
             font-weight: bold;
             text-transform: uppercase;
-            letter-spacing: 0.3px;
+            border-bottom: 2px solid #002847;
         }
 
         .items-table td {
-            padding: 10px;
-            border-bottom: 1px solid #e9ecef;
-            font-size: 9.5pt;
+            padding: 9px 12px;
+            border-bottom: 1px solid #e0e0e0;
+            font-size: 9pt;
             background: white;
         }
 
         .items-table tbody tr:nth-child(even) td {
-            background: #f8f9fa;
+            background: #fafafa;
         }
 
         .text-right {
@@ -185,16 +222,27 @@
             text-align: center;
         }
 
+        .totals-area {
+            margin-top: 12px;
+            text-align: right;
+        }
+
         .totals {
-            width: 320px;
-            margin-left: auto;
-            margin-top: 20px;
+            display: inline-block;
+            min-width: 280px;
+            border: 1px solid #c8c8c8;
+            border-radius: 6px;
+            overflow: hidden;
         }
 
         .total-row {
-            padding: 10px 15px;
+            padding: 8px 16px;
             background: #f8f9fa;
-            margin-bottom: 2px;
+            border-bottom: 1px solid #e0e0e0;
+        }
+
+        .total-row:last-child {
+            border-bottom: none;
         }
 
         .total-row table {
@@ -202,202 +250,236 @@
         }
 
         .total-label {
-            font-weight: bold;
+            font-weight: 600;
             color: #555;
-            font-size: 10pt;
+            font-size: 9pt;
         }
 
         .total-value {
             text-align: right;
             font-weight: bold;
             color: #333;
-            font-size: 10pt;
+            font-size: 9pt;
         }
 
-        .total-row.grand-total {
-            background: #002748;
-            color: white;
-            font-weight: bold;
-            border-radius: 5px;
-            padding: 14px 15px;
-            margin-top: 8px;
+        .grand-total {
+            background: #003d6b;
+            padding: 10px 16px;
         }
 
         .grand-total .total-label,
         .grand-total .total-value {
             color: white;
-            font-size: 12pt;
+            font-size: 11pt;
         }
 
         .terms {
-            margin-top: 30px;
-            padding: 18px 20px;
-            background: #f8f9fa;
+            margin-top: 16px;
+            padding: 14px 16px;
+            background: #fffbf5;
+            border: 1px solid #ffe0b2;
             border-left: 4px solid #FF6B00;
-            border-radius: 3px;
-            page-break-inside: avoid;
+            border-radius: 6px;
         }
 
-        .terms h4 {
-            margin: 0 0 15px 0;
-            color: #002748;
-            font-size: 12pt;
+        .terms-title {
+            background: #fff;
+            padding: 5px 10px;
+            border-left: 4px solid #FF6B00;
+            margin-bottom: 10px;
+            display: inline-block;
+        }
+
+        .terms-title-icon {
+            display: inline-block;
+            margin-right: 6px;
+            font-size: 10pt;
+        }
+
+        .terms-title-text {
+            color: #003d6b;
+            font-size: 9.5pt;
             font-weight: bold;
+            display: inline-block;
         }
 
         .terms p {
-            margin: 8px 0;
-            font-size: 9pt;
+            margin: 6px 0;
+            font-size: 8.5pt;
             line-height: 1.6;
             color: #555;
         }
 
-        .terms p strong {
-            color: #002748;
-            font-weight: bold;
+        .terms strong {
+            color: #003d6b;
+            font-weight: 600;
         }
 
-        .terms .notes {
+        .terms-notes {
             white-space: pre-wrap;
-            font-size: 9pt;
+            font-size: 8.5pt;
             line-height: 1.6;
+            margin-top: 5px;
+            color: #555;
         }
 
-        .footer {
-            position: fixed;
-            bottom: 0;
-            width: 100%;
-            text-align: center;
-            font-size: 8pt;
-            color: #888;
-            border-top: 1px solid #ddd;
+        .footer-note {
+            margin-top: 10px;
             padding-top: 10px;
-        }
-
-        strong {
-            color: #002748;
+            border-top: 1px solid #d8d8d8;
+            font-size: 7.5pt;
+            color: #888;
+            line-height: 1.5;
+            font-style: italic;
         }
     </style>
 </head>
 <body>
-    <div class="header">
-        <div class="header-container">
-            <div class="header-top">
-                <div class="header-logo">
-                    <img src="{{ public_path('assets/logo.png') }}" alt="ONCUBE GLOBAL">
+    <div class="document-border">
+        <!-- Header -->
+        <div class="header">
+            <div class="header-flex">
+                <div class="header-left">
+                    <div class="logo-box">
+                        <img src="{{ public_path('assets/logo.png') }}" alt="ONCUBE">
+                    </div>
+                    <div class="company-info">
+                        <div class="company-name">온큐브글로벌 (ONCUBE GLOBAL)</div>
+                        <div class="company-desc">
+                            산업용 기계 및 반도체 장비 유통<br>
+                            사업자등록번호: 416-19-94501 | 연락처: +82-10-4846-0846
+                        </div>
+                    </div>
                 </div>
-                <div class="header-company">
-                    <div class="company-title">ONCUBE GLOBAL</div>
-                    <div class="company-desc">
-                        산업용 기계 및 반도체 장비 유통<br>
-                        사업자등록번호: 416-19-94501 | 연락처: +82-10-4846-0846
+                <div class="header-right">
+                    <div class="quote-title">견 적 서</div>
+                    <div class="quote-number">{{ $data['quote_number'] }}</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="content-area">
+            <!-- Info Section -->
+            <div class="info-section">
+                <div class="info-row">
+                    <div class="info-cell">
+                        <div class="info-box">
+                            <div class="info-box-title">QUOTE INFORMATION</div>
+                            <div class="info-item">
+                                <span class="info-label">Quote Number:</span><span class="info-value">{{ $data['quote_number'] }}</span>
+                            </div>
+                            <div class="info-item">
+                                <span class="info-label">Date:</span><span class="info-value">{{ date('F d, Y', strtotime($data['quote_date'])) }}</span>
+                            </div>
+                            <div class="info-item">
+                                <span class="info-label">Valid Until:</span><span class="info-value">{{ date('F d, Y', strtotime($data['valid_until'])) }}</span>
+                            </div>
+                            <div class="info-item">
+                                <span class="info-label">Template:</span><span class="info-value">Korean</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="info-cell">
+                        <div class="info-box">
+                            <div class="info-box-title">CUSTOMER INFORMATION</div>
+                            <div class="info-item">
+                                <span class="info-label">Company:</span><span class="info-value">{{ $quote->company_name }}</span>
+                            </div>
+                            <div class="info-item">
+                                <span class="info-label">Contact:</span><span class="info-value">{{ $quote->contact_name }}</span>
+                            </div>
+                            <div class="info-item">
+                                <span class="info-label">Email:</span><span class="info-value">{{ $quote->company_email }}</span>
+                            </div>
+                            <div class="info-item">
+                                <span class="info-label">Phone:</span><span class="info-value">{{ $quote->phone }}</span>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
-            <div class="header-right">
-                <h1>견적서</h1>
-                <span class="quote-number-badge">{{ $data['quote_number'] }}</span>
+
+            <!-- Items Section -->
+            <div class="section-header">
+                <span class="section-header-icon">📋</span>
+                <span class="section-header-text">Line Items</span>
+            </div>
+
+            <table class="items-table">
+                <thead>
+                    <tr>
+                        <th style="width: 5%;" class="text-center">#</th>
+                        <th style="width: 48%;">DESCRIPTION</th>
+                        <th style="width: 12%;" class="text-right">QUANTITY</th>
+                        <th style="width: 17%;" class="text-right">UNIT PRICE</th>
+                        <th style="width: 18%;" class="text-right">AMOUNT</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @php $subtotal = 0; @endphp
+                    @foreach($data['items'] as $index => $item)
+                    @php
+                        $amount = $item['quantity'] * $item['unit_price'];
+                        $subtotal += $amount;
+                    @endphp
+                    <tr>
+                        <td class="text-center">{{ $index + 1 }}</td>
+                        <td>{{ $item['description'] }}</td>
+                        <td class="text-right">{{ number_format($item['quantity']) }}</td>
+                        <td class="text-right">${{ number_format($item['unit_price'], 2) }}</td>
+                        <td class="text-right">${{ number_format($amount, 2) }}</td>
+                    </tr>
+                    @endforeach
+                </tbody>
+            </table>
+
+            <!-- Totals -->
+            <div class="totals-area">
+                <div class="totals">
+                    <div class="total-row">
+                        <table>
+                            <tr>
+                                <td class="total-label">Subtotal:</td>
+                                <td class="total-value">${{ number_format($subtotal, 2) }}</td>
+                            </tr>
+                        </table>
+                    </div>
+                    <div class="total-row grand-total">
+                        <table>
+                            <tr>
+                                <td class="total-label">Total Amount:</td>
+                                <td class="total-value">${{ number_format($subtotal, 2) }}</td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Terms -->
+            <div class="terms">
+                <div class="terms-title">
+                    <span class="terms-title-icon">📝</span>
+                    <span class="terms-title-text">Terms & Conditions</span>
+                </div>
+
+                @if($data['payment_terms'])
+                <p><strong>Payment Terms:</strong> {{ $data['payment_terms'] }}</p>
+                @endif
+
+                @if($data['delivery_terms'])
+                <p><strong>Delivery Terms:</strong> {{ $data['delivery_terms'] }}</p>
+                @endif
+
+                @if($data['notes'])
+                <p><strong>Notes:</strong></p>
+                <div class="terms-notes">{{ $data['notes'] }}</div>
+                @endif
+
+                <div class="footer-note">
+                    This quotation is valid until the expiry date mentioned above. All prices are in USD and exclude taxes unless otherwise specified.
+                </div>
             </div>
         </div>
-    </div>
-
-    <div class="quote-info">
-        <table>
-            <tr>
-                <td style="width: 50%;">
-                    <div class="info-box">
-                        <h4>견적 정보</h4>
-                        <p><strong>견적 번호:</strong> {{ $data['quote_number'] }}</p>
-                        <p><strong>견적일:</strong> {{ date('Y년 m월 d일', strtotime($data['quote_date'])) }}</p>
-                        <p><strong>유효 기간:</strong> {{ date('Y년 m월 d일', strtotime($data['valid_until'])) }}</p>
-                    </div>
-                </td>
-                <td style="width: 50%;">
-                    <div class="info-box">
-                        <h4>고객 정보</h4>
-                        <p><strong>회사명:</strong> {{ $quote->company_name }}</p>
-                        <p><strong>담당자:</strong> {{ $quote->contact_name }}</p>
-                        <p><strong>이메일:</strong> {{ $quote->company_email }}</p>
-                        <p><strong>전화번호:</strong> {{ $quote->phone }}</p>
-                    </div>
-                </td>
-            </tr>
-        </table>
-    </div>
-
-    <h3 class="items-section-title">📋 품목 내역</h3>
-
-    <table class="items-table">
-        <thead>
-            <tr>
-                <th style="width: 8%;" class="text-center">번호</th>
-                <th style="width: 45%;">품명 및 규격</th>
-                <th style="width: 12%;" class="text-right">수량</th>
-                <th style="width: 15%;" class="text-right">단가 (USD)</th>
-                <th style="width: 20%;" class="text-right">금액 (USD)</th>
-            </tr>
-        </thead>
-        <tbody>
-            @php $subtotal = 0; @endphp
-            @foreach($data['items'] as $index => $item)
-            @php
-                $amount = $item['quantity'] * $item['unit_price'];
-                $subtotal += $amount;
-            @endphp
-            <tr>
-                <td class="text-center">{{ $index + 1 }}</td>
-                <td>{{ $item['description'] }}</td>
-                <td class="text-right">{{ number_format($item['quantity']) }}</td>
-                <td class="text-right">${{ number_format($item['unit_price'], 2) }}</td>
-                <td class="text-right">${{ number_format($amount, 2) }}</td>
-            </tr>
-            @endforeach
-        </tbody>
-    </table>
-
-    <div class="totals">
-        <div class="total-row">
-            <table>
-                <tr>
-                    <td class="total-label">소계:</td>
-                    <td class="total-value">${{ number_format($subtotal, 2) }}</td>
-                </tr>
-            </table>
-        </div>
-        <div class="total-row grand-total">
-            <table>
-                <tr>
-                    <td class="total-label">합계 금액:</td>
-                    <td class="total-value">${{ number_format($subtotal, 2) }}</td>
-                </tr>
-            </table>
-        </div>
-    </div>
-
-    <div class="terms">
-        <h4>거래 조건</h4>
-
-        @if($data['payment_terms'])
-        <p><strong>결제 조건:</strong> {{ $data['payment_terms'] }}</p>
-        @endif
-
-        @if($data['delivery_terms'])
-        <p><strong>인도 조건:</strong> {{ $data['delivery_terms'] }}</p>
-        @endif
-
-        @if($data['notes'])
-        <p><strong>추가 사항:</strong></p>
-        <div class="notes">{{ $data['notes'] }}</div>
-        @endif
-
-        <p style="margin-top: 15px; font-size: 8pt; color: #666;">
-            본 견적서는 상기 유효기간 동안 유효합니다. 모든 가격은 미화(USD) 기준이며, 별도 명시가 없는 한 세금은 포함되지 않습니다.
-        </p>
-    </div>
-
-    <div class="footer">
-        온큐브글로벌 (ONCUBE GLOBAL) | +82-10-4846-0846 | 사업자등록번호: 416-19-94501<br>
-        발행일: {{ date('Y년 m월 d일') }}
     </div>
 </body>
 </html>

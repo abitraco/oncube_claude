@@ -312,19 +312,25 @@
             <!-- Quote Details -->
             <div class="form-section">
                 <h3>Quote Details</h3>
+                @php
+                    $quoteData = $quoteRequest->quote_data;
+                    $defaultQuoteNumber = 'Q-' . date('Ymd') . '-' . str_pad($quoteRequest->id, 4, '0', STR_PAD_LEFT);
+                @endphp
                 <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px;">
                     <div class="form-group">
                         <label for="quote_number">Quote Number *</label>
                         <input type="text" name="quote_number" id="quote_number"
-                               value="Q-{{ date('Ymd') }}-{{ str_pad($quoteRequest->id, 4, '0', STR_PAD_LEFT) }}" required>
+                               value="{{ $quoteData['quote_number'] ?? $defaultQuoteNumber }}" required>
                     </div>
                     <div class="form-group">
                         <label for="quote_date">Quote Date *</label>
-                        <input type="date" name="quote_date" id="quote_date" value="{{ date('Y-m-d') }}" required>
+                        <input type="date" name="quote_date" id="quote_date"
+                               value="{{ $quoteData['quote_date'] ?? date('Y-m-d') }}" required>
                     </div>
                     <div class="form-group">
                         <label for="valid_until">Valid Until *</label>
-                        <input type="date" name="valid_until" id="valid_until" value="{{ date('Y-m-d', strtotime('+30 days')) }}" required>
+                        <input type="date" name="valid_until" id="valid_until"
+                               value="{{ $quoteData['valid_until'] ?? date('Y-m-d', strtotime('+30 days')) }}" required>
                     </div>
                 </div>
             </div>
@@ -346,14 +352,27 @@
                         </tr>
                     </thead>
                     <tbody id="itemsBody">
-                        <tr data-row="0">
-                            <td>1</td>
-                            <td><input type="text" name="items[0][description]" required></td>
-                            <td><input type="number" name="items[0][quantity]" step="1" min="1" value="1" onchange="calculateRow(0)" required></td>
-                            <td><input type="number" name="items[0][unit_price]" step="0.01" min="0" onchange="calculateRow(0)" required></td>
-                            <td><span class="item-amount">$0.00</span></td>
-                            <td><button type="button" class="btn btn-remove" onclick="removeItem(0)">Remove</button></td>
-                        </tr>
+                        @if($quoteData && isset($quoteData['items']) && count($quoteData['items']) > 0)
+                            @foreach($quoteData['items'] as $index => $item)
+                                <tr data-row="{{ $index }}">
+                                    <td>{{ $index + 1 }}</td>
+                                    <td><input type="text" name="items[{{ $index }}][description]" value="{{ $item['description'] }}" required></td>
+                                    <td><input type="number" name="items[{{ $index }}][quantity]" step="1" min="1" value="{{ $item['quantity'] }}" onchange="calculateRow({{ $index }})" required></td>
+                                    <td><input type="number" name="items[{{ $index }}][unit_price]" step="0.01" min="0" value="{{ $item['unit_price'] }}" onchange="calculateRow({{ $index }})" required></td>
+                                    <td><span class="item-amount">${{ number_format($item['quantity'] * $item['unit_price'], 2) }}</span></td>
+                                    <td><button type="button" class="btn btn-remove" onclick="removeItem({{ $index }})">Remove</button></td>
+                                </tr>
+                            @endforeach
+                        @else
+                            <tr data-row="0">
+                                <td>1</td>
+                                <td><input type="text" name="items[0][description]" required></td>
+                                <td><input type="number" name="items[0][quantity]" step="1" min="1" value="1" onchange="calculateRow(0)" required></td>
+                                <td><input type="number" name="items[0][unit_price]" step="0.01" min="0" onchange="calculateRow(0)" required></td>
+                                <td><span class="item-amount">$0.00</span></td>
+                                <td><button type="button" class="btn btn-remove" onclick="removeItem(0)">Remove</button></td>
+                            </tr>
+                        @endif
                     </tbody>
                 </table>
 
@@ -376,19 +395,19 @@
                     <div class="form-group">
                         <label for="payment_terms">Payment Terms</label>
                         <input type="text" name="payment_terms" id="payment_terms"
-                               value="100% advance payment before shipment" placeholder="e.g., 50% deposit, 50% before shipment">
+                               value="{{ $quoteData['payment_terms'] ?? '100% advance payment before shipment' }}"
+                               placeholder="e.g., 50% deposit, 50% before shipment">
                     </div>
                     <div class="form-group">
                         <label for="delivery_terms">Delivery Terms</label>
                         <input type="text" name="delivery_terms" id="delivery_terms"
-                               value="EXW (Ex Works) Korea" placeholder="e.g., FOB, CIF, EXW">
+                               value="{{ $quoteData['delivery_terms'] ?? 'EXW (Ex Works) Korea' }}"
+                               placeholder="e.g., FOB, CIF, EXW">
                     </div>
                 </div>
                 <div class="form-group">
                     <label for="notes">Additional Notes</label>
-                    <textarea name="notes" id="notes" placeholder="Add any special terms or notes...">Price is subject to change without notice.
-Lead time: 2-4 weeks after order confirmation.
-Warranty: 12 months from delivery date.</textarea>
+                    <textarea name="notes" id="notes" placeholder="Add any special terms or notes...">{{ $quoteData['notes'] ?? "Price is subject to change without notice.\nLead time: 2-4 weeks after order confirmation.\nWarranty: 12 months from delivery date." }}</textarea>
                 </div>
             </div>
 
@@ -465,6 +484,13 @@ Warranty: 12 months from delivery date.</textarea>
             // Set default template
             @if($quoteRequest->quote_template)
                 selectTemplate('{{ $quoteRequest->quote_template }}');
+            @endif
+
+            // Calculate totals if there are saved items
+            @if($quoteData && isset($quoteData['items']) && count($quoteData['items']) > 0)
+                calculateTotal();
+                // Update item counter for add item function
+                itemCounter = {{ count($quoteData['items']) }};
             @endif
         });
     </script>

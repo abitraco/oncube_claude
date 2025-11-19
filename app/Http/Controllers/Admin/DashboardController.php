@@ -12,7 +12,7 @@ class DashboardController extends Controller
         // Check session authentication
         if ($request->session()->get('admin_authenticated') !== true) {
             if ($request->has('password')) {
-                if ($request->input('password') === env('ADMIN_PASSWORD', 'oncube2024')) {
+                if ($request->input('password') === env('ADMIN_PASSWORD', 'oncube2025')) {
                     $request->session()->put('admin_authenticated', true);
                     return redirect()->route('admin.dashboard');
                 } else {

@@ -30,6 +30,31 @@
             margin-bottom: 10px;
         }
 
+        .admin-nav {
+            display: flex;
+            gap: 15px;
+            margin-top: 15px;
+        }
+
+        .nav-link {
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            padding: 8px 16px;
+            border-radius: 5px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 14px;
+            transition: all 0.3s;
+        }
+
+        .nav-link:hover {
+            background: rgba(255, 255, 255, 0.3);
+        }
+
+        .nav-link.active {
+            background: #FF6B00;
+        }
+
         .admin-header .stats {
             display: flex;
             gap: 30px;
@@ -365,6 +390,12 @@
                 <a href="{{ route('admin.logout') }}" style="background: rgba(255,255,255,0.2); color: white; padding: 10px 20px; border-radius: 5px; text-decoration: none; font-size: 14px;">Logout</a>
             </div>
         </div>
+
+        <div class="admin-nav">
+            <a href="{{ route('admin.quotes') }}" class="nav-link active">Quote Requests</a>
+            <a href="{{ route('admin.quote-history') }}" class="nav-link">Quote History</a>
+        </div>
+
         <div class="stats">
             <div class="stat-item">
                 <small>Total Requests</small>

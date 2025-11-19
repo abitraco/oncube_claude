@@ -1,180 +1,177 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <meta charset="utf-8">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
     <title>Quotation - {{ $data['quote_number'] }}</title>
     <style>
         @page {
-            margin: 20mm;
+            margin: 12mm 15mm;
         }
 
         body {
             font-family: 'DejaVu Sans', sans-serif;
-            font-size: 11pt;
-            color: #333;
-            line-height: 1.6;
+            font-size: 9pt;
+            color: #2c3e50;
+            line-height: 1.4;
+            margin: 0;
+            padding: 0;
         }
 
         .header {
-            background: #002748;
-            padding: 20px;
-            margin-bottom: 25px;
-            border-radius: 5px;
+            background: linear-gradient(135deg, #1e3a5f 0%, #2c5282 100%);
+            padding: 12px 15px;
+            margin-bottom: 12px;
+            border-radius: 4px;
         }
 
-        .header-container {
-            width: 100%;
-        }
-
-        .header-top {
+        .header-flex {
             display: table;
             width: 100%;
-            margin-bottom: 0;
         }
 
-        .header-logo {
+        .header-left {
             display: table-cell;
-            width: 120px;
             vertical-align: middle;
-            background: white;
-            padding: 10px;
-            border-radius: 5px;
+            width: 70%;
         }
 
-        .header-logo img {
-            width: 100px;
+        .header-right {
+            display: table-cell;
+            vertical-align: middle;
+            text-align: right;
+            width: 30%;
+        }
+
+        .logo-box {
+            background: white;
+            padding: 6px 10px;
+            border-radius: 3px;
+            display: inline-block;
+            margin-right: 12px;
+            vertical-align: middle;
+        }
+
+        .logo-box img {
+            width: 70px;
             height: auto;
             display: block;
         }
 
-        .header-company {
-            display: table-cell;
+        .company-info {
+            display: inline-block;
             vertical-align: middle;
-            padding-left: 20px;
             color: white;
         }
 
-        .company-title {
-            font-size: 16pt;
+        .company-name {
+            font-size: 13pt;
             font-weight: bold;
-            margin-bottom: 3px;
+            margin-bottom: 2px;
         }
 
         .company-desc {
-            font-size: 9pt;
-            line-height: 1.4;
+            font-size: 7.5pt;
+            opacity: 0.9;
+            line-height: 1.3;
         }
 
-        .header-right {
-            text-align: right;
+        .quote-title {
             color: white;
-            margin-top: 15px;
-            padding-top: 15px;
-            border-top: 1px solid rgba(255,255,255,0.2);
-        }
-
-        .header-right h1 {
-            font-size: 28pt;
-            margin: 0 0 5px 0;
-            color: white;
+            font-size: 20pt;
             font-weight: bold;
+            margin: 0 0 4px 0;
         }
 
-        .quote-number-badge {
-            display: inline-block;
+        .quote-number {
             background: rgba(255,255,255,0.2);
             color: white;
-            padding: 5px 12px;
+            padding: 3px 10px;
             border-radius: 3px;
-            font-size: 11pt;
+            font-size: 9pt;
             font-weight: bold;
+            display: inline-block;
         }
 
-        .clearfix::after {
-            content: "";
-            display: table;
-            clear: both;
-        }
-
-        .quote-info {
-            width: 100%;
-            margin-bottom: 20px;
-        }
-
-        .quote-info table {
-            width: 100%;
-        }
-
-        .quote-info td {
-            vertical-align: top;
-            padding: 10px;
-        }
-
-        .info-box {
-            border-left: 4px solid #002748;
-            padding: 12px 15px;
-            background: #f8f9fa;
-            border-radius: 3px;
+        .info-section {
             margin-bottom: 10px;
         }
 
-        .info-box h4 {
-            margin: 0 0 12px 0;
-            color: #002748;
-            font-size: 10pt;
+        .info-row {
+            display: table;
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .info-cell {
+            display: table-cell;
+            width: 50%;
+            padding: 0 5px;
+        }
+
+        .info-box {
+            background: #f7fafc;
+            border-left: 3px solid #2c5282;
+            padding: 8px 12px;
+            border-radius: 3px;
+        }
+
+        .info-box-title {
+            color: #1e3a5f;
+            font-size: 8.5pt;
+            font-weight: bold;
+            margin-bottom: 5px;
             text-transform: uppercase;
-            font-weight: bold;
-            letter-spacing: 0.5px;
+            letter-spacing: 0.3px;
         }
 
-        .info-box p {
-            margin: 6px 0;
-            font-size: 9.5pt;
-            line-height: 1.5;
+        .info-item {
+            font-size: 8pt;
+            margin: 3px 0;
+            line-height: 1.3;
         }
 
-        .info-box p strong {
-            color: #002748;
-            font-weight: bold;
+        .info-label {
+            color: #4a5568;
+            font-weight: 600;
             display: inline-block;
-            min-width: 90px;
+            width: 75px;
         }
 
-        .items-section-title {
-            color: #002748;
-            font-size: 13pt;
+        .section-title {
+            color: #1e3a5f;
+            font-size: 10pt;
             font-weight: bold;
-            margin: 25px 0 12px 0;
+            margin: 12px 0 6px 0;
+            padding-bottom: 4px;
+            border-bottom: 2px solid #2c5282;
         }
 
         .items-table {
             width: 100%;
             border-collapse: collapse;
-            margin: 15px 0;
-            border-radius: 5px;
-            overflow: hidden;
+            margin: 6px 0;
         }
 
         .items-table th {
-            background: #002748;
+            background: #2c5282;
             color: white;
-            padding: 12px 10px;
+            padding: 6px 8px;
             text-align: left;
-            font-size: 9.5pt;
+            font-size: 8pt;
             font-weight: bold;
             text-transform: uppercase;
             letter-spacing: 0.3px;
         }
 
         .items-table td {
-            padding: 10px;
-            border-bottom: 1px solid #e9ecef;
-            font-size: 9.5pt;
+            padding: 6px 8px;
+            border-bottom: 1px solid #e2e8f0;
+            font-size: 8.5pt;
             background: white;
         }
 
         .items-table tbody tr:nth-child(even) td {
-            background: #f8f9fa;
+            background: #f7fafc;
         }
 
         .text-right {
@@ -186,15 +183,16 @@
         }
 
         .totals {
-            width: 320px;
+            width: 280px;
             margin-left: auto;
-            margin-top: 20px;
+            margin-top: 8px;
         }
 
         .total-row {
-            padding: 10px 15px;
-            background: #f8f9fa;
+            padding: 5px 12px;
+            background: #f7fafc;
             margin-bottom: 2px;
+            border-radius: 2px;
         }
 
         .total-row table {
@@ -202,139 +200,142 @@
         }
 
         .total-label {
-            font-weight: bold;
-            color: #555;
-            font-size: 10pt;
+            font-weight: 600;
+            color: #4a5568;
+            font-size: 8.5pt;
         }
 
         .total-value {
             text-align: right;
             font-weight: bold;
-            color: #333;
-            font-size: 10pt;
+            color: #2d3748;
+            font-size: 8.5pt;
         }
 
-        .total-row.grand-total {
-            background: #002748;
-            color: white;
-            font-weight: bold;
-            border-radius: 5px;
-            padding: 14px 15px;
-            margin-top: 8px;
+        .grand-total {
+            background: #1e3a5f;
+            padding: 8px 12px;
+            margin-top: 4px;
+            border-radius: 3px;
         }
 
         .grand-total .total-label,
         .grand-total .total-value {
             color: white;
-            font-size: 12pt;
+            font-size: 10pt;
         }
 
         .terms {
-            margin-top: 30px;
-            padding: 18px 20px;
-            background: #f8f9fa;
-            border-left: 4px solid #FF6B00;
+            margin-top: 12px;
+            padding: 10px 12px;
+            background: #fffaf0;
+            border-left: 3px solid #ed8936;
             border-radius: 3px;
-            page-break-inside: avoid;
         }
 
-        .terms h4 {
-            margin: 0 0 15px 0;
-            color: #002748;
-            font-size: 12pt;
+        .terms-title {
+            color: #1e3a5f;
+            font-size: 9pt;
             font-weight: bold;
+            margin: 0 0 6px 0;
         }
 
         .terms p {
-            margin: 8px 0;
-            font-size: 9pt;
-            line-height: 1.6;
-            color: #555;
+            margin: 4px 0;
+            font-size: 7.5pt;
+            line-height: 1.4;
+            color: #4a5568;
         }
 
-        .terms p strong {
-            color: #002748;
-            font-weight: bold;
+        .terms strong {
+            color: #2d3748;
+            font-weight: 600;
         }
 
-        .terms .notes {
+        .terms-notes {
             white-space: pre-wrap;
-            font-size: 9pt;
-            line-height: 1.6;
+            font-size: 7.5pt;
+            line-height: 1.4;
+            margin-top: 4px;
         }
 
-        .footer {
+        .footer-note {
+            margin-top: 6px;
+            padding-top: 6px;
+            border-top: 1px solid #e2e8f0;
+            font-size: 6.5pt;
+            color: #718096;
+            line-height: 1.3;
+        }
+
+        .page-footer {
             position: fixed;
             bottom: 0;
-            width: 100%;
+            left: 0;
+            right: 0;
             text-align: center;
-            font-size: 8pt;
-            color: #888;
-            border-top: 1px solid #ddd;
-            padding-top: 10px;
-        }
-
-        strong {
-            color: #002748;
+            font-size: 7pt;
+            color: #a0aec0;
+            padding: 6px 0;
+            border-top: 1px solid #e2e8f0;
         }
     </style>
 </head>
 <body>
+    <!-- Header -->
     <div class="header">
-        <div class="header-container">
-            <div class="header-top">
-                <div class="header-logo">
-                    <img src="{{ public_path('assets/logo.png') }}" alt="ONCUBE GLOBAL">
+        <div class="header-flex">
+            <div class="header-left">
+                <div class="logo-box">
+                    <img src="{{ public_path('assets/logo.png') }}" alt="ONCUBE">
                 </div>
-                <div class="header-company">
-                    <div class="company-title">ONCUBE GLOBAL</div>
+                <div class="company-info">
+                    <div class="company-name">ONCUBE GLOBAL</div>
                     <div class="company-desc">
-                        Industrial & Semiconductor Equipment Distribution<br>
-                        License: 416-19-94501 | Tel: +82-10-4846-0846
+                        Industrial & Semiconductor Equipment Distribution · Business Reg: 416-19-94501 · +82-10-4846-0846
                     </div>
                 </div>
             </div>
             <div class="header-right">
-                <h1>QUOTATION</h1>
-                <span class="quote-number-badge">{{ $data['quote_number'] }}</span>
+                <div class="quote-title">QUOTATION</div>
+                <div class="quote-number">{{ $data['quote_number'] }}</div>
             </div>
         </div>
     </div>
 
-    <div class="quote-info">
-        <table>
-            <tr>
-                <td style="width: 50%;">
-                    <div class="info-box">
-                        <h4>Quote Information</h4>
-                        <p><strong>Quote Number:</strong> {{ $data['quote_number'] }}</p>
-                        <p><strong>Date:</strong> {{ date('F d, Y', strtotime($data['quote_date'])) }}</p>
-                        <p><strong>Valid Until:</strong> {{ date('F d, Y', strtotime($data['valid_until'])) }}</p>
-                    </div>
-                </td>
-                <td style="width: 50%;">
-                    <div class="info-box">
-                        <h4>Customer Information</h4>
-                        <p><strong>Company:</strong> {{ $quote->company_name }}</p>
-                        <p><strong>Contact:</strong> {{ $quote->contact_name }}</p>
-                        <p><strong>Email:</strong> {{ $quote->company_email }}</p>
-                        <p><strong>Phone:</strong> {{ $quote->phone }}</p>
-                    </div>
-                </td>
-            </tr>
-        </table>
+    <!-- Info Section -->
+    <div class="info-section">
+        <div class="info-row">
+            <div class="info-cell">
+                <div class="info-box">
+                    <div class="info-box-title">Quote Information</div>
+                    <div class="info-item"><span class="info-label">Quote No:</span> {{ $data['quote_number'] }}</div>
+                    <div class="info-item"><span class="info-label">Quote Date:</span> {{ date('M d, Y', strtotime($data['quote_date'])) }}</div>
+                    <div class="info-item"><span class="info-label">Valid Until:</span> {{ date('M d, Y', strtotime($data['valid_until'])) }}</div>
+                </div>
+            </div>
+            <div class="info-cell">
+                <div class="info-box">
+                    <div class="info-box-title">Customer Information</div>
+                    <div class="info-item"><span class="info-label">Company:</span> {{ $quote->company_name }}</div>
+                    <div class="info-item"><span class="info-label">Contact:</span> {{ $quote->contact_name }}</div>
+                    <div class="info-item"><span class="info-label">Email:</span> {{ $quote->company_email }}</div>
+                </div>
+            </div>
+        </div>
     </div>
 
-    <h3 class="items-section-title">📋 Line Items</h3>
+    <!-- Items Section -->
+    <div class="section-title">Line Items</div>
 
     <table class="items-table">
         <thead>
             <tr>
-                <th style="width: 8%;" class="text-center">#</th>
-                <th style="width: 45%;">Description</th>
+                <th style="width: 6%;" class="text-center">No.</th>
+                <th style="width: 50%;">Description</th>
                 <th style="width: 12%;" class="text-right">Quantity</th>
-                <th style="width: 15%;" class="text-right">Unit Price</th>
-                <th style="width: 20%;" class="text-right">Amount (USD)</th>
+                <th style="width: 16%;" class="text-right">Unit Price (USD)</th>
+                <th style="width: 16%;" class="text-right">Amount (USD)</th>
             </tr>
         </thead>
         <tbody>
@@ -355,6 +356,7 @@
         </tbody>
     </table>
 
+    <!-- Totals -->
     <div class="totals">
         <div class="total-row">
             <table>
@@ -374,30 +376,31 @@
         </div>
     </div>
 
+    <!-- Terms -->
     <div class="terms">
-        <h4>Terms & Conditions</h4>
+        <div class="terms-title">Terms & Conditions</div>
 
         @if($data['payment_terms'])
-        <p><strong>Payment Terms:</strong> {{ $data['payment_terms'] }}</p>
+        <p><strong>Payment:</strong> {{ $data['payment_terms'] }}</p>
         @endif
 
         @if($data['delivery_terms'])
-        <p><strong>Delivery Terms:</strong> {{ $data['delivery_terms'] }}</p>
+        <p><strong>Delivery:</strong> {{ $data['delivery_terms'] }}</p>
         @endif
 
         @if($data['notes'])
         <p><strong>Additional Notes:</strong></p>
-        <div class="notes">{{ $data['notes'] }}</div>
+        <div class="terms-notes">{{ $data['notes'] }}</div>
         @endif
 
-        <p style="margin-top: 15px; font-size: 8pt; color: #666;">
-            This quotation is valid for the period specified above. All prices are in USD and exclude applicable taxes unless otherwise stated.
-        </p>
+        <div class="footer-note">
+            This quotation is valid until the expiry date mentioned above. All prices are in USD and exclude taxes unless otherwise specified.
+        </div>
     </div>
 
-    <div class="footer">
-        ONCUBE GLOBAL | +82-10-4846-0846 | License: 416-19-94501<br>
-        Generated on {{ date('F d, Y') }}
+    <!-- Footer -->
+    <div class="page-footer">
+        ONCUBE GLOBAL · +82-10-4846-0846 · Business Registration: 416-19-94501 · Issue Date: {{ date('M d, Y') }}
     </div>
 </body>
 </html>

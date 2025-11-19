@@ -45,3 +45,4 @@ yarn-error.log
 *.sqlite-journal
 /database/*.sqlite
 /database/*.sqlite-journal
+CLAUDE.md

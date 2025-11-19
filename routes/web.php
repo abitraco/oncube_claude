@@ -36,6 +36,12 @@ Route::get('/admin/quotes/{id}/review', [App\Http\Controllers\Admin\QuoteBuilder
 Route::post('/admin/quotes/{id}/generate-pdf', [App\Http\Controllers\Admin\QuoteBuilderController::class, 'generatePdf'])->name('admin.quote.generate-pdf');
 Route::post('/admin/quotes/{id}/send', [App\Http\Controllers\Admin\QuoteBuilderController::class, 'send'])->name('admin.quote.send');
 
+// Admin Quote History routes
+Route::get('/admin/quote-history', [App\Http\Controllers\Admin\QuoteHistoryController::class, 'index'])->name('admin.quote-history');
+Route::post('/admin/quote-history', [App\Http\Controllers\Admin\QuoteHistoryController::class, 'index']);
+Route::get('/admin/quote-history/{id}/view', [App\Http\Controllers\Admin\QuoteHistoryController::class, 'view'])->name('admin.quote-history.view');
+Route::get('/admin/quote-history/{id}/download', [App\Http\Controllers\Admin\QuoteHistoryController::class, 'downloadPdf'])->name('admin.quote-history.download');
+
 // Admin Featured Products routes
 Route::get('/admin/featured-products', [App\Http\Controllers\Admin\FeaturedProductController::class, 'index'])->name('admin.featured-products');
 Route::post('/admin/featured-products', [App\Http\Controllers\Admin\FeaturedProductController::class, 'index']);

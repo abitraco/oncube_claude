@@ -518,11 +518,9 @@
                 </a>
             </div>
             <div style="display: flex; gap: 15px;">
-                @if(!$quoteRequest->quote_pdf)
                 <button type="button" class="btn btn-primary" onclick="generatePDF()">
-                    Generate PDF
+                    {{ $quoteRequest->quote_pdf ? 'Regenerate PDF' : 'Generate PDF' }}
                 </button>
-                @endif
                 @if($quoteRequest->quote_pdf)
                 <form action="{{ route('admin.quote.send', $quoteRequest->id) }}" method="POST" style="display: inline;"
                       onsubmit="return confirm('Send quote to {{ $quoteRequest->company_email }}?')">

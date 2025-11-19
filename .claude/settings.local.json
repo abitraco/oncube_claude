@@ -42,7 +42,15 @@
       "Bash(powershell.exe:*)",
       "Bash(python3:*)",
       "Bash(printf:*)",
-      "Bash(CLAUDE.md)"
+      "Bash(CLAUDE.md)",
+      "Bash(timeout 10 ssh:*)",
+      "Bash(timeout 30 ssh root@72.61.118.53 \"cd /root/oncube_claude && git pull origin main && docker compose down && docker compose up -d --build\")",
+      "Bash(timeout 30 ssh root@72.61.118.53 \"cd /root/oncube_claude && git pull origin main && docker compose restart\")",
+      "Bash(php -v:*)",
+      "Bash(C:Userschance.configherdbincomposer.bat install --no-interaction)",
+      "Bash(timeout 5 ssh:*)",
+      "Bash(composer dump-autoload:*)",
+      "Bash(php composer.phar:*)"
     ],
     "deny": [],
     "ask": []

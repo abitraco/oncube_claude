@@ -19,6 +19,12 @@ class QuoteBuilderController extends Controller
 
         $quoteRequest = QuoteRequest::findOrFail($id);
 
+        // Check if quote has been sent - prevent editing
+        if ($quoteRequest->status === QuoteRequest::STATUS_QUOTE_SENT && $quoteRequest->quote_sent_at) {
+            return redirect()->route('admin.quotes')
+                ->with('error', 'This quote has already been sent to the customer and cannot be edited.');
+        }
+
         return view('admin.quote-builder', compact('quoteRequest'));
     }
 
@@ -29,6 +35,12 @@ class QuoteBuilderController extends Controller
         }
 
         $quoteRequest = QuoteRequest::findOrFail($id);
+
+        // Check if quote has been sent - prevent editing
+        if ($quoteRequest->status === QuoteRequest::STATUS_QUOTE_SENT && $quoteRequest->quote_sent_at) {
+            return redirect()->route('admin.quotes')
+                ->with('error', 'This quote has already been sent to the customer and cannot be edited.');
+        }
 
         $validated = $request->validate([
             'quote_template' => 'required|in:en,ko',
@@ -44,15 +56,67 @@ class QuoteBuilderController extends Controller
             'notes' => 'nullable|string',
         ]);
 
-        // Save quote data
-        $quoteRequest->update([
-            'quote_template' => $validated['quote_template'],
-            'quote_data' => $validated,
-            'status' => QuoteRequest::STATUS_PENDING,
+        \Log::info('Saving quote data', [
+            'quote_id' => $id,
+            'template' => $validated['quote_template'],
+            'items_count' => count($validated['items']),
+            'quote_number' => $validated['quote_number']
         ]);
 
+        // Save quote data - The model's mutator will handle json_encode automatically
+        $quoteRequest->quote_template = $validated['quote_template'];
+        $quoteRequest->quote_data = $validated;  // Mutator will json_encode this
+        $quoteRequest->status = QuoteRequest::STATUS_PENDING;
+        $quoteRequest->save();
+
+        \Log::info('Quote data saved to database', [
+            'quote_id' => $id,
+            'saved_successfully' => true
+        ]);
+
+        // Refresh to get the saved data with proper accessor
+        $quoteRequest = $quoteRequest->fresh();
+
+        // Automatically regenerate PDF
+        try {
+            $pdf = $this->createPdfFromData($quoteRequest);
+
+            // Save PDF to public storage
+            $filename = 'quote_' . $quoteRequest->id . '_' . time() . '.pdf';
+            $path = 'public/quotes/' . $filename;
+
+            // Ensure directory exists
+            if (!Storage::exists('public/quotes')) {
+                Storage::makeDirectory('public/quotes');
+            }
+
+            Storage::put($path, $pdf->Output('', 'S'));
+
+            // Store the public path (without 'public/' prefix for asset URL)
+            $publicPath = 'quotes/' . $filename;
+
+            // Update quote request with new PDF path
+            $quoteRequest->update([
+                'quote_pdf' => $publicPath
+            ]);
+
+            \Log::info('Quote PDF generated successfully', [
+                'quote_id' => $quoteRequest->id,
+                'pdf_path' => $publicPath
+            ]);
+        } catch (\Exception $e) {
+            \Log::error('PDF generation failed', [
+                'quote_id' => $quoteRequest->id,
+                'error' => $e->getMessage(),
+                'trace' => $e->getTraceAsString()
+            ]);
+
+            return redirect()->route('admin.quote.review', $id)
+                ->with('warning', 'Quote saved but PDF generation failed: ' . $e->getMessage());
+        }
+
         return redirect()->route('admin.quote.review', $id)
-            ->with('success', 'Quote saved successfully. Please review before sending.');
+            ->with('success', 'Quote saved and PDF generated successfully. Please review before sending.');
     }
 
     public function review(Request $request, $id)
@@ -74,7 +138,7 @@ class QuoteBuilderController extends Controller
     public function generatePdf(Request $request, $id)
     {
         if ($request->session()->get('admin_authenticated') !== true) {
-            return redirect()->route('admin.login', ['redirect' => 'quotes']);
+            return response()->json(['error' => 'Unauthorized'], 401);
         }
 
         $quoteRequest = QuoteRequest::findOrFail($id);
@@ -87,22 +151,36 @@ class QuoteBuilderController extends Controller
             // Generate PDF from quote data
             $pdf = $this->createPdfFromData($quoteRequest);
 
-            // Save PDF to storage
+            // Save PDF to public storage so it's accessible via web
             $filename = 'quote_' . $quoteRequest->id . '_' . time() . '.pdf';
-            $path = 'quotes/' . $filename;
-            Storage::put($path, $pdf->output());
+            $path = 'public/quotes/' . $filename;
+            Storage::put($path, $pdf->Output('', 'S'));
+
+            // Store the public path (without 'public/' prefix for asset URL)
+            $publicPath = 'quotes/' . $filename;
 
             // Update quote request
             $quoteRequest->update([
-                'quote_pdf' => $path
+                'quote_pdf' => $publicPath
+            ]);
+
+            \Log::info('PDF regenerated successfully via button', [
+                'quote_id' => $quoteRequest->id,
+                'pdf_path' => $publicPath
             ]);
 
             return response()->json([
                 'success' => true,
-                'pdf_url' => Storage::url($path)
+                'pdf_url' => asset('storage/' . $publicPath)
             ]);
 
         } catch (\Exception $e) {
+            \Log::error('PDF regeneration failed', [
+                'quote_id' => $id,
+                'error' => $e->getMessage(),
+                'trace' => $e->getTraceAsString()
+            ]);
+
             return response()->json(['error' => $e->getMessage()], 500);
         }
     }
@@ -124,14 +202,14 @@ class QuoteBuilderController extends Controller
             Mail::send('emails.quote-customer', ['quote' => $quoteRequest], function ($message) use ($quoteRequest) {
                 $message->to($quoteRequest->company_email, $quoteRequest->contact_name)
                     ->subject('Quote for Your Inquiry - ONCUBE GLOBAL')
-                    ->attach(storage_path('app/' . $quoteRequest->quote_pdf));
+                    ->attach(storage_path('app/public/' . $quoteRequest->quote_pdf));
             });
 
             // Send copy to admin
             Mail::send('emails.quote-admin-copy', ['quote' => $quoteRequest], function ($message) use ($quoteRequest) {
                 $message->to('kmmccc@gmail.com', 'ONCUBE Admin')
                     ->subject('Quote Sent - ' . $quoteRequest->company_name)
-                    ->attach(storage_path('app/' . $quoteRequest->quote_pdf));
+                    ->attach(storage_path('app/public/' . $quoteRequest->quote_pdf));
             });
 
             // Update status
@@ -151,20 +229,36 @@ class QuoteBuilderController extends Controller
     private function createPdfFromData($quoteRequest)
     {
         $data = $quoteRequest->quote_data;
-        $template = $quoteRequest->quote_template;
-
-        // Load PDF library
-        $pdf = app('dompdf.wrapper');
-
-        // Generate HTML from template
-        $html = view('pdf.quote-' . $template, [
+        
+        // Use the new modern template
+        $html = view('pdf.quote-modern', [
             'quote' => $quoteRequest,
             'data' => $data
         ])->render();
 
-        $pdf->loadHTML($html);
-        $pdf->setPaper('A4', 'portrait');
+        // Ensure temp directory exists
+        if (!file_exists(storage_path('app/mpdf'))) {
+            mkdir(storage_path('app/mpdf'), 0755, true);
+        }
 
-        return $pdf;
+        // Use mPDF for Korean language support
+        $mpdf = new \Mpdf\Mpdf([
+            'mode' => 'utf-8',
+            'format' => 'A4',
+            'orientation' => 'P',
+            'margin_left' => 0,
+            'margin_right' => 0,
+            'margin_top' => 0,
+            'margin_bottom' => 0,
+            'margin_header' => 0,
+            'margin_footer' => 0,
+            'tempDir' => storage_path('app/mpdf'),
+            'autoScriptToLang' => true,
+            'autoLangToFont' => true,
+        ]);
+
+        $mpdf->WriteHTML($html);
+
+        return $mpdf;
     }
 }
