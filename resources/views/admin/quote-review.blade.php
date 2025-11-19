@@ -82,32 +82,92 @@
 
         .quote-header {
             margin-bottom: 30px;
-            padding-bottom: 20px;
-            border-bottom: 2px solid #002748;
+            padding: 25px;
+            background: linear-gradient(135deg, #002748 0%, #004080 100%);
+            border-radius: 8px;
             position: relative;
             overflow: hidden;
         }
 
+        .quote-header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg width="100" height="100" xmlns="http://www.w3.org/2000/svg"><defs><pattern id="grid" width="20" height="20" patternUnits="userSpaceOnUse"><path d="M 20 0 L 0 0 0 20" fill="none" stroke="rgba(255,255,255,0.05)" stroke-width="0.5"/></pattern></defs><rect width="100" height="100" fill="url(%23grid)"/></svg>');
+            opacity: 0.3;
+        }
+
+        .quote-header-container {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            position: relative;
+            z-index: 1;
+        }
+
+        .quote-header-left {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
         .quote-header-logo {
-            float: left;
-            width: 120px;
-            margin-right: 20px;
+            background: white;
+            padding: 12px;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
 
         .quote-header-logo img {
-            max-width: 120px;
+            width: 100px;
             height: auto;
+            display: block;
         }
 
-        .quote-header-content {
-            text-align: center;
-            padding-top: 10px;
+        .quote-header-company {
+            color: white;
         }
 
-        .quote-header h2 {
-            color: #002748;
-            font-size: 32px;
-            margin-bottom: 10px;
+        .quote-header-company .company-title {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 5px;
+            letter-spacing: 0.5px;
+        }
+
+        .quote-header-company .company-desc {
+            font-size: 12px;
+            opacity: 0.9;
+            line-height: 1.5;
+        }
+
+        .quote-header-right {
+            text-align: right;
+            color: white;
+        }
+
+        .quote-header-right h2 {
+            font-size: 38px;
+            font-weight: 700;
+            margin: 0 0 8px 0;
+            letter-spacing: 2px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+        }
+
+        .quote-header-right .quote-number {
+            font-size: 14px;
+            font-weight: 500;
+            opacity: 0.95;
+            background: rgba(255,255,255,0.1);
+            padding: 6px 12px;
+            border-radius: 4px;
+            display: inline-block;
         }
 
         .clearfix::after {
@@ -119,44 +179,92 @@
         .quote-info {
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 30px;
-            margin-bottom: 30px;
+            gap: 20px;
+            margin: 25px 0;
+        }
+
+        .info-section {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 8px;
+            border-left: 4px solid #002748;
         }
 
         .info-section h4 {
             color: #002748;
-            margin-bottom: 10px;
-            font-size: 14px;
+            margin-bottom: 15px;
+            font-size: 13px;
             text-transform: uppercase;
+            font-weight: 700;
+            letter-spacing: 0.5px;
         }
 
         .info-section p {
-            margin: 5px 0;
-            color: #333;
+            margin: 8px 0;
+            color: #555;
             font-size: 14px;
+            line-height: 1.6;
+        }
+
+        .info-section p strong {
+            color: #002748;
+            font-weight: 600;
+            min-width: 110px;
+            display: inline-block;
+        }
+
+        .items-section {
+            margin-top: 30px;
+        }
+
+        .items-section h4 {
+            color: #002748;
+            margin-bottom: 15px;
+            font-size: 16px;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .items-section h4::before {
+            content: '📋';
+            font-size: 20px;
         }
 
         .items-table {
             width: 100%;
             border-collapse: collapse;
             margin: 20px 0;
-        }
-
-        .items-table th,
-        .items-table td {
-            padding: 12px;
-            text-align: left;
-            border-bottom: 1px solid #ddd;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+            border-radius: 8px;
+            overflow: hidden;
         }
 
         .items-table th {
-            background: #002748;
+            background: linear-gradient(135deg, #002748 0%, #003d6b 100%);
             color: white;
             font-weight: 600;
+            padding: 15px 12px;
+            text-align: left;
+            font-size: 13px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
         }
 
-        .items-table tr:hover {
+        .items-table td {
+            padding: 14px 12px;
+            border-bottom: 1px solid #e9ecef;
+            background: white;
+        }
+
+        .items-table tbody tr:hover {
             background: #f8f9fa;
+            transition: background 0.2s ease;
+        }
+
+        .items-table tbody tr:last-child td {
+            border-bottom: none;
         }
 
         .text-right {
@@ -164,53 +272,82 @@
         }
 
         .totals {
-            margin-top: 20px;
-            padding: 20px;
-            background: #f8f9fa;
-            border-radius: 5px;
+            margin-top: 25px;
+            padding: 0;
+            background: transparent;
         }
 
         .total-row {
             display: flex;
             justify-content: flex-end;
-            gap: 30px;
-            margin-bottom: 10px;
+            gap: 40px;
+            padding: 12px 20px;
+            background: #f8f9fa;
+            margin-bottom: 2px;
         }
 
         .total-label {
             font-weight: 600;
             min-width: 150px;
+            color: #555;
         }
 
         .total-value {
-            min-width: 120px;
+            min-width: 140px;
             text-align: right;
+            font-weight: 600;
+            color: #333;
         }
 
         .grand-total {
-            font-size: 20px;
-            color: #002748;
-            font-weight: bold;
-            border-top: 2px solid #002748;
-            padding-top: 15px;
-            margin-top: 10px;
+            background: linear-gradient(135deg, #002748 0%, #003d6b 100%);
+            color: white;
+            font-size: 18px;
+            font-weight: 700;
+            border-radius: 8px;
+            padding: 18px 20px;
+            margin-top: 8px;
+            box-shadow: 0 4px 6px rgba(0,39,72,0.2);
+        }
+
+        .grand-total .total-label,
+        .grand-total .total-value {
+            color: white;
         }
 
         .terms-section {
-            margin-top: 30px;
-            padding-top: 20px;
-            border-top: 1px solid #ddd;
+            margin-top: 35px;
+            padding: 25px;
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            border-radius: 8px;
+            border-left: 4px solid #FF6B00;
         }
 
         .terms-section h4 {
             color: #002748;
-            margin-bottom: 10px;
+            margin-bottom: 18px;
+            font-size: 16px;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .terms-section h4::before {
+            content: '📝';
+            font-size: 20px;
         }
 
         .terms-section p {
-            margin: 5px 0;
+            margin: 10px 0;
             color: #555;
             font-size: 14px;
+            line-height: 1.7;
+        }
+
+        .terms-section p strong {
+            color: #002748;
+            font-weight: 600;
         }
 
         .action-buttons {
@@ -270,17 +407,26 @@
 
         <!-- Quote Preview -->
         <div class="quote-preview">
-            <div class="quote-header clearfix">
-                <div class="quote-header-logo">
-                    <img src="{{ asset('assets/logo.png') }}" alt="ONCUBE GLOBAL">
-                </div>
-                <div class="quote-header-content">
-                    <h2>{{ $quoteRequest->quote_template == 'ko' ? '견 적 서' : 'QUOTATION' }}</h2>
-                    <p style="color: #666;">{{ $quoteRequest->quote_template == 'ko' ? '온큐브글로벌 (ONCUBE GLOBAL)' : 'ONCUBE GLOBAL' }}</p>
-                    <p style="font-size: 12px; color: #888;">
-                        {{ $quoteRequest->quote_template == 'ko' ? '산업용 기계 및 반도체 장비 유통' : 'Industrial & Semiconductor Equipment Distribution' }}<br>
-                        {{ $quoteRequest->quote_template == 'ko' ? '사업자등록번호: 416-19-94501 | 연락처: +82-10-4846-0846' : 'License: 416-19-94501 | Tel: +82-10-4846-0846' }}
-                    </p>
+            <div class="quote-header">
+                <div class="quote-header-container">
+                    <div class="quote-header-left">
+                        <div class="quote-header-logo">
+                            <img src="{{ asset('assets/logo.png') }}" alt="ONCUBE GLOBAL">
+                        </div>
+                        <div class="quote-header-company">
+                            <div class="company-title">
+                                {{ $quoteRequest->quote_template == 'ko' ? '온큐브글로벌 (ONCUBE GLOBAL)' : 'ONCUBE GLOBAL' }}
+                            </div>
+                            <div class="company-desc">
+                                {{ $quoteRequest->quote_template == 'ko' ? '산업용 기계 및 반도체 장비 유통' : 'Industrial & Semiconductor Equipment Distribution' }}<br>
+                                {{ $quoteRequest->quote_template == 'ko' ? '사업자등록번호: 416-19-94501 | 연락처: +82-10-4846-0846' : 'License: 416-19-94501 | Tel: +82-10-4846-0846' }}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="quote-header-right">
+                        <h2>{{ $quoteRequest->quote_template == 'ko' ? '견 적 서' : 'QUOTATION' }}</h2>
+                        <div class="quote-number">{{ $data['quote_number'] }}</div>
+                    </div>
                 </div>
             </div>
 
@@ -302,8 +448,9 @@
                 </div>
             </div>
 
-            <h4 style="margin: 20px 0 10px 0; color: #002748;">Line Items</h4>
-            <table class="items-table">
+            <div class="items-section">
+                <h4>Line Items</h4>
+                <table class="items-table">
                 <thead>
                     <tr>
                         <th style="width: 5%">#</th>
@@ -324,9 +471,9 @@
                     </tr>
                     @endforeach
                 </tbody>
-            </table>
+                </table>
 
-            <div class="totals">
+                <div class="totals">
                 <div class="total-row">
                     <span class="total-label">Subtotal:</span>
                     <span class="total-value">${{ number_format($subtotal, 2) }}</span>
@@ -334,6 +481,7 @@
                 <div class="total-row grand-total">
                     <span class="total-label">Total Amount:</span>
                     <span class="total-value">${{ number_format($subtotal, 2) }}</span>
+                </div>
                 </div>
             </div>
 
