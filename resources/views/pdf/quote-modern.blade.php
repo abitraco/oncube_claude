@@ -200,14 +200,22 @@
                     <div style="background-color: white; padding: 10px; border-radius: 4px; display: inline-block; margin-bottom: 10px;">
                         <img src="{{ public_path('assets/logo.png') }}" style="height: 30px;">
                     </div>
-                    <div class="company-name">온큐브글로벌 (ONCUBE GLOBAL)</div>
-                    <div class="company-sub">
-                        산업용 기계 및 반도체 장비 유통<br>
-                        사업자등록번호: 416-19-94501 | 연락처: +82-10-4846-0846
-                    </div>
+                    @if($data['quote_template'] == 'ko')
+                        <div class="company-name">온큐브글로벌 (ONCUBE GLOBAL)</div>
+                        <div class="company-sub">
+                            산업용 기계 및 반도체 장비 유통<br>
+                            사업자등록번호: 416-19-94501 | 연락처: +82-10-4846-0846
+                        </div>
+                    @else
+                        <div class="company-name">ONCUBE GLOBAL</div>
+                        <div class="company-sub">
+                            Industrial Machinery & Semiconductor Equipment Distribution<br>
+                            Business Registration: 416-19-94501 | Tel: +82-10-4846-0846
+                        </div>
+                    @endif
                 </td>
                 <td class="title-area">
-                    <div class="quote-title">견 적 서</div>
+                    <div class="quote-title">{{ $data['quote_template'] == 'ko' ? '견 적 서' : 'QUOTATION' }}</div>
                     <div class="quote-badge">{{ $data['quote_number'] }}</div>
                 </td>
             </tr>
@@ -282,9 +290,12 @@
             </tr>
         </thead>
         <tbody>
-            @php $total = 0; @endphp
+            @php
+                $total = 0;
+                $isKorean = $data['quote_template'] == 'ko';
+            @endphp
             @foreach($data['items'] as $index => $item)
-            @php 
+            @php
                 $amount = $item['quantity'] * $item['unit_price'];
                 $total += $amount;
             @endphp
@@ -292,8 +303,8 @@
                 <td class="col-num">{{ $index + 1 }}</td>
                 <td class="col-desc">{{ $item['description'] }}</td>
                 <td class="col-qty">{{ $item['quantity'] }}</td>
-                <td class="col-price">${{ number_format($item['unit_price'], 2) }}</td>
-                <td class="col-amount">${{ number_format($amount, 2) }}</td>
+                <td class="col-price">{{ $isKorean ? '₩' . number_format($item['unit_price'], 0) : '$' . number_format($item['unit_price'], 2) }}</td>
+                <td class="col-amount">{{ $isKorean ? '₩' . number_format($amount, 0) : '$' . number_format($amount, 2) }}</td>
             </tr>
             @endforeach
         </tbody>
@@ -301,6 +312,24 @@
 
     <!-- Totals -->
     <div class="totals-container">
+        @if($data['quote_template'] == 'ko')
+        @php
+            $vat = $total * 0.10;
+            $grandTotal = $total + $vat;
+        @endphp
+        <div class="subtotal-row">
+            <span style="font-weight: bold; color: #555; margin-right: 20px;">Subtotal:</span>
+            <span style="font-weight: bold; color: #333;">₩{{ number_format($total, 0) }}</span>
+        </div>
+        <div class="subtotal-row">
+            <span style="font-weight: bold; color: #555; margin-right: 20px;">VAT (10%):</span>
+            <span style="font-weight: bold; color: #333;">₩{{ number_format($vat, 0) }}</span>
+        </div>
+        <div class="total-row">
+            <span class="total-label">Total Amount:</span>
+            <span style="color: #ffffff;">₩{{ number_format($grandTotal, 0) }}</span>
+        </div>
+        @else
         <div class="subtotal-row">
             <span style="font-weight: bold; color: #555; margin-right: 20px;">Subtotal:</span>
             <span style="font-weight: bold; color: #333;">${{ number_format($total, 2) }}</span>
@@ -309,6 +338,7 @@
             <span class="total-label">Total Amount:</span>
             <span style="color: #ffffff;">${{ number_format($total, 2) }}</span>
         </div>
+        @endif
     </div>
 
     <!-- Terms -->

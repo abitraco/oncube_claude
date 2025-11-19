@@ -1,43 +1,41 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Quotation from ONCUBE GLOBAL</title>
-</head>
-<body style="font-family: Arial, sans-serif; line-height: 1.6; color: #333; max-width: 600px; margin: 0 auto; padding: 20px;">
-    <div style="background: #002748; color: white; padding: 20px; text-align: center; border-radius: 5px 5px 0 0;">
-        <h1 style="margin: 0; font-size: 24px;">ONCUBE GLOBAL</h1>
-        <p style="margin: 5px 0 0 0; font-size: 14px;">Industrial & Semiconductor Equipment</p>
+@extends('layouts.email')
+
+@section('title', 'Quotation from ONCUBE GLOBAL')
+
+@section('content')
+    <h2 style="margin-top:0;margin-bottom:20px;font-size:20px;line-height:28px;font-weight:bold;color:#002748;">
+        Quotation for {{ $quote->contact_name }}
+    </h2>
+    
+    <p style="margin:0 0 15px 0;">Dear {{ $quote->contact_name }},</p>
+
+    <p style="margin:0 0 20px 0;">Thank you for your inquiry. We are pleased to provide you with the attached quotation for your review.</p>
+
+    <div style="background-color:#f8f9fa;border-left:4px solid #19BD0A;padding:20px;margin-bottom:25px;border-radius:4px;">
+        <table role="presentation" style="width:100%;border:none;border-spacing:0;">
+            <tr>
+                <td style="padding-bottom:8px;font-weight:bold;color:#555;width:120px;">Quote Number:</td>
+                <td style="padding-bottom:8px;color:#333;">{{ $quote->quote_data['quote_number'] ?? 'N/A' }}</td>
+            </tr>
+            <tr>
+                <td style="padding-bottom:8px;font-weight:bold;color:#555;">Date:</td>
+                <td style="padding-bottom:8px;color:#333;">{{ isset($quote->quote_data['quote_date']) ? date('F d, Y', strtotime($quote->quote_data['quote_date'])) : date('F d, Y') }}</td>
+            </tr>
+            <tr>
+                <td style="font-weight:bold;color:#555;">Valid Until:</td>
+                <td style="color:#333;">{{ isset($quote->quote_data['valid_until']) ? date('F d, Y', strtotime($quote->quote_data['valid_until'])) : 'N/A' }}</td>
+            </tr>
+        </table>
     </div>
 
-    <div style="background: #f9f9f9; padding: 30px; border: 1px solid #ddd; border-top: none; border-radius: 0 0 5px 5px;">
-        <p style="font-size: 16px; margin-top: 0;">Dear {{ $quote->contact_name }},</p>
+    <p style="margin:0 0 20px 0;">Please review the attached PDF quotation for detailed pricing and terms. If you have any questions or would like to proceed with the order, please simply reply to this email.</p>
 
-        <p>Thank you for your inquiry. Please find attached our quotation for your review.</p>
-
-        <div style="background: white; border-left: 4px solid #19BD0A; padding: 15px; margin: 20px 0;">
-            <p style="margin: 0;"><strong>Quote Number:</strong> {{ $quote->quote_data['quote_number'] ?? 'N/A' }}</p>
-            <p style="margin: 5px 0 0 0;"><strong>Valid Until:</strong> {{ isset($quote->quote_data['valid_until']) ? date('F d, Y', strtotime($quote->quote_data['valid_until'])) : 'N/A' }}</p>
-        </div>
-
-        <p>Please review the attached PDF quotation and let us know if you have any questions or would like to proceed with the order.</p>
-
-        <p>We look forward to serving your equipment needs.</p>
-
-        <div style="margin-top: 30px; padding-top: 20px; border-top: 1px solid #ddd;">
-            <p style="margin: 5px 0;"><strong>Best regards,</strong></p>
-            <p style="margin: 5px 0;">ONCUBE GLOBAL Team</p>
-            <p style="margin: 5px 0; font-size: 14px; color: #666;">
-                Tel: +82-10-4846-0846<br>
-                License: 416-19-94501
-            </p>
-        </div>
+    <div style="text-align:center;margin:30px 0;">
+        <a href="https://oncube.cloud" style="background-color:#002748;color:#ffffff;display:inline-block;font-family:Arial,sans-serif;font-size:16px;font-weight:bold;line-height:44px;text-align:center;text-decoration:none;width:200px;border-radius:4px;-webkit-text-size-adjust:none;">Contact Us</a>
     </div>
 
-    <div style="text-align: center; margin-top: 20px; font-size: 12px; color: #888;">
-        <p>This is an automated email. Please do not reply directly to this message.</p>
-        <p>&copy; {{ date('Y') }} ONCUBE GLOBAL. All rights reserved.</p>
-    </div>
-</body>
-</html>
+    <p style="margin:0 0 10px 0;">We look forward to serving your equipment needs.</p>
+
+    <p style="margin:0;">Best regards,<br><strong>ONCUBE GLOBAL Team</strong></p>
+@endsection
+

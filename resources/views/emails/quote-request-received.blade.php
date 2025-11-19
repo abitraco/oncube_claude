@@ -1,52 +1,48 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Quote Request Received</title>
-</head>
-<body style="font-family: Arial, sans-serif; line-height: 1.6; color: #333; max-width: 600px; margin: 0 auto; padding: 20px;">
-    <div style="background: #002748; color: white; padding: 20px; text-align: center; border-radius: 5px 5px 0 0;">
-        <h1 style="margin: 0; font-size: 24px;">ONCUBE GLOBAL</h1>
-        <p style="margin: 5px 0 0 0; font-size: 14px;">Thank you for your inquiry</p>
+@extends('layouts.email')
+
+@section('title', 'Quote Request Received')
+
+@section('content')
+    <h2 style="margin-top:0;margin-bottom:20px;font-size:20px;line-height:28px;font-weight:bold;color:#002748;">
+        We Received Your Request
+    </h2>
+    
+    <p style="margin:0 0 15px 0;">Dear {{ $quoteRequest->contact_name }},</p>
+
+    <p style="margin:0 0 20px 0;">Thank you for submitting your quote request to ONCUBE GLOBAL. We have successfully received your inquiry and our team is already reviewing it.</p>
+
+    <div style="background-color:#e8f5e9;border:1px solid #c8e6c9;color:#2e7d32;padding:15px;text-align:center;border-radius:4px;margin-bottom:25px;">
+        <strong>Your request has been successfully logged!</strong>
     </div>
 
-    <div style="background: #f9f9f9; padding: 30px; border: 1px solid #ddd; border-top: none; border-radius: 0 0 5px 5px;">
-        <p style="font-size: 16px; margin-top: 0;">Dear {{ $quoteRequest->contact_name }},</p>
-
-        <p>Thank you for submitting your quote request to ONCUBE GLOBAL. We have successfully received your inquiry.</p>
-
-        <div style="background: #19BD0A; color: white; padding: 15px; text-align: center; border-radius: 5px; margin: 20px 0;">
-            <p style="margin: 0; font-size: 18px; font-weight: bold;">Your request has been received!</p>
-        </div>
-
-        <div style="background: white; border-left: 4px solid #002748; padding: 15px; margin: 20px 0;">
-            <h3 style="margin-top: 0; color: #002748;">Your Request Details</h3>
-            <p style="margin: 5px 0;"><strong>Company:</strong> {{ $quoteRequest->company_name }}</p>
-            <p style="margin: 5px 0;"><strong>Inquiry Type:</strong> {{ $quoteRequest->inquiry_type }}</p>
+    <div style="background-color:#f8f9fa;border-left:4px solid #002748;padding:20px;margin-bottom:25px;border-radius:4px;">
+        <h3 style="margin-top:0;margin-bottom:15px;font-size:16px;color:#002748;text-transform:uppercase;">Request Details</h3>
+        <table role="presentation" style="width:100%;border:none;border-spacing:0;">
+            <tr>
+                <td style="padding-bottom:8px;font-weight:bold;color:#555;width:120px;">Company:</td>
+                <td style="padding-bottom:8px;color:#333;">{{ $quoteRequest->company_name }}</td>
+            </tr>
+            <tr>
+                <td style="padding-bottom:8px;font-weight:bold;color:#555;">Inquiry Type:</td>
+                <td style="padding-bottom:8px;color:#333;">{{ $quoteRequest->inquiry_type }}</td>
+            </tr>
             @if($quoteRequest->quantity)
-            <p style="margin: 5px 0;"><strong>Quantity:</strong> {{ $quoteRequest->quantity }}</p>
+            <tr>
+                <td style="padding-bottom:8px;font-weight:bold;color:#555;">Quantity:</td>
+                <td style="padding-bottom:8px;color:#333;">{{ $quoteRequest->quantity }}</td>
+            </tr>
             @endif
-            <p style="margin: 5px 0;"><strong>Submitted:</strong> {{ $quoteRequest->created_at->format('F d, Y H:i') }}</p>
-        </div>
-
-        <p>Our team will review your request and prepare a detailed quotation for you. We typically respond within 24-48 business hours.</p>
-
-        <p>If you have any urgent questions, please feel free to contact us directly.</p>
-
-        <div style="margin-top: 30px; padding-top: 20px; border-top: 1px solid #ddd;">
-            <p style="margin: 5px 0;"><strong>Contact Information:</strong></p>
-            <p style="margin: 5px 0; font-size: 14px;">
-                Tel: +82-10-4846-0846<br>
-                Email: kmmccc@gmail.com<br>
-                License: 416-19-94501
-            </p>
-        </div>
+            <tr>
+                <td style="font-weight:bold;color:#555;">Submitted:</td>
+                <td style="color:#333;">{{ $quoteRequest->created_at->format('F d, Y H:i') }}</td>
+            </tr>
+        </table>
     </div>
 
-    <div style="text-align: center; margin-top: 20px; font-size: 12px; color: #888;">
-        <p>This is an automated confirmation email.</p>
-        <p>&copy; {{ date('Y') }} ONCUBE GLOBAL. All rights reserved.</p>
-    </div>
-</body>
-</html>
+    <p style="margin:0 0 20px 0;">Our team will prepare a detailed quotation tailored to your needs. We typically respond within <strong>24-48 business hours</strong>.</p>
+
+    <p style="margin:0 0 10px 0;">If you have any urgent questions or additional information to add, please feel free to reply to this email.</p>
+
+    <p style="margin:0;">Best regards,<br><strong>ONCUBE GLOBAL Team</strong></p>
+@endsection
+

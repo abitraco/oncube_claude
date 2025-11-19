@@ -1,163 +1,149 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin Dashboard - ONCUBE GLOBAL</title>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+@extends('layouts.admin')
 
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
-            background: linear-gradient(135deg, #002748 0%, #004d7a 100%);
-            min-height: 100vh;
-            padding: 20px;
-        }
+@section('title', 'Dashboard')
+@section('header_title', 'Dashboard')
 
-        .dashboard-container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 40px 20px;
-        }
+@section('styles')
+<style>
+    .dashboard-stats {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+        gap: 20px;
+        margin-bottom: 30px;
+    }
 
-        .dashboard-header {
-            text-align: center;
-            color: white;
-            margin-bottom: 50px;
-        }
+    .stat-card {
+        background: white;
+        border-radius: 10px;
+        padding: 25px;
+        box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        display: flex;
+        align-items: center;
+        gap: 20px;
+    }
 
-        .dashboard-header h1 {
-            font-size: 42px;
-            margin-bottom: 10px;
-            font-weight: 700;
-        }
+    .stat-icon {
+        width: 60px;
+        height: 60px;
+        border-radius: 12px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 24px;
+    }
 
-        .dashboard-header p {
-            font-size: 18px;
-            opacity: 0.9;
-        }
+    .stat-info h3 {
+        font-size: 28px;
+        font-weight: 700;
+        color: #333;
+        margin-bottom: 5px;
+    }
 
-        .admin-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 30px;
-            margin-bottom: 40px;
-        }
+    .stat-info p {
+        color: #666;
+        font-size: 14px;
+    }
 
-        .admin-card {
-            background: white;
-            border-radius: 16px;
-            padding: 40px;
-            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
-            text-align: center;
-            transition: transform 0.3s, box-shadow 0.3s;
-            text-decoration: none;
-            color: inherit;
-            display: block;
-        }
+    .quick-actions {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 25px;
+    }
 
-        .admin-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 15px 50px rgba(0, 0, 0, 0.3);
-        }
+    .action-card {
+        background: white;
+        border-radius: 10px;
+        padding: 30px;
+        box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        text-align: center;
+        transition: transform 0.3s;
+        text-decoration: none;
+        color: inherit;
+        display: block;
+        border: 1px solid transparent;
+    }
 
-        .admin-card-icon {
-            font-size: 64px;
-            margin-bottom: 20px;
-        }
+    .action-card:hover {
+        transform: translateY(-5px);
+        border-color: var(--primary-color);
+    }
 
-        .admin-card h2 {
-            color: #002748;
-            font-size: 24px;
-            margin-bottom: 15px;
-        }
+    .action-icon {
+        font-size: 48px;
+        color: var(--primary-color);
+        margin-bottom: 20px;
+    }
 
-        .admin-card p {
-            color: #666;
-            font-size: 15px;
-            line-height: 1.6;
-            margin-bottom: 25px;
-        }
+    .action-card h2 {
+        font-size: 20px;
+        margin-bottom: 10px;
+        color: #333;
+    }
 
-        .admin-card-button {
-            display: inline-block;
-            padding: 12px 30px;
-            background: #002748;
-            color: white;
-            border-radius: 8px;
-            font-weight: 600;
-            transition: background 0.2s;
-        }
+    .action-card p {
+        color: #666;
+        font-size: 14px;
+        line-height: 1.5;
+        margin-bottom: 20px;
+    }
+</style>
+@endsection
 
-        .admin-card:hover .admin-card-button {
-            background: #003d6b;
-        }
-
-        .logout-section {
-            text-align: center;
-            margin-top: 40px;
-        }
-
-        .logout-link {
-            color: white;
-            text-decoration: none;
-            font-size: 16px;
-            padding: 10px 20px;
-            border: 2px solid white;
-            border-radius: 8px;
-            display: inline-block;
-            transition: background 0.2s, color 0.2s;
-        }
-
-        .logout-link:hover {
-            background: white;
-            color: #002748;
-        }
-
-        .home-link {
-            color: rgba(255, 255, 255, 0.8);
-            text-decoration: none;
-            font-size: 14px;
-            margin-left: 15px;
-        }
-
-        .home-link:hover {
-            color: white;
-            text-decoration: underline;
-        }
-    </style>
-</head>
-<body>
-    <div class="dashboard-container">
-        <div class="dashboard-header">
-            <h1>🎛️ Admin Dashboard</h1>
-            <p>Manage your business operations from one place</p>
+@section('content')
+    <div class="dashboard-stats">
+        <div class="stat-card">
+            <div class="stat-icon" style="background-color: #e3f2fd; color: #0d47a1;">
+                <i class="fas fa-file-invoice"></i>
+            </div>
+            <div class="stat-info">
+                <h3>{{ \App\QuoteRequest::count() }}</h3>
+                <p>Total Quotes</p>
+            </div>
         </div>
-
-        <div class="admin-grid">
-            <a href="{{ route('admin.quotes') }}" class="admin-card">
-                <div class="admin-card-icon">📋</div>
-                <h2>Quote Requests</h2>
-                <p>View and manage customer quote requests. Track inquiries, respond to potential clients, and manage your sales pipeline.</p>
-                <span class="admin-card-button">Manage Quotes</span>
-            </a>
-
-            <a href="{{ route('admin.featured-products') }}" class="admin-card">
-                <div class="admin-card-icon">⭐</div>
-                <h2>Featured Products</h2>
-                <p>Add, edit, and organize featured products displayed on your homepage. Control what customers see first.</p>
-                <span class="admin-card-button">Manage Products</span>
-            </a>
+        <div class="stat-card">
+            <div class="stat-icon" style="background-color: #fff3e0; color: #e65100;">
+                <i class="fas fa-clock"></i>
+            </div>
+            <div class="stat-info">
+                <h3>{{ \App\QuoteRequest::where('status', 'pending')->count() }}</h3>
+                <p>Pending Quotes</p>
+            </div>
         </div>
-
-        <div class="logout-section">
-            <a href="{{ route('admin.logout') }}" class="logout-link">🚪 Logout</a>
-            <a href="{{ route('home', ['locale' => 'en']) }}" class="home-link">← Back to Home</a>
+        <div class="stat-card">
+            <div class="stat-icon" style="background-color: #e8f5e9; color: #1b5e20;">
+                <i class="fas fa-check-circle"></i>
+            </div>
+            <div class="stat-info">
+                <h3>{{ \App\QuoteRequest::where('status', 'quote_sent')->count() }}</h3>
+                <p>Sent Quotes</p>
+            </div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-icon" style="background-color: #f3e5f5; color: #4a148c;">
+                <i class="fas fa-star"></i>
+            </div>
+            <div class="stat-info">
+                <h3>{{ \App\FeaturedProduct::count() }}</h3>
+                <p>Featured Products</p>
+            </div>
         </div>
     </div>
-</body>
-</html>
+
+    <h2 style="margin-bottom: 20px; font-size: 18px; color: #555;">Quick Actions</h2>
+
+    <div class="quick-actions">
+        <a href="{{ route('admin.quotes') }}" class="action-card">
+            <div class="action-icon"><i class="fas fa-file-invoice-dollar"></i></div>
+            <h2>Manage Quote Requests</h2>
+            <p>View and manage customer quote requests. Track inquiries and respond to potential clients.</p>
+            <span class="btn btn-primary">Go to Quotes</span>
+        </a>
+
+        <a href="{{ route('admin.featured-products') }}" class="action-card">
+            <div class="action-icon"><i class="fas fa-box-open"></i></div>
+            <h2>Manage Featured Products</h2>
+            <p>Add, edit, and organize featured products displayed on your homepage.</p>
+            <span class="btn btn-primary">Go to Products</span>
+        </a>
+    </div>
+@endsection

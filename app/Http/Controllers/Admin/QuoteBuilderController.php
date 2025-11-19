@@ -56,6 +56,12 @@ class QuoteBuilderController extends Controller
             'notes' => 'nullable|string',
         ]);
 
+        // Re-index items array to ensure sequential keys (0, 1, 2...)
+        // This prevents issues with non-sequential keys when items are removed
+        if (isset($validated['items'])) {
+            $validated['items'] = array_values($validated['items']);
+        }
+
         \Log::info('Saving quote data', [
             'quote_id' => $id,
             'template' => $validated['quote_template'],

@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Carbon\Carbon;
+use App\QuoteRequest;
 
 class QuoteRequestAdminController extends Controller
 {
@@ -68,5 +69,39 @@ class QuoteRequestAdminController extends Controller
     {
         $request->session()->forget('admin_authenticated');
         return redirect()->route('admin.quotes');
+    }
+
+    public function duplicate($id)
+    {
+        $quoteRequest = QuoteRequest::findOrFail($id);
+        
+        $newQuoteRequest = $quoteRequest->replicate();
+        $newQuoteRequest->created_at = Carbon::now();
+        $newQuoteRequest->updated_at = Carbon::now();
+        $newQuoteRequest->status = 'pending';
+        $newQuoteRequest->quote_pdf = null;
+        $newQuoteRequest->quote_sent_at = null;
+        $newQuoteRequest->quote_data = null;
+        $newQuoteRequest->save();
+
+        return redirect()->back()->with('success', 'Quote request duplicated successfully.');
+    }
+
+    public function update(Request $request, $id)
+    {
+        $quoteRequest = QuoteRequest::findOrFail($id);
+        
+        $quoteRequest->company_name = $request->input('company_name');
+        $quoteRequest->contact_name = $request->input('contact_name');
+        $quoteRequest->company_email = $request->input('company_email');
+        $quoteRequest->phone = $request->input('phone');
+        $quoteRequest->inquiry_type = $request->input('inquiry_type');
+        $quoteRequest->product_url = $request->input('product_url');
+        $quoteRequest->quantity = $request->input('quantity');
+        $quoteRequest->message = $request->input('message');
+        
+        $quoteRequest->save();
+
+        return redirect()->back()->with('success', 'Quote request updated successfully.');
     }
 }

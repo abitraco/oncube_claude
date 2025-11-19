@@ -27,6 +27,8 @@ Route::get('/admin', [App\Http\Controllers\Admin\DashboardController::class, 'in
 Route::post('/admin', [App\Http\Controllers\Admin\DashboardController::class, 'index']);
 Route::get('/admin/quotes', [App\Http\Controllers\Admin\QuoteRequestAdminController::class, 'index'])->name('admin.quotes');
 Route::post('/admin/quotes', [App\Http\Controllers\Admin\QuoteRequestAdminController::class, 'index']);
+Route::post('/admin/quotes/{id}/duplicate', [App\Http\Controllers\Admin\QuoteRequestAdminController::class, 'duplicate'])->name('admin.quotes.duplicate');
+Route::post('/admin/quotes/{id}/update', [App\Http\Controllers\Admin\QuoteRequestAdminController::class, 'update'])->name('admin.quotes.update');
 Route::get('/admin/logout', [App\Http\Controllers\Admin\QuoteRequestAdminController::class, 'logout'])->name('admin.logout');
 
 // Admin Quote Builder routes

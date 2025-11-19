@@ -1,514 +1,329 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin - Quote Requests</title>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+@extends('layouts.admin')
 
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
-            background: #f5f5f5;
-            padding: 20px;
-        }
+@section('title', 'Quote Requests')
+@section('header_title', 'Quote Requests Management')
 
-        .admin-header {
-            background: #002748;
-            color: white;
-            padding: 20px;
-            border-radius: 8px;
-            margin-bottom: 30px;
-        }
+@section('styles')
+<style>
+    .stats-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 20px;
+        margin-bottom: 30px;
+    }
 
-        .admin-header h1 {
-            font-size: 24px;
-            margin-bottom: 10px;
-        }
+    .stat-card {
+        background: white;
+        padding: 20px;
+        border-radius: 10px;
+        box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        display: flex;
+        flex-direction: column;
+    }
 
-        .admin-nav {
-            display: flex;
-            gap: 15px;
-            margin-top: 15px;
-        }
+    .stat-card small {
+        color: #666;
+        font-size: 12px;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        margin-bottom: 5px;
+    }
 
-        .nav-link {
-            background: rgba(255, 255, 255, 0.2);
-            color: white;
-            padding: 8px 16px;
-            border-radius: 5px;
-            text-decoration: none;
-            font-weight: 600;
-            font-size: 14px;
-            transition: all 0.3s;
-        }
+    .stat-card strong {
+        font-size: 24px;
+        color: var(--primary-color);
+    }
 
-        .nav-link:hover {
-            background: rgba(255, 255, 255, 0.3);
-        }
+    .filters {
+        background: white;
+        padding: 20px;
+        border-radius: 10px;
+        margin-bottom: 20px;
+        display: flex;
+        gap: 15px;
+        align-items: flex-end;
+        flex-wrap: wrap;
+        box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+    }
 
-        .nav-link.active {
-            background: #FF6B00;
-        }
+    .filter-group {
+        display: flex;
+        flex-direction: column;
+        gap: 5px;
+        flex: 1;
+        min-width: 150px;
+    }
 
-        .admin-header .stats {
-            display: flex;
-            gap: 30px;
-            margin-top: 15px;
-        }
+    .filter-group label {
+        font-size: 12px;
+        color: #666;
+        font-weight: 600;
+    }
 
-        .stat-item {
-            background: rgba(255, 255, 255, 0.1);
-            padding: 10px 15px;
-            border-radius: 5px;
-        }
+    .filter-group input,
+    .filter-group select {
+        padding: 10px;
+        border: 1px solid #ddd;
+        border-radius: 6px;
+        font-size: 14px;
+        width: 100%;
+    }
 
-        .stat-item strong {
-            font-size: 18px;
-            display: block;
-            color: #FFEC2D;
-        }
+    .badge {
+        padding: 4px 10px;
+        border-radius: 12px;
+        font-size: 11px;
+        font-weight: 600;
+        display: inline-block;
+    }
 
-        .filters {
-            background: white;
-            padding: 20px;
-            border-radius: 8px;
-            margin-bottom: 20px;
-            display: flex;
-            gap: 15px;
-            align-items: center;
-            flex-wrap: wrap;
-        }
+    .badge-quote { background: #e3f2fd; color: #1976d2; }
+    .badge-bulk { background: #f3e5f5; color: #7b1fa2; }
+    .badge-partnership { background: #e8f5e9; color: #388e3c; }
+    .badge-other { background: #fff3e0; color: #f57c00; }
+    
+    .badge-pending { background: #fff3cd; color: #856404; }
+    .badge-sent { background: #d4edda; color: #155724; }
+    .badge-completed { background: #d1ecf1; color: #0c5460; }
+    .badge-cancelled { background: #f8d7da; color: #721c24; }
 
-        .filter-group {
-            display: flex;
-            flex-direction: column;
-            gap: 5px;
-        }
+    .action-buttons {
+        display: flex;
+        gap: 5px;
+        flex-wrap: wrap;
+    }
 
-        .filter-group label {
-            font-size: 12px;
-            color: #666;
-            font-weight: 600;
-        }
+    .modal {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: rgba(0, 0, 0, 0.5);
+        z-index: 1000;
+        align-items: center;
+        justify-content: center;
+        backdrop-filter: blur(2px);
+    }
 
-        .filter-group input,
-        .filter-group select {
-            padding: 8px 12px;
-            border: 1px solid #ddd;
-            border-radius: 5px;
-            font-size: 14px;
-        }
+    .modal.active {
+        display: flex;
+    }
 
-        .btn {
-            padding: 8px 16px;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            font-size: 14px;
-            font-weight: 600;
-            text-decoration: none;
-            display: inline-block;
-        }
+    .modal-content {
+        background: white;
+        border-radius: 12px;
+        max-width: 700px;
+        max-height: 90vh;
+        overflow-y: auto;
+        width: 90%;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+    }
 
-        .btn-primary {
-            background: #002748;
-            color: white;
-        }
+    .modal-header {
+        padding: 20px 25px;
+        border-bottom: 1px solid #eee;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
 
-        .btn-primary:hover {
-            background: #003d6b;
-        }
+    .modal-header h2 {
+        font-size: 20px;
+        color: var(--primary-color);
+        margin: 0;
+    }
 
-        .btn-danger {
-            background: #dc3545;
-            color: white;
-        }
+    .close-btn {
+        font-size: 24px;
+        color: #adb5bd;
+        cursor: pointer;
+        border: none;
+        background: none;
+        transition: color 0.2s;
+    }
 
-        .requests-table {
-            background: white;
-            border-radius: 8px;
-            overflow: hidden;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-        }
+    .close-btn:hover {
+        color: #333;
+    }
 
-        table {
-            width: 100%;
-            border-collapse: collapse;
-        }
+    .modal-body {
+        padding: 25px;
+    }
 
-        thead {
-            background: #f8f9fa;
-        }
+    .detail-row {
+        margin-bottom: 20px;
+        border-bottom: 1px solid #f8f9fa;
+        padding-bottom: 15px;
+    }
 
-        th {
-            padding: 15px;
-            text-align: left;
-            font-weight: 600;
-            color: #333;
-            border-bottom: 2px solid #e9ecef;
-            font-size: 13px;
-            text-transform: uppercase;
-        }
+    .detail-row:last-child {
+        border-bottom: none;
+        margin-bottom: 0;
+        padding-bottom: 0;
+    }
 
-        td {
-            padding: 15px;
-            border-bottom: 1px solid #e9ecef;
-            font-size: 14px;
-        }
+    .detail-label {
+        font-weight: 600;
+        color: #666;
+        font-size: 12px;
+        margin-bottom: 5px;
+        text-transform: uppercase;
+    }
 
-        tr:hover {
-            background: #f8f9fa;
-        }
+    .detail-value {
+        color: #333;
+        font-size: 15px;
+        line-height: 1.5;
+    }
 
-        .badge {
-            padding: 4px 10px;
-            border-radius: 12px;
-            font-size: 12px;
-            font-weight: 600;
-            display: inline-block;
-        }
+    .detail-value a {
+        color: var(--accent-color);
+        text-decoration: none;
+    }
 
-        .badge-quote {
-            background: #e3f2fd;
-            color: #1976d2;
-        }
+    .detail-value a:hover {
+        text-decoration: underline;
+    }
+</style>
+@endsection
 
-        .badge-bulk {
-            background: #f3e5f5;
-            color: #7b1fa2;
-        }
-
-        .badge-partnership {
-            background: #e8f5e9;
-            color: #388e3c;
-        }
-
-        .badge-other {
-            background: #fff3e0;
-            color: #f57c00;
-        }
-
-        .badge-pending {
-            background: #fff3cd;
-            color: #856404;
-        }
-
-        .badge-sent {
-            background: #d4edda;
-            color: #155724;
-        }
-
-        .badge-completed {
-            background: #d1ecf1;
-            color: #0c5460;
-        }
-
-        .badge-cancelled {
-            background: #f8d7da;
-            color: #721c24;
-        }
-
-        .view-link {
-            color: #002748;
-            text-decoration: none;
-            font-weight: 600;
-            font-size: 13px;
-        }
-
-        .view-link:hover {
-            text-decoration: underline;
-        }
-
-        .btn-quote {
-            background: #19BD0A;
-            color: white;
-            padding: 6px 12px;
-            border-radius: 4px;
-            text-decoration: none;
-            font-size: 12px;
-            font-weight: 600;
-            display: inline-block;
-            margin-right: 5px;
-        }
-
-        .btn-quote:hover {
-            background: #15a008;
-        }
-
-        .btn-view {
-            background: #002748;
-            color: white;
-            padding: 6px 12px;
-            border-radius: 4px;
-            text-decoration: none;
-            font-size: 12px;
-            font-weight: 600;
-            display: inline-block;
-        }
-
-        .btn-view:hover {
-            background: #003d6b;
-        }
-
-        .action-buttons {
-            display: flex;
-            gap: 5px;
-            flex-wrap: wrap;
-        }
-
-        .no-data {
-            text-align: center;
-            padding: 40px;
-            color: #999;
-        }
-
-        .modal {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: rgba(0, 0, 0, 0.5);
-            z-index: 1000;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .modal.active {
-            display: flex;
-        }
-
-        .modal-content {
-            background: white;
-            border-radius: 8px;
-            max-width: 700px;
-            max-height: 90vh;
-            overflow-y: auto;
-            width: 90%;
-        }
-
-        .modal-header {
-            padding: 20px;
-            border-bottom: 1px solid #e9ecef;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .modal-header h2 {
-            font-size: 20px;
-            color: #002748;
-        }
-
-        .close-btn {
-            font-size: 28px;
-            color: #999;
-            cursor: pointer;
-            border: none;
-            background: none;
-        }
-
-        .close-btn:hover {
-            color: #333;
-        }
-
-        .modal-body {
-            padding: 20px;
-        }
-
-        .detail-row {
-            margin-bottom: 20px;
-        }
-
-        .detail-label {
-            font-weight: 600;
-            color: #666;
-            font-size: 13px;
-            margin-bottom: 5px;
-        }
-
-        .detail-value {
-            color: #333;
-            font-size: 14px;
-            background: #f8f9fa;
-            padding: 10px;
-            border-radius: 5px;
-        }
-
-        .pagination {
-            margin-top: 20px;
-            display: flex;
-            justify-content: center;
-            gap: 10px;
-        }
-
-        .pagination a,
-        .pagination span {
-            padding: 8px 12px;
-            border: 1px solid #ddd;
-            border-radius: 5px;
-            text-decoration: none;
-            color: #333;
-        }
-
-        .pagination a:hover {
-            background: #f8f9fa;
-        }
-
-        .pagination .active {
-            background: #002748;
-            color: white;
-            border-color: #002748;
-        }
-
-        @media (max-width: 1200px) {
-            table {
-                font-size: 12px;
-            }
-            th, td {
-                padding: 10px;
-            }
-        }
-    </style>
-</head>
-<body>
-    <div class="admin-header">
-        <div style="display: flex; justify-content: space-between; align-items: center;">
-            <div>
-                <h1>📋 Quote Requests Admin</h1>
-                <p>Manage and review customer quote requests</p>
-            </div>
-            <div style="display: flex; gap: 10px;">
-                <a href="{{ route('admin.dashboard') }}" style="background: rgba(255,255,255,0.2); color: white; padding: 10px 20px; border-radius: 5px; text-decoration: none; font-size: 14px;">Dashboard</a>
-                <a href="{{ route('admin.featured-products') }}" style="background: #FF6B00; color: white; padding: 10px 20px; border-radius: 5px; text-decoration: none; font-size: 14px;">Featured Products</a>
-                <a href="{{ route('admin.logout') }}" style="background: rgba(255,255,255,0.2); color: white; padding: 10px 20px; border-radius: 5px; text-decoration: none; font-size: 14px;">Logout</a>
-            </div>
+@section('content')
+    <div class="stats-grid">
+        <div class="stat-card">
+            <small>Total Requests</small>
+            <strong>{{ $total }}</strong>
         </div>
-
-        <div class="admin-nav">
-            <a href="{{ route('admin.quotes') }}" class="nav-link active">Quote Requests</a>
-            <a href="{{ route('admin.quote-history') }}" class="nav-link">Quote History</a>
+        <div class="stat-card">
+            <small>This Month</small>
+            <strong>{{ $thisMonth }}</strong>
         </div>
-
-        <div class="stats">
-            <div class="stat-item">
-                <small>Total Requests</small>
-                <strong>{{ $total }}</strong>
-            </div>
-            <div class="stat-item">
-                <small>This Month</small>
-                <strong>{{ $thisMonth }}</strong>
-            </div>
-            <div class="stat-item">
-                <small>Today</small>
-                <strong>{{ $today }}</strong>
-            </div>
+        <div class="stat-card">
+            <small>Today</small>
+            <strong>{{ $today }}</strong>
         </div>
     </div>
 
     <div class="filters">
-        <div class="filter-group">
+        <div class="filter-group" style="flex: 2;">
             <label>Search</label>
-            <input type="text" id="searchInput" placeholder="Company, email, contact name...">
+            <input type="text" id="searchInput" placeholder="Company, email, contact name..." value="{{ request('search') }}">
         </div>
         <div class="filter-group">
             <label>Inquiry Type</label>
             <select id="typeFilter">
                 <option value="">All Types</option>
-                <option value="견적문의">견적문의</option>
-                <option value="대량구매">대량구매</option>
-                <option value="사업제휴">사업제휴</option>
-                <option value="기타">기타</option>
+                <option value="견적문의" {{ request('type') == '견적문의' ? 'selected' : '' }}>견적문의</option>
+                <option value="대량구매" {{ request('type') == '대량구매' ? 'selected' : '' }}>대량구매</option>
+                <option value="사업제휴" {{ request('type') == '사업제휴' ? 'selected' : '' }}>사업제휴</option>
+                <option value="기타" {{ request('type') == '기타' ? 'selected' : '' }}>기타</option>
             </select>
         </div>
         <div class="filter-group">
             <label>Date From</label>
-            <input type="date" id="dateFrom">
+            <input type="date" id="dateFrom" value="{{ request('from') }}">
         </div>
         <div class="filter-group">
             <label>Date To</label>
-            <input type="date" id="dateTo">
+            <input type="date" id="dateTo" value="{{ request('to') }}">
         </div>
-        <button class="btn btn-primary" onclick="applyFilters()">Apply Filters</button>
+        <div class="filter-group" style="flex: 0; min-width: auto;">
+            <label>&nbsp;</label>
+            <button class="btn btn-primary" onclick="applyFilters()" style="height: 42px;">
+                <i class="fas fa-filter"></i> Filter
+            </button>
+        </div>
     </div>
 
-    <div class="requests-table">
-        <table>
-            <thead>
-                <tr>
-                    <th>ID</th>
-                    <th>Date</th>
-                    <th>Company</th>
-                    <th>Contact</th>
-                    <th>Email</th>
-                    <th>Phone</th>
-                    <th>Type</th>
-                    <th>Status</th>
-                    <th>Actions</th>
-                </tr>
-            </thead>
-            <tbody>
-                @forelse($requests as $request)
+    <div class="card">
+        <div class="table-container">
+            <table>
+                <thead>
                     <tr>
-                        <td>#{{ $request->id }}</td>
-                        <td>{{ \Carbon\Carbon::parse($request->created_at)->format('Y-m-d H:i') }}</td>
-                        <td><strong>{{ $request->company_name }}</strong></td>
-                        <td>{{ $request->contact_name }}</td>
-                        <td>{{ $request->company_email }}</td>
-                        <td>{{ $request->phone }}</td>
-                        <td>
-                            <span class="badge badge-{{
-                                $request->inquiry_type == '견적문의' ? 'quote' :
-                                ($request->inquiry_type == '대량구매' ? 'bulk' :
-                                ($request->inquiry_type == '사업제휴' ? 'partnership' : 'other'))
-                            }}">
-                                {{ $request->inquiry_type }}
-                            </span>
-                        </td>
-                        <td>
-                            <span class="badge badge-{{
-                                $request->status == 'pending' ? 'pending' :
-                                ($request->status == 'quote_sent' ? 'sent' :
-                                ($request->status == 'completed' ? 'completed' : 'cancelled'))
-                            }}">
-                                {{ $request->status_label ?? ucfirst($request->status ?? 'pending') }}
-                            </span>
-                        </td>
-                        <td>
-                            <div class="action-buttons">
-                                @if($request->status == 'quote_sent' && $request->quote_pdf)
-                                    <a href="{{ route('admin.quote.review', $request->id) }}" class="btn-view">View Quote</a>
-                                @else
-                                    <a href="{{ route('admin.quote.builder', $request->id) }}" class="btn-quote">Create Quote</a>
-                                @endif
-                                <a href="#" class="btn-view" onclick="viewDetails({{ $request->id }}); return false;">Details</a>
-                            </div>
-                        </td>
+                        <th>ID</th>
+                        <th>Date</th>
+                        <th>Company</th>
+                        <th>Contact</th>
+                        <th>Email</th>
+                        <th>Phone</th>
+                        <th>Type</th>
+                        <th>Status</th>
+                        <th>Actions</th>
                     </tr>
-                @empty
-                    <tr>
-                        <td colspan="9" class="no-data">No quote requests found</td>
-                    </tr>
-                @endforelse
-            </tbody>
-        </table>
-    </div>
-
-    <div class="pagination">
-        {{ $requests->links('pagination::simple-default') }}
+                </thead>
+                <tbody>
+                    @forelse($requests as $request)
+                        <tr>
+                            <td>#{{ $request->id }}</td>
+                            <td>{{ \Carbon\Carbon::parse($request->created_at)->format('Y-m-d H:i') }}</td>
+                            <td><strong>{{ $request->company_name }}</strong></td>
+                            <td>{{ $request->contact_name }}</td>
+                            <td>{{ $request->company_email }}</td>
+                            <td>{{ $request->phone }}</td>
+                            <td>
+                                <span class="badge badge-{{
+                                    $request->inquiry_type == '견적문의' ? 'quote' :
+                                    ($request->inquiry_type == '대량구매' ? 'bulk' :
+                                    ($request->inquiry_type == '사업제휴' ? 'partnership' : 'other'))
+                                }}">
+                                    {{ $request->inquiry_type }}
+                                </span>
+                            </td>
+                            <td>
+                                <span class="badge badge-{{
+                                    $request->status == 'pending' ? 'pending' :
+                                    ($request->status == 'quote_sent' ? 'sent' :
+                                    ($request->status == 'completed' ? 'completed' : 'cancelled'))
+                                }}">
+                                    {{ $request->status_label ?? ucfirst($request->status ?? 'pending') }}
+                                </span>
+                            </td>
+                            <td>
+                                <div class="action-buttons">
+                                    @if($request->status == 'quote_sent' && $request->quote_pdf)
+                                        <a href="{{ route('admin.quote.review', $request->id) }}" class="btn btn-secondary" style="padding: 4px 8px; font-size: 11px;">
+                                            <i class="fas fa-file-pdf"></i> View
+                                        </a>
+                                    @else
+                                        <a href="{{ route('admin.quote.builder', $request->id) }}" class="btn btn-success" style="padding: 4px 8px; font-size: 11px;">
+                                            <i class="fas fa-file-invoice-dollar"></i> Quote
+                                        </a>
+                                    @endif
+                                    <button class="btn btn-info" onclick="viewDetails({{ $request->id }})" style="padding: 4px 8px; font-size: 11px;">
+                                        <i class="fas fa-eye"></i>
+                                    </button>
+                                    <form action="{{ route('admin.quotes.duplicate', $request->id) }}" method="POST" style="display: inline;" onsubmit="return confirm('Duplicate this quote request?')">
+                                        @csrf
+                                        <button type="submit" class="btn btn-secondary" style="padding: 4px 8px; font-size: 11px; background-color: #6c757d; border-color: #6c757d; color: white;">
+                                            <i class="fas fa-copy"></i>
+                                        </button>
+                                    </form>
+                                </div>
+                            </td>
+                        </tr>
+                    @empty
+                        <tr>
+                            <td colspan="9" style="text-align: center; padding: 40px; color: #999;">
+                                <i class="fas fa-inbox" style="font-size: 48px; margin-bottom: 15px; opacity: 0.5;"></i>
+                                <p>No quote requests found</p>
+                            </td>
+                        </tr>
+                    @endforelse
+                </tbody>
+            </table>
+        </div>
+        
+        <div style="margin-top: 20px; display: flex; justify-content: center;">
+            {{ $requests->links('pagination::simple-default') }}
+        </div>
     </div>
 
     <!-- Modal -->
     <div id="detailModal" class="modal">
         <div class="modal-content">
             <div class="modal-header">
-                <h2>Quote Request Details</h2>
+                <h2><i class="fas fa-info-circle"></i> Request Details</h2>
                 <button class="close-btn" onclick="closeModal()">&times;</button>
             </div>
             <div class="modal-body" id="modalBody">
@@ -516,7 +331,9 @@
             </div>
         </div>
     </div>
+@endsection
 
+@section('scripts')
     <script>
         const requestsData = @json($requests->items());
 
@@ -573,16 +390,75 @@
                 ${request.attachment ? `
                 <div class="detail-row">
                     <div class="detail-label">Attachment</div>
-                    <div class="detail-value"><a href="/storage/${request.attachment}" target="_blank">📎 Download Attachment</a></div>
+                    <div class="detail-value"><a href="/storage/${request.attachment}" target="_blank"><i class="fas fa-paperclip"></i> Download Attachment</a></div>
                 </div>
                 ` : ''}
                 <div class="detail-row">
                     <div class="detail-label">Locale</div>
                     <div class="detail-value">${request.locale}</div>
                 </div>
+                
+                <div style="margin-top: 20px; text-align: right; border-top: 1px solid #eee; padding-top: 20px;">
+                    <button class="btn btn-warning" onclick="editDetails(${request.id})">
+                        <i class="fas fa-edit"></i> Edit Details
+                    </button>
+                </div>
             `;
 
             document.getElementById('detailModal').classList.add('active');
+        }
+
+        function editDetails(id) {
+            const request = requestsData.find(r => r.id === id);
+            if (!request) return;
+
+            const modalBody = document.getElementById('modalBody');
+            modalBody.innerHTML = `
+                <form action="/admin/quotes/${request.id}/update" method="POST">
+                    @csrf
+                    <div class="form-group">
+                        <label>Company Name</label>
+                        <input type="text" name="company_name" value="${request.company_name}" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Contact Name</label>
+                        <input type="text" name="contact_name" value="${request.contact_name}" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Company Email</label>
+                        <input type="email" name="company_email" value="${request.company_email}" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Phone</label>
+                        <input type="text" name="phone" value="${request.phone}" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Inquiry Type</label>
+                        <select name="inquiry_type">
+                            <option value="견적문의" ${request.inquiry_type == '견적문의' ? 'selected' : ''}>견적문의</option>
+                            <option value="대량구매" ${request.inquiry_type == '대량구매' ? 'selected' : ''}>대량구매</option>
+                            <option value="사업제휴" ${request.inquiry_type == '사업제휴' ? 'selected' : ''}>사업제휴</option>
+                            <option value="기타" ${request.inquiry_type == '기타' ? 'selected' : ''}>기타</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Product URL</label>
+                        <input type="text" name="product_url" value="${request.product_url || ''}">
+                    </div>
+                    <div class="form-group">
+                        <label>Quantity</label>
+                        <input type="number" name="quantity" value="${request.quantity || ''}">
+                    </div>
+                    <div class="form-group">
+                        <label>Message</label>
+                        <textarea name="message" rows="5" style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 6px;">${request.message || ''}</textarea>
+                    </div>
+                    <div style="margin-top: 20px; display: flex; justify-content: space-between; border-top: 1px solid #eee; padding-top: 20px;">
+                        <button type="button" class="btn btn-secondary" onclick="viewDetails(${request.id})">Cancel</button>
+                        <button type="submit" class="btn btn-primary">Save Changes</button>
+                    </div>
+                </form>
+            `;
         }
 
         function closeModal() {
@@ -611,5 +487,4 @@
             }
         });
     </script>
-</body>
-</html>
+@endsection
