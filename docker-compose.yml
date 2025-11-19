@@ -7,24 +7,8 @@ services:
     ports:
       - "80:80"
       - "443:443"
-    environment:
-      APP_ENV: production
-      APP_DEBUG: "false"
-      APP_KEY: "base64:FTCGjnnZRfCi9YnvGqK+AKvKNEJeIpYpzAfUKKnVzFA="
-      APP_URL: https://oncube.cloud
-      LOG_CHANNEL: stderr
-      DB_CONNECTION: sqlite
-      # Mail Configuration (Gmail SMTP)
-      MAIL_MAILER: smtp
-      MAIL_HOST: smtp.gmail.com
-      MAIL_PORT: 465
-      MAIL_USERNAME: oncube2019@gmail.com
-      MAIL_PASSWORD: ${MAIL_PASSWORD:-}
-      MAIL_ENCRYPTION: ssl
-      MAIL_FROM_ADDRESS: oncube2019@gmail.com
-      MAIL_FROM_NAME: "ONCUBE GLOBAL"
-      # Admin Password
-      ADMIN_PASSWORD: ${ADMIN_PASSWORD:-oncube2024}
+    env_file:
+      - .env
     volumes:
       - oncube-storage:/app/storage
       - oncube-database:/app/database
