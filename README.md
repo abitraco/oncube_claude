@@ -33,23 +33,29 @@ ONCUBE GLOBAL은 산업용 기계 및 반도체 장비의 B2B 거래를 위한 �
 - **Font**: Malgun Gothic, Apple Gothic for Korean support
 
 ### DevOps & Deployment
-- **Hosting**: Hostinger VPS
+- **Local Development**: Laravel Herd (localhost)
+- **Production Hosting**: Hostinger VPS
 - **Containerization**: Docker + Docker Compose
 - **Web Server**: Nginx + PHP-FPM
 - **Deployment**: Docker Manager (Hostinger)
 
 ## 🛠 로컬 개발 환경 설정
 
-### 1. 저장소 클론
+### Laravel Herd 사용 (권장)
+
+이 프로젝트는 로컬 개발 환경으로 **Laravel Herd**를 사용합니다.
+
+#### 1. Laravel Herd 설치
+
+[Laravel Herd](https://herd.laravel.com/)를 다운로드하여 설치합니다.
+
+#### 2. 프로젝트 설정
 
 ```bash
+# 저장소 클론
 git clone https://github.com/abitraco/oncube_claude.git
 cd oncube_claude
-```
 
-### 2. 환경 설정
-
-```bash
 # .env 파일 생성
 cp .env.example .env
 
@@ -59,8 +65,8 @@ composer install
 # 애플리케이션 키 생성
 php artisan key:generate
 
-# SQLite 데이터베이스 파일 생성
-touch database/database.sqlite
+# SQLite 데이터베이스 파일 생성 (Windows)
+type nul > database\database.sqlite
 
 # 마이그레이션 실행
 php artisan migrate
@@ -69,14 +75,14 @@ php artisan migrate
 php artisan storage:link
 ```
 
-### 3. 환경 변수 설정
+#### 3. 환경 변수 설정
 
 `.env` 파일에서 다음 항목들을 설정하세요:
 
 ```env
 APP_NAME="ONCUBE GLOBAL"
 APP_ENV=local
-APP_URL=http://localhost:8000
+APP_URL=http://oncube-claude.test  # Herd는 .test 도메인 자동 생성
 
 # 데이터베이스
 DB_CONNECTION=sqlite
@@ -94,7 +100,14 @@ MAIL_FROM_ADDRESS=your-email@gmail.com
 ADMIN_PASSWORD=your-secure-password
 ```
 
-### 4. 개발 서버 실행
+#### 4. Herd에 사이트 추가
+
+Laravel Herd가 자동으로 프로젝트를 감지합니다. 브라우저에서 다음 주소로 접속:
+- `http://oncube-claude.test`
+
+### 일반 PHP 서버 사용 (대안)
+
+Herd를 사용하지 않는 경우:
 
 ```bash
 php artisan serve
