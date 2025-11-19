@@ -5,16 +5,19 @@ WORKDIR /app
 # Copy composer files
 COPY composer.json composer.lock ./
 
-# Install dependencies
+# Install dependencies without scripts (to avoid Laravel discovery issues)
 RUN composer install \
     --no-dev \
     --no-interaction \
     --prefer-dist \
-    --optimize-autoloader \
-    --no-scripts
+    --no-scripts \
+    --ignore-platform-reqs
 
 # Copy application code
 COPY . .
+
+# Generate optimized autoloader after copying all files
+RUN composer dump-autoload --optimize --no-dev --classmap-authoritative
 
 # ---------- Stage 2: Runtime (Nginx + PHP-FPM in one) ----------
 FROM webdevops/php-nginx:8.3-alpine
