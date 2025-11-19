@@ -127,7 +127,7 @@ php artisan serve
 https://raw.githubusercontent.com/abitraco/oncube_claude/main/docker-compose.yml
 ```
 
-#### 배포 단계
+#### 초기 배포 단계
 
 1. **Hostinger 패널 접속**
    - VPS 관리 패널 로그인
@@ -138,17 +138,36 @@ https://raw.githubusercontent.com/abitraco/oncube_claude/main/docker-compose.yml
    - "Compose" 옵션 선택
    - Compose URL 입력: `https://raw.githubusercontent.com/abitraco/oncube_claude/main/docker-compose.yml`
 
-3. **환경 변수 설정**
-   ```env
-   APP_KEY=base64:your-generated-key
-   EBAY_CLIENT_ID=your-ebay-client-id
-   EBAY_CLIENT_SECRET=your-ebay-client-secret
-   EBAY_LEGACY_APP_ID=your-ebay-legacy-app-id
-   ```
+3. **Deploy 실행** (환경 변수 설정 없이 바로 실행)
 
-4. **Deploy 실행**
+4. **SSH로 서버 접속하여 .env 파일 생성**
 
-#### SSH를 통한 수동 배포
+```bash
+# 서버 접속
+ssh root@72.61.118.53
+
+# 프로젝트 디렉토리로 이동
+cd /root/oncube_claude
+
+# .env 파일 생성 (템플릿 복사)
+cp .env.production.example .env
+
+# .env 파일 편집
+nano .env
+```
+
+5. **.env 파일에서 필수 항목 수정**
+   - `APP_KEY`: 생성된 키 그대로 사용 또는 `php artisan key:generate --show`로 새로 생성
+   - `MAIL_PASSWORD`: Gmail 앱 비밀번호 입력 (필수!)
+   - `ADMIN_PASSWORD`: 관리자 비밀번호 설정
+
+6. **컨테이너 재시작하여 .env 적용**
+
+```bash
+docker compose restart
+```
+
+#### 코드 업데이트 및 재배포
 
 ```bash
 # 서버 접속
@@ -160,9 +179,10 @@ cd /root/oncube_claude
 # 최신 코드 가져오기
 git pull origin main
 
-# Docker 재배포
-docker compose down
-docker compose up -d --build
+# 컨테이너 재빌드 (데이터는 보존됨)
+docker compose up -d --build --force-recreate
+
+# 또는 Hostinger Docker Manager에서 "Rebuild" 클릭
 ```
 
 ### 배포 후 확인
@@ -350,8 +370,6 @@ Proprietary - ONCUBE GLOBAL
 
 ---
 
-**최종 업데이트**: 2025년 1월
+**최종 업데이트**: 2025년 11월 20일
 **버전**: 1.0.0
-**유지보수**: ONCUBE GLOBAL Development Team
-
-© 2025 ONCUBE GLOBAL. All rights reserved.
+**유지보수**: chance@abitra.co
