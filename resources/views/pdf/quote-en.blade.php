@@ -16,49 +16,84 @@
         }
 
         .header {
-            margin-bottom: 30px;
-            padding-bottom: 20px;
-            border-bottom: 3px solid #002748;
-            position: relative;
+            background: #002748;
+            padding: 20px;
+            margin-bottom: 25px;
+            border-radius: 5px;
+        }
+
+        .header-container {
+            width: 100%;
+        }
+
+        .header-top {
+            display: table;
+            width: 100%;
+            margin-bottom: 0;
         }
 
         .header-logo {
-            float: left;
-            width: 150px;
-            margin-right: 20px;
+            display: table-cell;
+            width: 120px;
+            vertical-align: middle;
+            background: white;
+            padding: 10px;
+            border-radius: 5px;
         }
 
         .header-logo img {
-            max-width: 150px;
+            width: 100px;
             height: auto;
+            display: block;
         }
 
-        .header-content {
-            text-align: center;
-            padding-top: 10px;
+        .header-company {
+            display: table-cell;
+            vertical-align: middle;
+            padding-left: 20px;
+            color: white;
         }
 
-        .header h1 {
-            color: #002748;
-            font-size: 32pt;
-            margin: 0 0 10px 0;
+        .company-title {
+            font-size: 16pt;
+            font-weight: bold;
+            margin-bottom: 3px;
         }
 
-        .company-name {
-            font-size: 14pt;
-            color: #666;
-            margin: 5px 0;
+        .company-desc {
+            font-size: 9pt;
+            line-height: 1.4;
+        }
+
+        .header-right {
+            text-align: right;
+            color: white;
+            margin-top: 15px;
+            padding-top: 15px;
+            border-top: 1px solid rgba(255,255,255,0.2);
+        }
+
+        .header-right h1 {
+            font-size: 28pt;
+            margin: 0 0 5px 0;
+            color: white;
+            font-weight: bold;
+        }
+
+        .quote-number-badge {
+            display: inline-block;
+            background: rgba(255,255,255,0.2);
+            color: white;
+            padding: 5px 12px;
+            border-radius: 3px;
+            font-size: 11pt;
+            font-weight: bold;
         }
 
         .clearfix::after {
             content: "";
             display: table;
             clear: both;
-        }
-
-        .company-info {
-            font-size: 9pt;
-            color: #888;
         }
 
         .quote-info {
@@ -76,47 +111,70 @@
         }
 
         .info-box {
-            border: 1px solid #ddd;
-            padding: 15px;
-            background: #f9f9f9;
+            border-left: 4px solid #002748;
+            padding: 12px 15px;
+            background: #f8f9fa;
+            border-radius: 3px;
+            margin-bottom: 10px;
         }
 
         .info-box h4 {
-            margin: 0 0 10px 0;
+            margin: 0 0 12px 0;
             color: #002748;
-            font-size: 11pt;
+            font-size: 10pt;
             text-transform: uppercase;
-            border-bottom: 1px solid #002748;
-            padding-bottom: 5px;
+            font-weight: bold;
+            letter-spacing: 0.5px;
         }
 
         .info-box p {
-            margin: 5px 0;
-            font-size: 10pt;
+            margin: 6px 0;
+            font-size: 9.5pt;
+            line-height: 1.5;
+        }
+
+        .info-box p strong {
+            color: #002748;
+            font-weight: bold;
+            display: inline-block;
+            min-width: 90px;
+        }
+
+        .items-section-title {
+            color: #002748;
+            font-size: 13pt;
+            font-weight: bold;
+            margin: 25px 0 12px 0;
         }
 
         .items-table {
             width: 100%;
             border-collapse: collapse;
-            margin: 20px 0;
+            margin: 15px 0;
+            border-radius: 5px;
+            overflow: hidden;
         }
 
         .items-table th {
             background: #002748;
             color: white;
-            padding: 10px;
+            padding: 12px 10px;
             text-align: left;
-            font-size: 10pt;
+            font-size: 9.5pt;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 0.3px;
         }
 
         .items-table td {
-            padding: 8px 10px;
-            border-bottom: 1px solid #ddd;
-            font-size: 10pt;
+            padding: 10px;
+            border-bottom: 1px solid #e9ecef;
+            font-size: 9.5pt;
+            background: white;
         }
 
-        .items-table tr:nth-child(even) {
-            background: #f9f9f9;
+        .items-table tbody tr:nth-child(even) td {
+            background: #f8f9fa;
         }
 
         .text-right {
@@ -128,31 +186,55 @@
         }
 
         .totals {
-            width: 300px;
+            width: 320px;
             margin-left: auto;
             margin-top: 20px;
         }
 
         .total-row {
-            display: flex;
-            justify-content: space-between;
-            padding: 8px 15px;
-            border-bottom: 1px solid #ddd;
+            padding: 10px 15px;
+            background: #f8f9fa;
+            margin-bottom: 2px;
+        }
+
+        .total-row table {
+            width: 100%;
+        }
+
+        .total-label {
+            font-weight: bold;
+            color: #555;
+            font-size: 10pt;
+        }
+
+        .total-value {
+            text-align: right;
+            font-weight: bold;
+            color: #333;
+            font-size: 10pt;
         }
 
         .total-row.grand-total {
             background: #002748;
             color: white;
             font-weight: bold;
-            font-size: 14pt;
-            border-bottom: none;
+            border-radius: 5px;
+            padding: 14px 15px;
+            margin-top: 8px;
+        }
+
+        .grand-total .total-label,
+        .grand-total .total-value {
+            color: white;
+            font-size: 12pt;
         }
 
         .terms {
             margin-top: 30px;
-            padding: 20px;
-            border: 1px solid #ddd;
-            background: #f9f9f9;
+            padding: 18px 20px;
+            background: #f8f9fa;
+            border-left: 4px solid #FF6B00;
+            border-radius: 3px;
             page-break-inside: avoid;
         }
 
@@ -160,19 +242,25 @@
             margin: 0 0 15px 0;
             color: #002748;
             font-size: 12pt;
-            border-bottom: 2px solid #002748;
-            padding-bottom: 5px;
+            font-weight: bold;
         }
 
         .terms p {
-            margin: 10px 0;
+            margin: 8px 0;
             font-size: 9pt;
+            line-height: 1.6;
+            color: #555;
+        }
+
+        .terms p strong {
+            color: #002748;
+            font-weight: bold;
         }
 
         .terms .notes {
             white-space: pre-wrap;
             font-size: 9pt;
-            line-height: 1.5;
+            line-height: 1.6;
         }
 
         .footer {
@@ -192,16 +280,23 @@
     </style>
 </head>
 <body>
-    <div class="header clearfix">
-        <div class="header-logo">
-            <img src="{{ public_path('assets/logo.png') }}" alt="ONCUBE GLOBAL">
-        </div>
-        <div class="header-content">
-            <h1>QUOTATION</h1>
-            <div class="company-name">ONCUBE GLOBAL</div>
-            <div class="company-info">
-                Industrial & Semiconductor Equipment Distribution<br>
-                License: 416-19-94501 | Tel: +82-10-4846-0846
+    <div class="header">
+        <div class="header-container">
+            <div class="header-top">
+                <div class="header-logo">
+                    <img src="{{ public_path('assets/logo.png') }}" alt="ONCUBE GLOBAL">
+                </div>
+                <div class="header-company">
+                    <div class="company-title">ONCUBE GLOBAL</div>
+                    <div class="company-desc">
+                        Industrial & Semiconductor Equipment Distribution<br>
+                        License: 416-19-94501 | Tel: +82-10-4846-0846
+                    </div>
+                </div>
+            </div>
+            <div class="header-right">
+                <h1>QUOTATION</h1>
+                <span class="quote-number-badge">{{ $data['quote_number'] }}</span>
             </div>
         </div>
     </div>
@@ -230,7 +325,7 @@
         </table>
     </div>
 
-    <h3 style="color: #002748; margin: 30px 0 10px 0;">Line Items</h3>
+    <h3 class="items-section-title">📋 Line Items</h3>
 
     <table class="items-table">
         <thead>
@@ -262,12 +357,20 @@
 
     <div class="totals">
         <div class="total-row">
-            <span>Subtotal:</span>
-            <span>${{ number_format($subtotal, 2) }}</span>
+            <table>
+                <tr>
+                    <td class="total-label">Subtotal:</td>
+                    <td class="total-value">${{ number_format($subtotal, 2) }}</td>
+                </tr>
+            </table>
         </div>
         <div class="total-row grand-total">
-            <span>Total Amount:</span>
-            <span>${{ number_format($subtotal, 2) }}</span>
+            <table>
+                <tr>
+                    <td class="total-label">Total Amount:</td>
+                    <td class="total-value">${{ number_format($subtotal, 2) }}</td>
+                </tr>
+            </table>
         </div>
     </div>
 
