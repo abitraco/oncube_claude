@@ -204,18 +204,28 @@ class QuoteBuilderController extends Controller
         }
 
         try {
+            // Get quote number from quote data
+            $quoteNumber = $quoteRequest->quote_data['quote_number'] ?? 'quote';
+            $pdfFileName = $quoteNumber . '.pdf';
+
             // Send email to customer
-            Mail::send('emails.quote-customer', ['quote' => $quoteRequest], function ($message) use ($quoteRequest) {
+            Mail::send('emails.quote-customer', ['quote' => $quoteRequest], function ($message) use ($quoteRequest, $pdfFileName) {
                 $message->to($quoteRequest->company_email, $quoteRequest->contact_name)
                     ->subject('Quote for Your Inquiry - ONCUBE GLOBAL')
-                    ->attach(storage_path('app/public/' . $quoteRequest->quote_pdf));
+                    ->attach(storage_path('app/public/' . $quoteRequest->quote_pdf), [
+                        'as' => $pdfFileName,
+                        'mime' => 'application/pdf'
+                    ]);
             });
 
             // Send copy to admin
-            Mail::send('emails.quote-admin-copy', ['quote' => $quoteRequest], function ($message) use ($quoteRequest) {
+            Mail::send('emails.quote-admin-copy', ['quote' => $quoteRequest], function ($message) use ($quoteRequest, $pdfFileName) {
                 $message->to('kmmccc@gmail.com', 'ONCUBE Admin')
                     ->subject('Quote Sent - ' . $quoteRequest->company_name)
-                    ->attach(storage_path('app/public/' . $quoteRequest->quote_pdf));
+                    ->attach(storage_path('app/public/' . $quoteRequest->quote_pdf), [
+                        'as' => $pdfFileName,
+                        'mime' => 'application/pdf'
+                    ]);
             });
 
             // Update status
