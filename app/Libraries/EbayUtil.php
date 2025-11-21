@@ -1395,13 +1395,13 @@ class EbayUtil {
 
     private function mapSortOrder($sortOrder) {
         $map = [
-            'BestMatch' => '-relevance',
+            'BestMatch' => '', // Empty string means use eBay's default Best Match algorithm
             'CurrentPriceHighest' => '-price',
             'PricePlusShippingHighest' => '-price',
             'CurrentPriceLowest' => 'price',
             'PricePlusShippingLowest' => 'price',
             'EndTimeSoonest' => 'endingSoonest',
-            'StartTimeNewest' => '-startTime'
+            'StartTimeNewest' => 'newlyListed' // Use 'newlyListed' instead of '-startTime'
         ];
 
         return isset($map[$sortOrder]) ? $map[$sortOrder] : '';
