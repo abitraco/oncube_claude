@@ -300,9 +300,20 @@
 
     @php
         $data = $quoteRequest->quote_data;
+        $isKorean = $quoteRequest->quote_template == 'ko';
+        $currencySymbol = $isKorean ? '₩' : '$';
+        $decimals = $isKorean ? 0 : 2;
+
         $subtotal = 0;
         foreach ($data['items'] as $item) {
             $subtotal += $item['quantity'] * $item['unit_price'];
+        }
+
+        $vat = 0;
+        $grandTotal = $subtotal;
+        if ($isKorean) {
+            $vat = $subtotal * 0.10;
+            $grandTotal = $subtotal + $vat;
         }
     @endphp
 
@@ -337,7 +348,7 @@
                 <p><strong>Quote Number:</strong> {{ $data['quote_number'] }}</p>
                 <p><strong>Date:</strong> {{ date('F d, Y', strtotime($data['quote_date'])) }}</p>
                 <p><strong>Valid Until:</strong> {{ date('F d, Y', strtotime($data['valid_until'])) }}</p>
-                <p><strong>Template:</strong> {{ $quoteRequest->quote_template == 'en' ? 'English' : 'Korean' }}</p>
+                <p><strong>Currency:</strong> {{ $quoteRequest->quote_template == 'en' ? 'USD' : 'KRW' }}</p>
             </div>
 
             <div class="info-section">
@@ -367,22 +378,28 @@
                     <td>{{ $index + 1 }}</td>
                     <td>{{ $item['description'] }}</td>
                     <td class="text-right">{{ number_format($item['quantity']) }}</td>
-                    <td class="text-right">${{ number_format($item['unit_price'], 2) }}</td>
-                    <td class="text-right">${{ number_format($item['quantity'] * $item['unit_price'], 2) }}</td>
+                    <td class="text-right">{{ $currencySymbol }}{{ number_format($item['unit_price'], $decimals) }}</td>
+                    <td class="text-right">{{ $currencySymbol }}{{ number_format($item['quantity'] * $item['unit_price'], $decimals) }}</td>
                 </tr>
                 @endforeach
             </tbody>
             </table>
 
             <div class="totals">
-            <div class="total-row">
-                <span class="total-label">Subtotal:</span>
-                <span class="total-value">${{ number_format($subtotal, 2) }}</span>
-            </div>
-            <div class="total-row grand-total">
-                <span class="total-label">Total Amount:</span>
-                <span class="total-value">${{ number_format($subtotal, 2) }}</span>
-            </div>
+                <div class="total-row">
+                    <span class="total-label">Subtotal:</span>
+                    <span class="total-value">{{ $currencySymbol }}{{ number_format($subtotal, $decimals) }}</span>
+                </div>
+                @if($isKorean)
+                <div class="total-row">
+                    <span class="total-label">VAT (10%):</span>
+                    <span class="total-value">{{ $currencySymbol }}{{ number_format($vat, $decimals) }}</span>
+                </div>
+                @endif
+                <div class="total-row grand-total">
+                    <span class="total-label">Total Amount:</span>
+                    <span class="total-value">{{ $currencySymbol }}{{ number_format($grandTotal, $decimals) }}</span>
+                </div>
             </div>
         </div>
 
