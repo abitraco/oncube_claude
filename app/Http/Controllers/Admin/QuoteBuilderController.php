@@ -208,20 +208,34 @@ class QuoteBuilderController extends Controller
             $quoteNumber = $quoteRequest->quote_data['quote_number'] ?? 'quote';
             $pdfFileName = $quoteNumber . '.pdf';
 
+            // Check if Korean template
+            $isKorean = isset($quoteRequest->quote_data['quote_template']) &&
+                       $quoteRequest->quote_data['quote_template'] == 'ko';
+
+            // Determine email template and subject based on language
+            $customerTemplate = $isKorean ? 'emails.quote-customer-ko' : 'emails.quote-customer';
+            $customerSubject = $isKorean ?
+                '견적서 - 온큐브글로벌' :
+                'Quote for Your Inquiry - ONCUBE GLOBAL';
+
             // Send email to customer
-            Mail::send('emails.quote-customer', ['quote' => $quoteRequest], function ($message) use ($quoteRequest, $pdfFileName) {
+            Mail::send($customerTemplate, ['quote' => $quoteRequest], function ($message) use ($quoteRequest, $pdfFileName, $customerSubject) {
                 $message->to($quoteRequest->company_email, $quoteRequest->contact_name)
-                    ->subject('Quote for Your Inquiry - ONCUBE GLOBAL')
+                    ->subject($customerSubject)
                     ->attach(storage_path('app/public/' . $quoteRequest->quote_pdf), [
                         'as' => $pdfFileName,
                         'mime' => 'application/pdf'
                     ]);
             });
 
-            // Send copy to admin
-            Mail::send('emails.quote-admin-copy', ['quote' => $quoteRequest], function ($message) use ($quoteRequest, $pdfFileName) {
+            // Send copy to admin (always in original language for consistency)
+            $adminSubject = $isKorean ?
+                '견적서 발송 완료 - ' . $quoteRequest->company_name :
+                'Quote Sent - ' . $quoteRequest->company_name;
+
+            Mail::send('emails.quote-admin-copy', ['quote' => $quoteRequest], function ($message) use ($quoteRequest, $pdfFileName, $adminSubject) {
                 $message->to('kmmccc@gmail.com', 'ONCUBE Admin')
-                    ->subject('Quote Sent - ' . $quoteRequest->company_name)
+                    ->subject($adminSubject)
                     ->attach(storage_path('app/public/' . $quoteRequest->quote_pdf), [
                         'as' => $pdfFileName,
                         'mime' => 'application/pdf'
