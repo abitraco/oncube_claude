@@ -316,7 +316,7 @@
                 <div class="form-group">
                     <label for="valid_until">Valid Until <span style="color: red">*</span></label>
                     <input type="date" name="valid_until" id="valid_until"
-                           value="{{ $quoteData['valid_until'] ?? date('Y-m-d', strtotime('+30 days')) }}" required>
+                           value="{{ $quoteData['valid_until'] ?? date('Y-m-d', strtotime('+10 days')) }}" required>
                 </div>
             </div>
         </div>

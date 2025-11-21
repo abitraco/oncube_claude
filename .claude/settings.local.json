@@ -50,7 +50,13 @@
       "Bash(C:Userschance.configherdbincomposer.bat install --no-interaction)",
       "Bash(timeout 5 ssh:*)",
       "Bash(composer dump-autoload:*)",
-      "Bash(php composer.phar:*)"
+      "Bash(php composer.phar:*)",
+      "Bash(timeout 30 ssh root@72.61.118.53 \"cd /root/oncube_claude && git config --global credential.helper store && git pull https://github.com/abitraco/oncube_claude.git main\")",
+      "Bash(timeout 30 ssh root@72.61.118.53 \"cd /root/oncube_claude && git remote set-url origin https://github.com/abitraco/oncube_claude.git && git pull origin main\")",
+      "Bash(timeout 30 ssh:*)",
+      "Bash(git rm:*)",
+      "Bash(timeout 10 curl:*)",
+      "Bash(dir:*)"
     ],
     "deny": [],
     "ask": []

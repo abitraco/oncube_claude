@@ -151,11 +151,13 @@
                         @forelse($items as $item)
                             <div class="shop-product-card fade-in-up">
                                 <div class="shop-product-image">
+                                    <a href="{{ $item->itemWebUrl }}" target="_blank">
                                     @if(isset($item->image->imageUrl))
                                         <img src="{{ $item->image->imageUrl }}" alt="{{ $item->title ?? 'Product' }}" loading="lazy">
                                     @else
                                         <img src="{{ asset('product.png') }}" alt="{{ $item->title ?? 'Product' }}">
                                     @endif
+                                    </a>
                                     @if(isset($item->condition))
                                         <span class="product-badge">{{ $item->condition }}</span>
                                     @endif
@@ -164,8 +166,9 @@
                                     @if(isset($item->categories) && count($item->categories) > 0)
                                         <span class="shop-product-category">{{ $item->categories[0]->categoryName ?? 'Industrial' }}</span>
                                     @endif
+                                    <a href="{{ $item->itemWebUrl }}" target="_blank">
                                     <h3 class="shop-product-title">{{ Str::limit($item->title ?? 'Product', 80) }}</h3>
-
+                                    </a>
                                     @if(isset($item->price))
                                         <p class="shop-product-price">
                                             {{ $item->price->currency ?? 'USD' }}
