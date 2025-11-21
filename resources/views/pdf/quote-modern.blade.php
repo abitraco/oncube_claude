@@ -362,15 +362,15 @@
         @if(!empty($data['notes']))
         <div class="terms-item" style="margin-top: 15px;">
             <span class="terms-label">Notes:</span><br>
-            <div style="margin-top: 5px; white-space: pre-line;">{{ $data['notes'] }}</div>
+            <div style="margin-top: 5px; white-space: pre-wrap; line-height: 1.6;">{!! nl2br(e($data['notes'])) !!}</div>
         </div>
         @endif
         
-        <div style="margin-top: 15px; font-size: 8pt; color: #666; border-top: 1px solid #eee; padding-top: 10px;">
+        <!-- <div style="margin-top: 15px; font-size: 8pt; color: #666; border-top: 1px solid #eee; padding-top: 10px;">
             Price is subject to change without notice.<br>
             Lead time: 2-4 weeks after order confirmation.<br>
             Warranty: 12 months from delivery date.
-        </div>
+        </div> -->
     </div>
 
 </body>
