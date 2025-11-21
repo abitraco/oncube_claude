@@ -282,11 +282,11 @@
                             <td>
                                 <div class="action-buttons">
                                     @if($request->status == 'quote_sent' && $request->quote_pdf)
-                                        <a href="{{ route('admin.quote.review', $request->id) }}" class="btn btn-secondary" style="padding: 4px 8px; font-size: 11px;">
+                                        <a href="{{ route('admin.quote.review', $request->id) }}" class="btn btn-secondary" style="padding: 4px 8px; font-size: 11px;" target="_blank">
                                             <i class="fas fa-file-pdf"></i> View
                                         </a>
                                     @else
-                                        <a href="{{ route('admin.quote.builder', $request->id) }}" class="btn btn-success" style="padding: 4px 8px; font-size: 11px;">
+                                        <a href="{{ route('admin.quote.builder', $request->id) }}" class="btn btn-success" style="padding: 4px 8px; font-size: 11px;" target="_blank">
                                             <i class="fas fa-file-invoice-dollar"></i> Quote
                                         </a>
                                     @endif
